@@ -6,4 +6,7 @@ class Customer
 {
     private $id;
     private $name;
+
+
+    
 }
