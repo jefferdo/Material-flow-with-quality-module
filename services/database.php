@@ -2,9 +2,9 @@
 class Database
 {
     private $servername = null;
-    private $database = "lasl";
-    private $username = "root";
-    private $passwd = "";
+    private $database = "mFlow";
+    private $username = "admin";
+    private $passwd = "12341234";
     private $conn;
 
     public function __construct()
