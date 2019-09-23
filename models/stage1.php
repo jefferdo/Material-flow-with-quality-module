@@ -2,52 +2,6 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/services/database.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/services/token.php');
 
-class SUPPLIER
-{
-    private $id;
-    private $address;
-    private $Discription;
-
-    public function __construct($id)
-    {
-        if ($id == null) {
-            $token = new Token();
-            $this->id = "SID" . date("dmY") . $token->getTokenNoOnly(4);
-        } else {
-            $this->id = $id;
-        }
-    }
-
-    public function add()
-    { }
-
-    public function modify()
-    { }
-}
-
-class MATERIAL
-{
-    private $id;
-    private $discription;
-
-    public function __construct($id)
-    {
-        if ($id == null) {
-            $token = new Token();
-            $this->id = "MATID" . date("dmY") . $token->getTokenNoOnly(4);
-        } else {
-            $this->id = $id;
-        }
-    }
-
-    public function add()
-    { }
-
-    public function modify()
-    { }
-}
-
-
 class PO
 {
     private $id;
