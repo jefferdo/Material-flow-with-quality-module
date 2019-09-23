@@ -67,6 +67,10 @@ body {
   .mt-5 {
     margin-top: 2.25rem!important;
   }
+
+  .fuzy-numKey {
+    width: 200%;
+  }
 }
 
 .alertColors {

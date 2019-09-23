@@ -64,7 +64,6 @@
 			margin: 0 0;\
 		}\
 		.fuzy-numKey {\
-			width: 100%;\
 			position: absolute;\
 			bottom: 0;\
 			display: none;\
