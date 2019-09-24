@@ -26,7 +26,7 @@ class WO
         if ($id == null) {
             $query = "SELECT id from woht ORDER BY id desc LIMIT 1";
             if ($results = $this->db->select($query)) {
-                $this->id = date('YW') . substr($results['id'], -4, 4);
+                $this->id = date('YW') . substr($results['id'], -4, 4) + 1;
             }
         } else {
             $this->id = $id;
