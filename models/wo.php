@@ -24,9 +24,9 @@ class WO
     {
         $this->db = new Database();
         if ($id == null) {
-            $query = "SELECT id from woht ORDER BY id desc LIMIT 1";
+            $query = "SELECT id from umf ORDER BY id desc LIMIT 1";
             if ($results = $this->db->select($query)) {
-                $this->id = date('YW') . substr($results['id'], -4, 4) + 1;
+                $this->id = $results['id'] + 1;
             }
         } else {
             $this->id = $id;
@@ -61,5 +61,10 @@ class WO
     public function getId()
     {
         return $this->id;
+    }
+
+    public function QA($status)
+    { 
+        
     }
 }

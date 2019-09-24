@@ -2,23 +2,21 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/services/database.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/services/token.php');
 
-class PO
+class User
 {
     private $id;
-    private $qty;
-    private $data;
-
-    private $customer;
-
-    private $db;
+    private $priLev;
+    private $passwd;
+    private $lsl;
+    private $name;
 
     public function __construct($id)
     {
+        $this->db = new Database();
         if ($id == null) {
             $this->id = "";
         } else {
             $this->id = $id;
-            $this->db = new Database();
             $query = "SELECT id, qty, td as data from poht inner join podt on poht.id = podt.poid where ='" . $this->id . "'";
             if ($results = $this->db->select($query)) {
                 if ($this->data = !null) {
@@ -28,20 +26,5 @@ class PO
                 }
             }
         }
-    }
-
-    public function add()
-    {
-        //add new po for supplier (supplier should be pre registered)
-    }
-
-    public function archive()
-    {
-        //modify detail related to po in case of need
-    }
-
-    public function getData()
-    {
-        return $this->data;
     }
 }
