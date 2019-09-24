@@ -17,14 +17,25 @@ class User
             $this->id = "";
         } else {
             $this->id = $id;
-            $query = "SELECT id, qty, td as data from poht inner join podt on poht.id = podt.poid where ='" . $this->id . "'";
+            $query = "SELECT * FROM umf where ='" . $this->id . "'";
             if ($results = $this->db->select($query)) {
                 if ($this->data = !null) {
                     $this->id = $results['id'];
-                    $this->qty = $results['qty'];
-                    $this->data = json_decode($results['td'], true);
+                    $this->priLev = $results['priLev'];
+                    $this->passwd = $results['passwd'];
+                    $this->lsl = $results['lsl'];
+                    $this->name = $results['name'];
                 }
             }
         }
+    }
+
+    public function save()
+    {
+        $this->db = new Database();
+        $token = new Token();
+        $query = "INSERT INTO umf (id, priLev, passwd, name, lsl) VALUES ('" . $this->id . "', '" . $this->priLev . "', '" . $token->sh1salt($this->passwd) . "', '" . $this->name . "', '" . $this->lsl . "') ON DUPLICATE KEY UPDATE priLev = '" . $this->priLev . "', passwd ='" . $token->sh1salt($this->passwd) . "', name = '" . $this->name . "', lsl = '" . $this->lsl . "'";
+        $stat = $this->db->iud($query);
+        return $stat;
     }
 }
