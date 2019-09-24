@@ -2,24 +2,21 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/services/database.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/services/token.php');
 
-class PO
+class log
 {
-    private $id;
-    private $qty;
-    private $data;
+    private $log;
+    
+    private $user;
+    private $WO;
 
-    private $customer;
-
-    private $db;
-
-    public function __construct($id)
+    public function __construct($WO, $user, $location)
     {
         if ($id == null) {
             $this->id = "";
         } else {
             $this->id = $id;
             $this->db = new Database();
-            $query = "SELECT id, qty, td as data from poht inner join podt on poht.id = podt.poid where ='" . $this->id . "'";
+            $query = "select id, qty, td as data from poht inner join podt on poht.id = podt.poid where ='" . $this->id . "'";
             if ($results = $this->db->select($query)) {
                 if ($this->data = !null) {
                     $this->id = $results['id'];
