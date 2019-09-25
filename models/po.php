@@ -12,6 +12,23 @@ class PO
 
     private $db;
 
+    public function __get($name)
+    {
+        switch ($name) {
+            case 'id':
+                return $this->id;
+                break;
+            case 'qty':
+                return $this->qty;
+                break;
+            case 'data':
+                return $this->data;
+                break;
+            default:
+                throw new Exception("Invalid Getter", 1);
+        }
+    }
+
     public function __construct($id)
     {
         if ($id == null) {

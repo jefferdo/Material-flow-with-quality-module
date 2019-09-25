@@ -9,6 +9,53 @@ class User
     private $passwd;
     private $lsl;
     private $name;
+    private $key;
+
+    public function __get($name)
+    {
+        switch ($name) {
+            case 'id':
+                return $this->id;
+                break;
+            case 'priLev':
+                return $this->priLev;
+                break;
+            case 'passwd':
+                return $this->passwd;
+                break;
+            case 'lsl':
+                return $this->lsl;
+                break;
+            case 'name':
+                return $this->name;
+                break;
+            default:
+                throw new Exception("Invalid Getter", 1);
+        }
+    }
+
+    public function __set($name, $value)
+    {
+        switch ($name) {
+            case 'id':
+                $this->id = $value;
+                break;
+            case 'priLev':
+                $this->priLev = $value;
+                break;
+            case 'passwd':
+                $this->passwd = $value;
+                break;
+            case 'lsl':
+                $this->lsl = $value;
+                break;
+            case 'name':
+                $this->name = $value;
+                break;
+            default:
+                throw new Exception("Invalid setter", 1);
+        }
+    }
 
     public function __construct($id)
     {
@@ -25,6 +72,7 @@ class User
                     $this->passwd = $results['passwd'];
                     $this->lsl = $results['lsl'];
                     $this->name = $results['name'];
+                    $this->key = $results['key'];
                 }
             }
         }
@@ -37,5 +85,38 @@ class User
         $query = "INSERT INTO umf (id, priLev, passwd, name, lsl) VALUES ('" . $this->id . "', '" . $this->priLev . "', '" . $token->sh1salt($this->passwd) . "', '" . $this->name . "', '" . $this->lsl . "') ON DUPLICATE KEY UPDATE priLev = '" . $this->priLev . "', passwd ='" . $token->sh1salt($this->passwd) . "', name = '" . $this->name . "', lsl = '" . $this->lsl . "'";
         $stat = $this->db->iud($query);
         return $stat;
+    }
+
+    public function login()
+    {
+        $token = new Token();
+        session_start();
+        $_SESSION["uid"] = $this->id;
+        $this->key = $token->getToken(40);
+        if ($this->save() > 0) {
+            $_SESSION['key'] = $this->key;
+        }
+    }
+
+    public function session()
+    {
+        $stat = 0;
+        try {
+            if ($this->key != $_SESSION['key']) {
+                $this->logout();
+            } else {
+                $stat = 1;
+            }
+        } catch (Exception $th) {
+            $this->logout();
+            $stat = 1;
+        }
+        return $stat;
+    }
+
+    public function logout()
+    {
+        session_unset();
+        session_destroy();
     }
 }

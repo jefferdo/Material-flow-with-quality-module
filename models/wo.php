@@ -20,6 +20,79 @@ class WO
 
     private $db;
 
+    public function __get($name)
+    {
+        switch ($name) {
+            case 'id':
+                return $this->id;
+                break;
+            case 'inttDt':
+                return $this->inttDt;
+                break;
+            case 'apDT':
+                return $this->apDT;
+                break;
+            case 'size':
+                return $this->size;
+                break;
+            case 'color':
+                return $this->color;
+                break;
+            case 'qty':
+                return $this->qty;
+                break;
+            case 'lcs':
+                return $this->lcs;
+                break;
+            case 'prt':
+                return $this->prt;
+                break;
+            case 'emb':
+                return $this->emb;
+                break;
+            case 'wsh':
+                return $this->wsh;
+                break;
+            default:
+                throw new Exception("Invalid Getter", 1);
+        }
+    }
+
+    public function __set($name, $value)
+    {
+        switch ($name) {
+            case 'inttDt':
+                $this->inttDt = $value;
+                break;
+            case 'apDT':
+                $this->apDT = $value;
+                break;
+            case 'size':
+                $this->size = $value;
+                break;
+            case 'color':
+                $this->color = $value;
+                break;
+            case 'qty':
+                $this->qty = $value;
+                break;
+            case 'lcs':
+                $this->lcs = $value;
+                break;
+            case 'prt':
+                $this->prt = $value;
+                break;
+            case 'emb':
+                $this->emb = $value;
+                break;
+            case 'wsh':
+                $this->wsh = $value;
+                break;
+            default:
+                throw new Exception("Invalid setter", 1);
+        }
+    }
+
     public function __construct($id)
     {
         $this->db = new Database();
@@ -64,7 +137,5 @@ class WO
     }
 
     public function QA($status)
-    { 
-        
-    }
+    { }
 }
