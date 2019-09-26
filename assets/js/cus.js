@@ -1,4 +1,9 @@
 (function ($) {
+    $('*').filter(function () {
+        return this.id.match(/+id/);
+    }).alert("Matched!");
+
+
     $('#barcodeBox').css('display', 'none');
     let state = true;
     $('#bCodeS').on("click", function (e) {

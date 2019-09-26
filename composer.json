@@ -1,5 +1,12 @@
 {
     "require": {
-        "eftec/bladeone": "^3.31"
+        "eftec/bladeone": "^3.31",
+        "illuminate/routing": "^5.5",
+        "illuminate/events": "^5.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
     }
 }

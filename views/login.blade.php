@@ -14,7 +14,7 @@
                             </a>
                         </div>
                         <div id='manBox'>
-                            <form action="#" class='pt-2'>
+                            <form action="/users" method="post" class='pt-2'>
 
                                 <div class="form-group mb-3">
                                     <input id='uid' class="form-control" type="text" required="" placeholder="User ID">
@@ -34,7 +34,7 @@
                         </div>
 
                         <div id='barcodeBox'>
-                            <form action="#" class='pt-4'>
+                            <form action="/users"  method="post" class='pt-4'>
                                 <div class="form-group mb-3">
                                     <input id='barV' class="form-control" type="password" required=""
                                         placeholder="Ready for Barcode">
