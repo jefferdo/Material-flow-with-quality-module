@@ -60,8 +60,11 @@ class User
     public function __construct($id)
     {
         $this->db = new Database();
-        if ($id == null) {
-            $this->id = "";
+        if ($id == 'new') {
+            $query = "SELECT id from umf ORDER BY id desc LIMIT 1";
+            if ($results = $this->db->select($query)) {
+                $this->id = $results['id'] + 1;
+            }
         } else {
             $this->id = $id;
             $query = "SELECT * FROM umf where ='" . $this->id . "'";
@@ -84,6 +87,7 @@ class User
         $token = new Token();
         $query = "INSERT INTO umf (id, priLev, passwd, name, lsl) VALUES ('" . $this->id . "', '" . $this->priLev . "', '" . $token->sh1salt($this->passwd) . "', '" . $this->name . "', '" . $this->lsl . "') ON DUPLICATE KEY UPDATE priLev = '" . $this->priLev . "', passwd ='" . $token->sh1salt($this->passwd) . "', name = '" . $this->name . "', lsl = '" . $this->lsl . "'";
         $stat = $this->db->iud($query);
+
         return $stat;
     }
 

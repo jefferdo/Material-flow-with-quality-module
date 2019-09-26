@@ -2,7 +2,6 @@
 
 class Token
 {
-
     public static function sh1salt($pwd)
     {
         $postPwd = "";
@@ -48,10 +47,20 @@ class Token
         return $token;
     }
 
+    public static function setcsrfk()
+    {
+        session_start();
+        $_SESSION['csrfk'] = Token::getToken(100);
+        return $_SESSION['csrfk'];
+    }
 
-
+    public static function chkcsrfk($key)
+    {
+        session_start();
+        if ($_SESSION['csrfk'] == $key) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 }
-
-
-
-?>

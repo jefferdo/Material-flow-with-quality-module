@@ -10,13 +10,11 @@
                     <div class="card-body p-4">
                         <div id=card>
                             <form action="{{ $action }}" method="{{ $method }}" class='pt-2'>
-                                <input type="hidden" name='csrfk' value="{{ $csrfk }}">
-                                
                                 <div class="form-group mb-3">
                                     <h2 class="text text-primary">{{ $title }}</h2>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <input id='poid' name='poid' class="form-control" type="text" required=""
+                                    <input id='poid' class="form-control" type="text" required=""
                                         placeholder="{{ $lable }}">
                                 </div>
                                 <div class="form-group mb-0 text-center">
@@ -40,9 +38,4 @@
     <!-- end container -->
 </div>
 <!-- end page -->
-<script type="text/javascript">
-    function myFunction() { 
-        document.getElementById("poid").focus(); 
-    } 
-</script>
 @endsection

@@ -97,7 +97,7 @@ class WO
     {
         $this->db = new Database();
         if ($id == null) {
-            $query = "SELECT id from umf ORDER BY id desc LIMIT 1";
+            $query = "SELECT id from woht ORDER BY id desc LIMIT 1";
             if ($results = $this->db->select($query)) {
                 $this->id = $results['id'] + 1;
             }

@@ -30,6 +30,7 @@
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
 
+    <!-- Cus js -->
     <script src="assets/js/cus.js"></script>
 
 </body>

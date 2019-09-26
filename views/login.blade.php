@@ -14,14 +14,16 @@
                             </a>
                         </div>
                         <div id='manBox'>
-                            <form action="/users" method="post" class='pt-2'>
+                            <form action="" method="post" class='pt-2'>
+
+                                <input type="hidden" name='csrfk' value="{{ $csrfk }}">
 
                                 <div class="form-group mb-3">
-                                    <input id='uid' class="form-control" type="text" required="" placeholder="User ID">
+                                    <input id='uid' name='uid' class="form-control" type="text" required="" placeholder="User ID">
                                 </div>
 
                                 <div class="form-group mb-3">
-                                    <input id='password' class="form-control" type="password" required=""
+                                    <input id='password' name='password' class="form-control" type="password" required=""
                                         placeholder="Passkey">
                                 </div>
 
@@ -34,9 +36,12 @@
                         </div>
 
                         <div id='barcodeBox'>
-                            <form action="/users"  method="post" class='pt-4'>
+                            <form action="/"  method="post" class='pt-4'>
+
+                                <input type="hidden" name='csrfk' value="{{ $csrfk }}">
+
                                 <div class="form-group mb-3">
-                                    <input id='barV' class="form-control" type="password" required=""
+                                    <input id='barV' name='barV' class="form-control" type="password" required=""
                                         placeholder="Ready for Barcode">
                                 </div>
 

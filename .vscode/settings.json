@@ -1,0 +1,26 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/composer.lock": true,
+        "*.lock": true,
+        "composer.lock": true,
+        "**/*.lock": true,
+        "**/composer.phar": true,
+        "*.phar": true,
+        "composer.phar": true,
+        "**/*.phar": true,
+        "**/composer.json": true,
+        "*.json": true,
+        "composer.json": true,
+        "**/*.json": true,
+        "**/.gitattributes": true,
+        ".gitattributes": true,
+        "**/.vscode": true,
+        ".vscode": true
+    },
+    "explorerExclude.backup": null
+}

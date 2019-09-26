@@ -4,5 +4,6 @@
 foreach (glob("models/*.php") as $filename)
 {
     echo $_SERVER['DOCUMENT_ROOT'] . '/' . $filename;
+    include_once $_SERVER['DOCUMENT_ROOT'] . '/' . $filename;
     echo "<br/>";
 }
