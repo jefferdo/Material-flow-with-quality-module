@@ -10,8 +10,9 @@
  <div class="card-body p-4">
  <div id=card>
  <form action="<?php echo static::e($action); ?>" method="<?php echo static::e($method); ?>" class='pt-2'>
- <input type="hidden" name='csrfk' value="<?php echo static::e($csrfk); ?>">
  
+ <input type="hidden" name='csrfk' value="<?php echo static::e($csrfk); ?>">
+
  <div class="form-group mb-3">
  <h2 class="text text-primary"><?php echo static::e($title); ?></h2>
  </div>

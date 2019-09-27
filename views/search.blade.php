@@ -10,8 +10,9 @@
                     <div class="card-body p-4">
                         <div id=card>
                             <form action="{{ $action }}" method="{{ $method }}" class='pt-2'>
-                                <input type="hidden" name='csrfk' value="{{ $csrfk }}">
                                 
+                                <input type="hidden" name='csrfk' value="{{ $csrfk }}">
+
                                 <div class="form-group mb-3">
                                     <h2 class="text text-primary">{{ $title }}</h2>
                                 </div>

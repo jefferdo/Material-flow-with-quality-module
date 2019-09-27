@@ -10,16 +10,18 @@
                     <div class="card-body p-4">
                         <div id=card>
                             <form action="{{ $action }}" method="{{ $method }}" class='pt-2'>
+
+                                <input type="hidden" id="csrfk" name='csrfk' value="{{ $csrfk }}">
+                                <input type="hidden" id="id" name='id' value="{{ $id }}">
+                                <input type="hidden" id="stage" name='stage' value="{{ $stage }}">
                                 <div class="form-group mb-3">
-                                    <h2 class="text text-primary">{{ $title }}</h2>
+                                    <h2 class="text text-primary">{{ $title }} - QA</h2>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <input id='poid' class="form-control" type="text" required=""
-                                        placeholder="{{ $lable }}">
-                                </div>
-                                <div class="form-group mb-0 text-center">
-                                    <button class="btn btn-primary btn-block p-2 alertColors" type="submit"> Submit
-                                    </button>
+                                    <button id='btnqa_accept' type="button"
+                                        class="btn btn-block btn-success waves-effect waves-light btn-lg p-3">Accept</button>
+                                    <button id='btnqa_reject' type="button"
+                                        class="btn btn-block btn-danger waves-effect waves-light btn-lg p-2">Reject</button>
                                 </div>
 
                             </form>
@@ -38,4 +40,7 @@
     <!-- end container -->
 </div>
 <!-- end page -->
+<script src="assets/libs/sweetalert2/sweetalert2.min.js"></script>
+<script src="assets/js/alert.js"></script>
+<!-- Sweet alert init js-->
 @endsection

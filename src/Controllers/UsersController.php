@@ -7,7 +7,7 @@ foreach (glob("models/*.php") as $filename) {
 }
 
 include_once $_SERVER['DOCUMENT_ROOT'] . "/services/token.php";
-require $_SERVER['DOCUMENT_ROOT']. "/vendor/autoload.php";
+require $_SERVER['DOCUMENT_ROOT'] . "/vendor/autoload.php";
 
 use Illuminate\Http\Request;
 use eftec\bladeone\BladeOne;
@@ -64,5 +64,24 @@ class UsersController
             "method" => "post",
             "csrfk" => Token::setcsrfk()
         ));
+    }
+
+    public function preview()
+    {
+        $blade = new BladeOne($views, $cache, BladeOne::MODE_AUTO);
+        echo $blade->run("qa", array(
+            "title" => "Material Receive",
+            "id" => "1234",
+            "stage" => "0",
+            "lable" => "Scan PO bardcode",
+            "action" => "/matRec",
+            "method" => "post",
+            "csrfk" => Token::setcsrfk()
+        ));
+    }
+
+    public function qa(Request $request)
+    {
+        echo "got it " . $request->id . " ". $request->stage . " " . $request->csrfk;
     }
 }
