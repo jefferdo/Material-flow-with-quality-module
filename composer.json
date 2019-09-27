@@ -2,8 +2,7 @@
     "require": {
         "eftec/bladeone": "^3.31",
         "illuminate/routing": "^5.5",
-        "illuminate/events": "^5.5",
-        "wilgucki/blade-builder": "^1.1"
+        "illuminate/events": "^5.5"
     },
     "autoload": {
         "psr-4": {
