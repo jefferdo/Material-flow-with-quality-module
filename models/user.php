@@ -7,9 +7,13 @@ class User
     private $id;
     private $priLev;
     private $passwd;
+    private $passwdT;
     private $lsl;
     private $name;
     private $key;
+    private $bc;
+
+    private $db;
 
     public function __get($name)
     {
@@ -23,28 +27,26 @@ class User
             case 'passwd':
                 return $this->passwd;
                 break;
+            case 'passwdT':
+                return $this->passwdT;
+                break;
             case 'lsl':
                 return $this->lsl;
                 break;
             case 'name':
                 return $this->name;
                 break;
-            default:
-                throw new Exception("Invalid Getter", 1);
         }
     }
 
     public function __set($name, $value)
     {
         switch ($name) {
-            case 'id':
-                $this->id = $value;
-                break;
             case 'priLev':
                 $this->priLev = $value;
                 break;
-            case 'passwd':
-                $this->passwd = $value;
+            case 'passwdT':
+                $this->passwdT = Token::sh1salt($value);
                 break;
             case 'lsl':
                 $this->lsl = $value;
@@ -52,8 +54,6 @@ class User
             case 'name':
                 $this->name = $value;
                 break;
-            default:
-                throw new Exception("Invalid setter", 1);
         }
     }
 
@@ -67,15 +67,16 @@ class User
             }
         } else {
             $this->id = $id;
-            $query = "SELECT * FROM umf where ='" . $this->id . "'";
+            $query = "SELECT * FROM umf where id = '" . $this->id . "'";
             if ($results = $this->db->select($query)) {
-                if ($this->data = !null) {
-                    $this->id = $results['id'];
-                    $this->priLev = $results['priLev'];
-                    $this->passwd = $results['passwd'];
-                    $this->lsl = $results['lsl'];
-                    $this->name = $results['name'];
-                    $this->key = $results['key'];
+                if ($row = $results->fetch_array()) {
+                    $this->id = $row['id'];
+                    $this->priLev = $row['prilev'];
+                    $this->passwd = $row['passwd'];
+                    $this->lsl = $row['lsl'];
+                    $this->name = $row['name'];
+                    $this->key = $row['hkey'];
+                    $this->bc = $row['bc'];
                 }
             }
         }
@@ -85,21 +86,30 @@ class User
     {
         $this->db = new Database();
         $token = new Token();
-        $query = "INSERT INTO umf (id, priLev, passwd, name, lsl) VALUES ('" . $this->id . "', '" . $this->priLev . "', '" . $token->sh1salt($this->passwd) . "', '" . $this->name . "', '" . $this->lsl . "') ON DUPLICATE KEY UPDATE priLev = '" . $this->priLev . "', passwd ='" . $token->sh1salt($this->passwd) . "', name = '" . $this->name . "', lsl = '" . $this->lsl . "'";
+        $query = "INSERT INTO umf (id, prilev, passwd, name, lsl, bc, hkey) VALUES ('" . $this->id . "', '" . $this->priLev . "', '" . $this->passwd . "', '" . $this->name . "', '" . $this->lsl . "', '" . $this->bc . "', '" . $this->key . "') ON DUPLICATE KEY UPDATE prilev = '" . $this->priLev . "', passwd ='" . $this->passwd . "', name = '" . $this->name . "', lsl = '" . $this->lsl . "', bc = '" . $this->bc . "', hkey = '" . $this->key . "'";
         $stat = $this->db->iud($query);
-
         return $stat;
     }
 
     public function login()
     {
-        $token = new Token();
-        session_start();
-        $_SESSION["uid"] = $this->id;
-        $this->key = $token->getToken(40);
-        if ($this->save() > 0) {
-            $_SESSION['key'] = $this->key;
+        $stat = 0;
+        if ($this->passwd == $this->passwdT) {
+            $this->lsl = date("Y-m-d H:i:s");
+            $token = new Token();
+            session_start();
+            $_SESSION["uid"] = $this->id;
+            $this->key = $token->getToken(40);
+            if ($this->save() > 0) {
+                $_SESSION['key'] = $this->key;
+                $stat = 1;
+            } else {
+                $stat = 0;
+            }
+        } else {
+            $stat = 0;
         }
+        return $stat;
     }
 
     public function session()

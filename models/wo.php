@@ -105,18 +105,20 @@ class WO
             $this->id = $id;
             $query = "SELECT * from woht where ='" . $this->id . "'";
             if ($results = $this->db->select($query)) {
-                $this->id = $results['id'];
-                $this->initDt = $results['initdt'];
-                $this->apDt = $results['apdt'];
-                $this->PO = new PO($results['poid']);
-                $this->size = $results['size'];
-                $this->color = $results['color'];
-                $this->qty = $results['qty'];
-                $this->lcs = $results['lcs'];
-                $this->prt = ($results['prt'] == 0 ? false : true);
-                $this->emb = ($results['emb'] == 0 ? false : true);
-                $this->wsh = ($results['wsh'] == 0 ? false : true);
-                $this->sub = ($results['sub'] == 0 ? false : true);
+                if ($row = $results->fetch_array()) {
+                    $this->id = $row['id'];
+                    $this->initDt = $row['initdt'];
+                    $this->apDt = $row['apdt'];
+                    $this->PO = new PO($row['poid']);
+                    $this->size = $row['size'];
+                    $this->color = $row['color'];
+                    $this->qty = $row['qty'];
+                    $this->lcs = $row['lcs'];
+                    $this->prt = ($row['prt'] == 0 ? false : true);
+                    $this->emb = ($row['emb'] == 0 ? false : true);
+                    $this->wsh = ($row['wsh'] == 0 ? false : true);
+                    $this->sub = ($row['sub'] == 0 ? false : true);
+                }
             }
         }
     }

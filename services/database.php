@@ -1,7 +1,7 @@
 <?php
 class Database
 {
-    private $servername = null;
+    private $servername = "192.168.1.6";
     private $database = "mFlow";
     private $username = "admin";
     private $passwd = "12341234";
@@ -10,7 +10,7 @@ class Database
     public function __construct()
     {
         try {
-            $this->conn = new mysqli($this->servername, $this->username, $this->passwd, $this->database, 3306, null);
+            $this->conn = new mysqli($this->servername, $this->username, $this->passwd, $this->database);
             // Check connection            
         } catch (Exception $e) {
             echo "Connection failed: " . $e->getMessage();
@@ -45,7 +45,6 @@ class Database
         try {
             $result = mysqli_query($this->conn, $query);
         } catch (Exception $e) {
-            $result = null;
             echo $e;
         }
 

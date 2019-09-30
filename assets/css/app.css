@@ -2046,7 +2046,7 @@ body.boxed-layout.enlarged .footer {
 body.authentication-bg {
   background-color: #f7f7f7;
   background-size: cover;
-  background-position: center;
+  /* background-position: center; */
 }
 
 body.authentication-bg-pattern {

@@ -38,10 +38,12 @@ class PO
             $this->db = new Database();
             $query = "SELECT id, qty, td as data from poht inner join podt on poht.id = podt.poid where ='" . $this->id . "'";
             if ($results = $this->db->select($query)) {
-                if ($this->data = !null) {
-                    $this->id = $results['id'];
-                    $this->qty = $results['qty'];
-                    $this->data = json_decode($results['td'], true);
+                if ($row = $results->fetch_array()) {
+                    if ($this->data = !null) {
+                        $this->id = $row['id'];
+                        $this->qty = $row['qty'];
+                        $this->data = json_decode($row['td'], true);
+                    }
                 }
             }
         }

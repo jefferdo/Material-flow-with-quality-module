@@ -5,7 +5,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/services/token.php');
 class log
 {
     private $log;
-    
+
     private $user;
     private $WO;
 
@@ -18,10 +18,8 @@ class log
             $this->db = new Database();
             $query = "select id, qty, td as data from poht inner join podt on poht.id = podt.poid where ='" . $this->id . "'";
             if ($results = $this->db->select($query)) {
-                if ($this->data = !null) {
-                    $this->id = $results['id'];
-                    $this->qty = $results['qty'];
-                    $this->data = json_decode($results['td'], true);
+                if ($row = $results->fetch_array()) {
+                    $this->id = $row['log'];
                 }
             }
         }

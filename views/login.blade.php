@@ -23,7 +23,7 @@
                                 </div>
 
                                 <div class="form-group mb-3">
-                                    <input id='password' name='password' class="form-control" type="password" required=""
+                                    <input id='password' name='passwd' class="form-control" type="password" required=""
                                         placeholder="Passkey">
                                 </div>
 

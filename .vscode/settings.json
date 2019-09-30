@@ -20,7 +20,10 @@
         "**/.gitattributes": true,
         ".gitattributes": true,
         "**/.vscode": true,
-        ".vscode": true
+        ".vscode": true,
+        "**/compiles": true,
+        "compiles": true,
+        "**/cache": true
     },
     "explorerExclude.backup": null
 }

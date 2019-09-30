@@ -83,7 +83,7 @@ class BladeOne
     /** @var string|string[] Get the template path for the compiled views. */
     protected $templatePath;
     /** @var string Get the compiled path for the compiled views. If null then it uses the default path */
-    protected $compiledPath;
+    protected $compiledPath = "cache" ;
     /** @var string the extension of the compiled file. */
     protected $compileExtension = '.bladec';
     /** @var array Custom "directive" dictionary. Those directives run at compile time. */
@@ -170,7 +170,7 @@ class BladeOne
             $templatePath = \getcwd() . '/views';
         }
         if ($compiledPath === null) {
-            $compiledPath = \getcwd() . '/compiles';
+            $compiledPath = \getcwd() . '/cache';
         }
         $this->templatePath = $templatePath;
         $this->compiledPath = $compiledPath;
@@ -343,7 +343,7 @@ class BladeOne
             $templatePath = \getcwd() . '/views';
         }
         if ($compiledPath === null) {
-            $compiledPath = \getcwd() . '/compiles';
+            $compiledPath = \getcwd() . '/cache';
         }
         $this->templatePath = $templatePath;
         $this->compiledPath = $compiledPath;
