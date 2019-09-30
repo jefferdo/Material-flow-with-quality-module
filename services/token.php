@@ -57,8 +57,13 @@ class Token
     public static function chkcsrfk($key)
     {
         session_start();
-        if ($_SESSION['csrfk'] == $key) {
-            return 1;
+        if (isset($_SESSION['csrfk'])) {
+            if ($_SESSION['csrfk'] == $key) {
+                unset($_SESSION["csrfk"]);
+                return 1;
+            } else {
+                return 0;
+            }
         } else {
             return 0;
         }

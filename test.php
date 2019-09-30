@@ -2,7 +2,7 @@
 //echo date('YW') . substr("123456789", -4, 4) + 1;
 
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/services/database.php';
+/* include_once $_SERVER['DOCUMENT_ROOT'] . '/services/database.php';
 
 
 
@@ -26,7 +26,7 @@ if ($row = $results->fetch_array()) {
     echo $row['name'] . "<br/>";
     echo $row['key'] . "<br/>";
 }
-
+ */
 # Fill our vars and run on cli
 # $ php -f db-connect-test.php
 

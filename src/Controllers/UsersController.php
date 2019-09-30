@@ -28,9 +28,11 @@ class UsersController
     {
         $user = null;
         if (isset($_SESSION['uid']) && isset($_SESSION['key'])) {
-            $user = new User($_SESSION('uid'));
-            if ($user->session() == 1) { } else {
-                $csrfk = Token::setcsrfk();
+            $user = new User($_SESSION['uid']);
+            if ($user->session() == 1) { 
+                echo "set";
+                die();
+            } else {
                 $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
                 echo $blade->run("login", array(
                     "csrfk" => $csrfk,
@@ -54,7 +56,7 @@ class UsersController
                 $user = new User($request->uid);
                 $user->passwdT = $request->passwd;
                 if ($user->login() == 1) {
-                    //code
+                    echo '<pre>' . print_r($_SESSION, TRUE) . '</pre>';
                 } else {
                     $this->error = "Check Usernanme and password";
                     $this->index();

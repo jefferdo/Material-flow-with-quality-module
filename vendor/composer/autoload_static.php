@@ -43,6 +43,7 @@ class ComposerStaticInit2cdb929aa67d5c1f874cf47b56c41b27
             'Psr\\SimpleCache\\' => 16,
             'Psr\\Log\\' => 8,
             'Psr\\Container\\' => 14,
+            'Picqer\\Barcode\\' => 15,
         ),
         'I' => 
         array (
@@ -146,6 +147,10 @@ class ComposerStaticInit2cdb929aa67d5c1f874cf47b56c41b27
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'Picqer\\Barcode\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/picqer/php-barcode-generator/src',
         ),
         'Illuminate\\Support\\' => 
         array (

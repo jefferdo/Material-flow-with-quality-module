@@ -13,13 +13,26 @@
                                 <span><img src="assets/images/logo-dark.png" alt="" height="50"></span>
                             </a>
                         </div>
+                        @if ($error != null)
+                        <div class="pt-1">
+                            <div class="alert alert-danger alert-dismissible bg-danger text-white border-0 fade show"
+                                role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                {{ $error }}
+                            </div>
+                        </div>
+
+                        @endif
                         <div id='manBox'>
-                            <form action="" method="post" class='pt-2'>
+                            <form action="" method="post" class='pt-1'>
 
                                 <input type="hidden" name='csrfk' value="{{ $csrfk }}">
 
                                 <div class="form-group mb-3">
-                                    <input id='uid' name='uid' class="form-control" type="text" required="" placeholder="User ID">
+                                    <input id='uid' name='uid' class="form-control" type="text" required=""
+                                        placeholder="User ID">
                                 </div>
 
                                 <div class="form-group mb-3">
@@ -36,7 +49,7 @@
                         </div>
 
                         <div id='barcodeBox'>
-                            <form action="/"  method="post" class='pt-4'>
+                            <form action="/" method="post" class='pt-2'>
 
                                 <input type="hidden" name='csrfk' value="{{ $csrfk }}">
 
