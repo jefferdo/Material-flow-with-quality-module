@@ -144,7 +144,7 @@ class UsersController
         } else {
             $prev = $this->user->getPriv();
             $title = $prev['title'];
-            $action = "/" . $prev[1]['next'];
+            $action = "/" . $prev[2]['next'];
             $po = new PO($request->id);
             if ($po->data == null) {
                 $csrfk = Token::setcsrfk();
