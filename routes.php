@@ -10,7 +10,7 @@ $cache = $_SERVER['DOCUMENT_ROOT'] . '/cache';
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
     $router->get('/', ['uses' => 'UsersController@index']);
-    $router->post('/', ['uses' => 'UsersController@login']);
+    $router->post('/login', ['uses' => 'UsersController@login']);
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
@@ -24,6 +24,18 @@ $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
     $router->post('/qa', ['uses' => 'UsersController@qa']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/qaA', ['uses' => 'UsersController@qaA']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/qaR', ['uses' => 'UsersController@qaR']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->get('/logout', ['uses' => 'UsersController@logout']);
 });
 // catch-all route
 $router->any('{any}', function () {

@@ -24,8 +24,6 @@ class PO
             case 'data':
                 return $this->data;
                 break;
-            default:
-                throw new Exception("Invalid Getter", 1);
         }
     }
 
@@ -36,7 +34,7 @@ class PO
         } else {
             $this->id = $id;
             $this->db = new Database();
-            $query = "SELECT id, qty, td as data from poht inner join podt on poht.id = podt.poid where ='" . $this->id . "'";
+            $query = "SELECT poht.id, poht.qty, podt.td as data from poht inner join podt on poht.id = podt.poid where id ='" . $this->id . "'";
             if ($results = $this->db->select($query)) {
                 if ($row = $results->fetch_array()) {
                     if ($this->data = !null) {

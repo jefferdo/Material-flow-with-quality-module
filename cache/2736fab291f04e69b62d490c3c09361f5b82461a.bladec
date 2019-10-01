@@ -7,7 +7,7 @@
  <div class="row justify-content-center">
  <div class="col-md-8 col-lg-6 col-xl-5">
  <div class="card bg-pattern">
- <div class="card-body p-4">
+ <div class="card-body py-2 px-5">
  <div class="text-center w-75 m-auto">
  <a href="index.html">
  <span><img src="assets/images/logo-dark.png" alt="" height="50"></span>
@@ -27,7 +27,7 @@
 
  <?php endif; ?>
  <div id='manBox'>
- <form action="" method="post" class='pt-1'>
+ <form action="/login" method="post" class='pt-1'>
 
  <input type="hidden" name='csrfk' value="<?php echo static::e($csrfk); ?>">
 

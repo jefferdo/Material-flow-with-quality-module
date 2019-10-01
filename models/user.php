@@ -60,13 +60,18 @@ class User
     public function __construct($id)
     {
         $this->db = new Database();
+        session_start();
+        if (isset($_SESSION['uid'])) {
+            $this->id = $_SESSION['uid'];
+        } else {
+            $this->id = $id;
+        }
         if ($id == 'new') {
             $query = "SELECT id from umf ORDER BY id desc LIMIT 1";
             if ($results = $this->db->select($query)) {
                 $this->id = $results['id'] + 1;
             }
         } else {
-            $this->id = $id;
             $query = "SELECT * FROM umf where id = '" . $this->id . "'";
             if ($results = $this->db->select($query)) {
                 if ($row = $results->fetch_array()) {
@@ -79,6 +84,17 @@ class User
                     $this->bc = $row['bc'];
                 }
             }
+        }
+    }
+
+    public function getPriv()
+    {
+        try {
+            $data = file_get_contents("data/stages.json");
+            $json = json_decode($data, true);
+            return $json[$this->priLev];
+        } catch (Exception $th) {
+            echo $th;
         }
     }
 
@@ -114,6 +130,10 @@ class User
 
     public function session()
     {
+        session_start();
+        /* echo $this->key . "<br/>";
+        echo $_SESSION['key'];
+        exit; */
         $stat = 0;
         try {
             if ($this->key != $_SESSION['key']) {
@@ -130,7 +150,7 @@ class User
 
     public function logout()
     {
-        session_unset();
+        session_start();
         session_destroy();
     }
 }

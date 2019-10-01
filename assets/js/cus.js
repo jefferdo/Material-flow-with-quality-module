@@ -183,7 +183,7 @@
                 form.append('stage', $("#stage").val());
                 $.ajax({
                     type: "post",
-                    url: "/qa",
+                    url: "/qaA",
                     data: form,
                     processData: false,
                     contentType: false,
@@ -198,7 +198,7 @@
                     },
                     error: function (error) {
                         alert('error');
-                        
+
                         console.log(error);
                     }
                 });
@@ -220,12 +220,13 @@
                 if ($.isNumeric(key)) {
                     if (key > 0 && 100 > key) {
                         var form = new FormData();
+                        form.append("reason", key);
                         form.append('id', $("#id").val());
                         form.append('csrfk', $("#csrfk").val());
                         form.append('stage', $("#stage").val());
                         $.ajax({
                             type: "post",
-                            url: "/qa",
+                            url: "/qaR",
                             data: form,
                             processData: false,
                             contentType: false,
@@ -258,5 +259,9 @@
                 }
             }
         })
+    });
+
+    $("#btnqa_cancel").on('click', function (e) {
+        window.location.replace("/");
     });
 })(jQuery);

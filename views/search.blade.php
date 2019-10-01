@@ -10,21 +10,20 @@
                     <div class="card-body p-4">
                         <div id=card>
                             <form action="{{ $action }}" method="{{ $method }}" class='pt-2'>
-                                
+
                                 <input type="hidden" name='csrfk' value="{{ $csrfk }}">
 
                                 <div class="form-group mb-3">
                                     <h2 class="text text-primary">{{ $title }}</h2>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <input id='poid' name='poid' class="form-control" type="text" required=""
+                                    <input id='id' name='id' class="form-control" type="text" required=""
                                         placeholder="{{ $lable }}">
                                 </div>
                                 <div class="form-group mb-0 text-center">
                                     <button class="btn btn-primary btn-block p-2 alertColors" type="submit"> Submit
                                     </button>
                                 </div>
-
                             </form>
                         </div>
                     </div> <!-- end card-body -->
@@ -33,6 +32,10 @@
                 <!-- end card -->
 
                 <!-- end row -->
+                <div class="col-12 text-center">
+                    <p class="text-white-50"> <a href="/logout" class="text-white ml-1"><b>Logout</b></a>
+                    </p>
+                </div>
 
             </div> <!-- end col -->
         </div>

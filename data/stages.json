@@ -1,0 +1,23 @@
+{
+    "0": {
+        "title": null
+    },
+    "1": {
+        "title": "Material Receive",
+        "1": {
+            "title": "Search PO",
+            "lable" : "Scan PO barcode",
+            "type": "1",
+            "next": "qa"
+        },
+        "2": {
+            "title": "Material Receive - QA",
+            "info": {
+                "PO ID": "id"
+            },
+            "accept": "qaA",
+            "reject": "qaR",
+            "next": "searchpo"
+        }
+    }
+}

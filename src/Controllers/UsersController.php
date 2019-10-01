@@ -12,6 +12,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/vendor/autoload.php";
 use Illuminate\Http\Request;
 use eftec\bladeone\BladeOne;
 use Exception;
+use PO;
 use Token;
 use User;
 
@@ -23,15 +24,16 @@ class UsersController
     private $views;
     private $cache;
     private $error = null;
+    private $user;
 
     public function index()
     {
-        $user = null;
+        $this->user = null;
+        session_start();
         if (isset($_SESSION['uid']) && isset($_SESSION['key'])) {
-            $user = new User($_SESSION['uid']);
-            if ($user->session() == 1) { 
-                echo "set";
-                die();
+            $this->user = new User($_SESSION['uid']);
+            if ($this->user->session() == 1) {
+                $this->search($this->user->getPriv());
             } else {
                 $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
                 echo $blade->run("login", array(
@@ -53,10 +55,10 @@ class UsersController
     {
         try {
             if (Token::chkcsrfk($request->csrfk) == 1) {
-                $user = new User($request->uid);
-                $user->passwdT = $request->passwd;
-                if ($user->login() == 1) {
-                    echo '<pre>' . print_r($_SESSION, TRUE) . '</pre>';
+                $this->user = new User($request->uid);
+                $this->user->passwdT = $request->passwd;
+                if ($this->user->login() == 1) {
+                    $this->index();
                 } else {
                     $this->error = "Check Usernanme and password";
                     $this->index();
@@ -71,6 +73,13 @@ class UsersController
         }
     }
 
+    public function logout()
+    {
+        $this->user = new User($_SESSION['uid']);
+        $this->user->logout();
+        $this->index();
+    }
+
     public function searchMatRec(Request $request)
     {
         $name = $request->poid;
@@ -80,7 +89,7 @@ class UsersController
     public function matRec()
     {
         $csrfk = Token::setcsrfk();
-        $blade = new BladeOne($views, $cache, BladeOne::MODE_AUTO);
+        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
         echo $blade->run("search", array(
             "title" => "Material Receive",
             "lable" => "Scan PO bardcode",
@@ -90,14 +99,36 @@ class UsersController
         ));
     }
 
+
+    public function search($prev)
+    {
+        $title = $prev['title'];
+        $lable = $prev[1]['lable'];
+        $action = "/" . $prev[1]['next'];
+
+        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+        echo $blade->run("search", array(
+            "title" => $title,
+            "lable" => $lable,
+            "action" => $action,
+            "method" => "post",
+            "csrfk" => $csrfk
+        ));
+    }
+
     public function preview()
     {
         $csrfk = Token::setcsrfk();
-        $blade = new BladeOne($views, $cache, BladeOne::MODE_AUTO);
+        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
         echo $blade->run("qa", array(
             "title" => "Material Receive",
             "id" => "1234",
-            "stage" => "0",
+            "info" => [
+                "po" => "1234",
+                "style" => "1234",
+                "Qty" => "10"
+            ],
+            "stage" => "1",
             "lable" => "Scan PO bardcode",
             "action" => "/matRec",
             "method" => "post",
@@ -107,6 +138,47 @@ class UsersController
 
     public function qa(Request $request)
     {
-        echo "got it " . $request->id . " " . $request->stage . " " . $request->csrfk;
+        $this->user = new User($_SESSION['uid']);
+        if ($this->user->session() == 0) {
+            $this->index();
+        } else {
+            $prev = $this->user->getPriv();
+            $title = $prev['title'];
+            $action = "/" . $prev[1]['next'];
+            $po = new PO($request->id);
+            if ($po->data == null) {
+                $csrfk = Token::setcsrfk();
+                $infoA = [];
+                $info = $prev[2]['info'];
+                foreach ($info as $key => $value) {
+                    if ($value == "id") {
+                        $item = [$key => $po->id];
+                        array_push($infoA, $item);
+                    }
+                }
+                $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+                echo $blade->run("qa", array(
+                    "title" => $title,
+                    "id" => $po->id,
+                    "info" => $infoA,
+                    "stage" => "1",
+                    "action" => $action,
+                    "method" => "post",
+                    "csrfk" => $csrfk
+                ));
+            } else {
+                $this->index();
+            }
+        }
+    }
+
+    public function qaA(Request $request)
+    {
+        echo "got it " . $request->id . " " . $request->csrfk;
+    }
+
+    public function qaR(Request $request)
+    {
+        echo "got it " . $request->id . " " . $request->stage . " " . $request->reason . " " . $request->csrfk;
     }
 }
