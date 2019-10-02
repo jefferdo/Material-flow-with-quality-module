@@ -21,8 +21,9 @@
 })(jQuery);
 
 (function ($) {
-    $('#poid').focus();
+    $('#id').focus();
 })(jQuery);
+
 
 (function ($) {
     $.fn.numKey = function (options) {
@@ -188,17 +189,25 @@
                     processData: false,
                     contentType: false,
                     success: function (response) {
-                        Swal.fire(
-                            'Confirm!',
-                            response,
-                            'success'
-                        ).then(() => {
-                            window.location.replace("/")
-                        })
+                        if (response == 1) {
+                            Swal.fire(
+                                'Confirm!',
+                                '',
+                                'success'
+                            ).then(() => {
+                                window.location.replace("/")
+                            })
+                        } else {
+                            Swal.fire(
+                                'Request has not proccesed, try again!',
+                                '',
+                                'failed'
+                            )
+                        }
+
                     },
                     error: function (error) {
                         alert('error');
-
                         console.log(error);
                     }
                 });

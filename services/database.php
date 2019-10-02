@@ -18,11 +18,12 @@ class Database
         }
     }
 
-    public function getCon() {
+    public function getCon()
+    {
         return $this->conn;
     }
 
-    
+
     public function iud($query)
     {
         $stat = 0;
@@ -31,10 +32,8 @@ class Database
                 $stat = 1;
             }
         } catch (Exception $e) {
-            $stat = 0;
-            echo $e;
+            throw new Exception('null', 0);
         }
-
         return $stat;
     }
 
@@ -45,7 +44,7 @@ class Database
         try {
             $result = mysqli_query($this->conn, $query);
         } catch (Exception $e) {
-            echo $e;
+            throw new Exception('null', 0);
         }
 
         return $result;
@@ -66,5 +65,9 @@ class Database
 
         return $stat;
     }
+
+    public function real_escape_string($string)
+    {
+        return mysqli_real_escape_string($this->conn, $string);
+    }
 }
- 

@@ -4,20 +4,98 @@
     },
     "1": {
         "title": "Material Receive",
-        "1": {
+        "S1": {
             "title": "Search PO",
-            "lable" : "Scan PO barcode",
+            "lable": "Scan PO barcode",
             "type": "1",
             "next": "qa"
         },
-        "2": {
-            "title": "Material Receive - QA",
+        "S2": {
             "info": {
                 "PO ID": "id"
             },
             "accept": "qaA",
             "reject": "qaR",
             "next": "searchpo"
+        }
+    },
+    "2": {
+        "title": "Material Inspection",
+        "S1": {
+            "title": "Search PO",
+            "lable": "Scan PO barcode",
+            "type": "1",
+            "next": "qa"
+        },
+        "S2": {
+            "info": {
+                "PO ID": "id"
+            },
+            "accept": "qaA",
+            "reject": "qaR",
+            "next": "searchpo"
+        }
+    },
+    "3": {
+        "title": "Store at Rack",
+        "S1": {
+            "title": "Search PO",
+            "lable": "Scan PO barcode",
+            "type": "1",
+            "next": "qa"
+        },
+        "S2": {
+            "info": {
+                "PO ID": "id"
+            },
+            "accept": "qaA",
+            "reject": "qaR",
+            "next": "searchpo"
+        }
+    },
+    "4": {
+        "title": "Kanban System - Cutting",
+        "body": {
+            "B1": {
+                "title": "Upcoming",
+                "subtitle": "Purchase orders to be processed",
+                "C1": {
+                    "PO ID": "id",
+                    "Style No": "stid",
+                    "Buttons": {
+                        "0": {
+                            "lable": "Select",
+                            "target": "get PO"
+                        }
+                    }
+                }
+            },
+            "B2": {
+                "title": "In progress",
+                "subtitle": "Work orders, which prepared to be processed",
+                "C1": {
+                    "WO ID": "id",
+                    "Customer": "name",
+                    "Style No": "stid",
+                    "Color": "color",
+                    "Size": "size",
+                    "Qty": "qty",
+                    "Buttons": "no"
+                }
+            },
+            "B3": {
+                "title": "Ready",
+                "subtitle": "Work orders to be Accepted",
+                "C1": {
+                    "WO ID": "id",
+                    "Customer": "name",
+                    "Style No": "stid",
+                    "Color": "color",
+                    "Size": "size",
+                    "Qty": "qty",
+                    "Buttons": "no"
+                }
+            }
         }
     }
 }

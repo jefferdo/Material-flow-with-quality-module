@@ -1,6 +1,8 @@
 <?php
+
 include_once($_SERVER['DOCUMENT_ROOT'] . '/services/database.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/services/token.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/models/log.php');
 
 class PO
 {
@@ -9,6 +11,8 @@ class PO
     private $data;
 
     private $customer;
+    private $user;
+    private $lcs;
 
     private $db;
 
@@ -20,6 +24,9 @@ class PO
                 break;
             case 'qty':
                 return $this->qty;
+                break;
+            case 'lcs':
+                return $this->lcs;
                 break;
             case 'data':
                 return $this->data;
@@ -34,22 +41,55 @@ class PO
         } else {
             $this->id = $id;
             $this->db = new Database();
-            $query = "SELECT poht.id, poht.qty, podt.td as data from poht inner join podt on poht.id = podt.poid where id ='" . $this->id . "'";
+            $query = "SELECT poht.id, poht.qty, poht.lcs, podt.td as data from poht inner join podt on poht.id = podt.poid where id ='" . $this->id . "'";
             if ($results = $this->db->select($query)) {
                 if ($row = $results->fetch_array()) {
                     if ($this->data = !null) {
                         $this->id = $row['id'];
                         $this->qty = $row['qty'];
+                        $this->lcs = $row['lcs'];
                         $this->data = json_decode($row['td'], true);
+                        $this->user = new user(null);
+                        if ($this->user->priLev <= $this->lcs) {
+                            throw new Exception('Not allowed to proccess', 0);
+                        }
                     }
+                } else {
+                    throw new Exception('Invalid PO ID', 0);
                 }
             }
         }
     }
 
-    public function add()
+    public function accept()
     {
-        //add new po for supplier (supplier should be pre registered)
+        $this->db = new Database();
+        $lcs = $this->user->priLev;
+        $log = new alog($this->id, null);
+        if ($log->checklog($lcs) != 1) {
+            $query = "update poht set lcs = '" . $lcs . "' where id = '" . $this->id . "'";
+            $this->db->iud($query);
+            $query = "select lcs from poht where id = '" . $this->id . "'";
+            if (mysqli_num_rows($this->db->select($query)) > 0) {
+                $log = new alog($this->id, "0");
+                $log->add();
+                return 1;
+            } else {
+                return 0;
+            }
+        } else {
+            return 0;
+        }
+    }
+
+    public function reject($rNO)
+    {
+        $log = new alog($this->id, $rNO);
+        if ($log->add() > 0) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     public function archive()

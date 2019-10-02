@@ -25,5 +25,8 @@
         "compiles": true,
         "**/cache": true
     },
-    "explorerExclude.backup": null
+    "explorerExclude.backup": null,
+    "cSpell.words": [
+        "proccesed"
+    ]
 }

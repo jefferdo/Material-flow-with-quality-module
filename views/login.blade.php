@@ -23,7 +23,6 @@
                                 {{ $error }}
                             </div>
                         </div>
-
                         @endif
                         <div id='manBox'>
                             <form action="/login" method="post" class='pt-1'>
