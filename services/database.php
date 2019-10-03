@@ -13,8 +13,16 @@ class Database
             $this->conn = new mysqli($this->servername, $this->username, $this->passwd, $this->database);
             // Check connection            
         } catch (Exception $e) {
-            echo "Connection failed: " . $e->getMessage();
-            die();
+            throw new Exception($e->getMessage(), 0);
+        }
+    }
+
+    function __destruct()
+    {
+        try {
+            $this->conn->close();
+        } catch (Exception $th) {
+            //throw $th;
         }
     }
 

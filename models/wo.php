@@ -16,7 +16,7 @@ class WO
     private $wsh = false;
     private $sub = false;
 
-    private $PO;
+    private $po;
 
     private $db;
 
@@ -96,11 +96,13 @@ class WO
     public function __construct($id)
     {
         $this->db = new Database();
-        if ($id == null) {
+        if ($id == "new") {
             $query = "SELECT id from woht ORDER BY id desc LIMIT 1";
             if ($results = $this->db->select($query)) {
                 $this->id = $results['id'] + 1;
             }
+        } else if ($id == null) {
+            $this->id = null;
         } else {
             $this->id = $id;
             $query = "SELECT * from woht where ='" . $this->id . "'";
@@ -109,7 +111,7 @@ class WO
                     $this->id = $row['id'];
                     $this->initDt = $row['initdt'];
                     $this->apDt = $row['apdt'];
-                    $this->PO = new PO($row['poid']);
+                    $this->po = new PO($row['poid']);
                     $this->size = $row['size'];
                     $this->color = $row['color'];
                     $this->qty = $row['qty'];
@@ -140,4 +142,17 @@ class WO
 
     public function QA($status)
     { }
+
+    public static function getfullqty($id)
+    {
+        $tqty = 0;
+        $this->db = new Database();
+        $query = "SELECT SUM(DISTINCT qty) as tqty FROM poht where poid = '" . $id . "'";
+        if ($results = $this->db->select($query)) {
+            if ($row = $results->fetch_array()) {
+                $tqty = $row['id'];
+            }
+        }
+        return $tqty;
+    }
 }

@@ -1,6 +1,5 @@
 <?php $_shouldextend[1]=1; ?>
 
-
 <?php $this->startSection('content'); ?>
 <div class="account-pages mt-5">
  <div class="container">

@@ -49,4 +49,40 @@ class alog
             throw new Exception('Not allowed to proccess', 0);
         }
     }
+
+    public function getdate($lcs)
+    {
+        $query = "SELECT * FROM alt WHERE log LIKE '" . $this->id . "@%@%@" . $lcs . "@%'";
+        $this->db = new Database();
+        if ($results = $this->db->select($query)) {
+            if ($row = $results->fetch_array()) {
+                $this->log = $row['log'];
+            }
+        }
+        return explode("@",$this->log)[1];
+    }
+
+    public function getuser($lcs)
+    {
+        $query = "SELECT * FROM alt WHERE log LIKE '" . $this->id . "@%@%@" . $lcs . "@%'";
+        $this->db = new Database();
+        if ($results = $this->db->select($query)) {
+            if ($row = $results->fetch_array()) {
+                $this->log = $row['log'];
+            }
+        }
+        return explode("@",$this->log)[2];
+    }
+
+    public function getreason($lcs)
+    {
+        $query = "SELECT * FROM alt WHERE log LIKE '" . $this->id . "@%@%@" . $lcs . "@%'";
+        $this->db = new Database();
+        if ($results = $this->db->select($query)) {
+            if ($row = $results->fetch_array()) {
+                $this->log = $row['log'];
+            }
+        }
+        return explode("@",$this->log)[3];
+    }
 }

@@ -54,18 +54,23 @@
         }
     },
     "4": {
-        "title": "Kanban System - Cutting",
+        "stage": 4,
+        "title": "Kanban System - Cutting Section",
         "body": {
             "B1": {
                 "title": "Upcoming",
                 "subtitle": "Purchase orders to be processed",
                 "C1": {
-                    "PO ID": "id",
-                    "Style No": "stid",
+                    "info": {
+                        "PO ID": "id",
+                        "Style No": "stid",
+                        "Qty": "qty"
+                    },
                     "Buttons": {
                         "0": {
-                            "lable": "Select",
-                            "target": "get PO"
+                            "label": "Select",
+                            "value": "id",
+                            "target": "getPO"
                         }
                     }
                 }

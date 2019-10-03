@@ -14,11 +14,6 @@ $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
-    $router->get('/matRec', ['uses' => 'UsersController@matRec']);
-    $router->post('/matRec', ['uses' => 'UsersController@searchMatRec']);
-});
-
-$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
     $router->get('/preview', ['uses' => 'UsersController@preview']);
 });
 
@@ -37,6 +32,11 @@ $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
     $router->get('/logout', ['uses' => 'UsersController@logout']);
 });
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/getPO', ['uses' => 'UsersController@getPO']);
+});
+
 // catch-all route
 $router->any('{any}', function () {
     $blade = new BladeOne($views, $cache, BladeOne::MODE_AUTO);

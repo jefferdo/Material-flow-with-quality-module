@@ -44,21 +44,26 @@ class PO
             $query = "SELECT poht.id, poht.qty, poht.lcs, podt.td as data from poht inner join podt on poht.id = podt.poid where id ='" . $this->id . "'";
             if ($results = $this->db->select($query)) {
                 if ($row = $results->fetch_array()) {
-                    if ($this->data = !null) {
-                        $this->id = $row['id'];
-                        $this->qty = $row['qty'];
-                        $this->lcs = $row['lcs'];
-                        $this->data = json_decode($row['td'], true);
-                        $this->user = new user(null);
-                        if ($this->user->priLev <= $this->lcs) {
-                            throw new Exception('Not allowed to proccess', 0);
-                        }
+                    $this->id = $row['id'];
+                    $this->qty = $row['qty'];
+                    $this->lcs = $row['lcs'];
+                    $this->data = $row['data'];
+                    $this->user = new user(null);
+                    if ($this->user->priLev != $this->lcs + 1) {
+                        throw new Exception('Not allowed to proccess [LCS: ' . $this->lcs . " priLev:" . $this->user->priLev . "]", 0);
                     }
                 } else {
                     throw new Exception('Invalid PO ID', 0);
                 }
             }
         }
+    }
+
+    public function getlcs($lcs)
+    {
+        $this->db = new Database();
+        $query = "SELECT poht.id, poht.qty, poht.lcs, podt.td as data from poht inner join podt on poht.id = podt.poid where lcs ='" . $lcs . "'";
+        return $this->db->select($query);
     }
 
     public function accept()
