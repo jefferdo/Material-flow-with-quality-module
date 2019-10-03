@@ -137,14 +137,8 @@
                     <div class="col-md-6">
                         <script type="text/javascript">
                             document.write(new Date().getFullYear());
-                        </script> &copy; mFLow powered by<a href="https://www.leanacademysl.com/" target="_blank"> <img src="assets/images/logo-light.png" alt="" height="24"></a>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="text-md-right footer-links d-none d-sm-block">
-                            <a href="javascript:void(0);">About Us</a>
-                            <a href="javascript:void(0);">Help</a>
-                            <a href="javascript:void(0);">Contact Us</a>
-                        </div>
+                        </script> &copy; mFLow powered by <a href="https://www.leanacademysl.com/" target="_blank"> <img
+                                src="assets/images/logo-light.png" alt="" height="24"></a>
                     </div>
                 </div>
             </div>
@@ -161,11 +155,16 @@
     <!-- Jquery Ui js -->
     <script src="assets/libs/jquery-ui/jquery-ui.min.js"></script>
 
+    <!-- Sweet Alerts js -->
+    <script src="assets/libs/sweetalert2/sweetalert2.min.js"></script>
+    
     <!-- Init -->
     <script src="assets/js/kanban.init.js"></script>
 
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
+
+    <script src="assets/js/cuskanban.js"></script>
 
 
 </body>

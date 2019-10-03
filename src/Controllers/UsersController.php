@@ -17,6 +17,7 @@ use Exception;
 use PO;
 use Token;
 use User;
+use WO;
 
 $views = $_SERVER['DOCUMENT_ROOT'] . '/views';
 $cache = $_SERVER['DOCUMENT_ROOT'] . '/cache';
@@ -142,9 +143,11 @@ class UsersController
             "title" => $title,
             "body" => $prev['body'],
             "B1" => $poset,
-            "csrfk" => $csrfk
+            "csrfk" => $csrfk,
+            "error" => $this->error
         ));
     }
+
 
     public function preview()
     {
@@ -153,6 +156,7 @@ class UsersController
 
     public function qa(Request $request)
     {
+        session_start();
         if (Token::chkcsrfk($request->csrfk) == 1) {
             $this->user = new User($_SESSION['uid']);
             if ($this->user->session() == 0) {
@@ -218,15 +222,52 @@ class UsersController
             "id" => $po->id,
             "info" => $po->data,
             "stage" => $po->priLev,
-            "intitQty" => $po->qty,
+            "orderQty" => $po->qty,
             "action" => "makeWO",
             "method" => "post",
             "csrfk" => $csrfk
         ));
     }
 
-    public function makeWO($id, $qty)
+    public function makeWO(Request $request)
     {
-        # code...
+        session_start();
+        if (Token::chkcsrfk($request->csrfk) == 1) {
+
+            $this->user = new User($_SESSION['uid']);
+            if ($this->user->session() == 0) {
+                $this->error = "Request Timeout";
+                header("Location: http://" . $_SERVER['HTTP_HOST']);
+                die();
+            } else {
+                if ($request->rqty > $request->oqtyf) {
+                    try {
+                        $wo = new WO("new");
+                        $wo->getPO($request->poid);
+                        $wo->size = $request->sizef;
+                        $wo->color = $request->colorf;
+                        $wo->lcs = $this->user->priLev;
+                        if ($wo->save() == 1) {
+                            header("Location: http://" . $_SERVER['HTTP_HOST']);
+                            die();
+                        } else {
+                            $this->error = "Invalid Request";
+                            header("Location: http://" . $_SERVER['HTTP_HOST']);
+                            die();
+                        }
+                    } catch (Exception $e) {
+                        echo $e->getMessage();
+                    }
+                } else {
+                    $this->error = "Invalid Request";
+                    header("Location: http://" . $_SERVER['HTTP_HOST']);
+                    die();
+                }
+            }
+        } else {
+            $this->error = "Request Timeout";
+            header("Location: http://" . $_SERVER['HTTP_HOST']);
+            die();
+        }
     }
 }

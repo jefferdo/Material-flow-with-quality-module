@@ -37,6 +37,10 @@ $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
     $router->post('/getPO', ['uses' => 'UsersController@getPO']);
 });
 
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/makeWO', ['uses' => 'UsersController@makeWO']);
+});
+
 // catch-all route
 $router->any('{any}', function () {
     $blade = new BladeOne($views, $cache, BladeOne::MODE_AUTO);

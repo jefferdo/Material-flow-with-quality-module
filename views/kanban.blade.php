@@ -7,7 +7,19 @@
     <div class="content">
         <!-- Start Content-->
         <div class="container-fluid">
-
+            <div id="errorbox">
+                @if ($error != null)
+                <div class="pt-1">
+                    <div class="alert alert-danger alert-dismissible bg-danger text-white border-0 fade show"
+                        role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{ $error }}
+                    </div>
+                </div>
+                @endif
+            </div>
             <!-- start page title -->
             <div class="row">
                 <div class="col-12">
