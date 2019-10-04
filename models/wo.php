@@ -1,22 +1,23 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/services/database.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/services/token.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/models/log.php');
 
 class WO
 {
-    private $id;
-    private $initdt;
-    private $apdt;
-    private $size;
-    private $color;
-    private $lcs;
-    private $prt = false;
-    private $emb = false;
-    private $wsh = false;
-    private $sub = false;
-    private $area;
-    private $pqty;
-    private $aqty;
+    private $id = null;
+    private $initdt = null;
+    private $apdt = null;
+    private $size = null;
+    private $color = null;
+    private $lcs = null;
+    private $prt = 0;
+    private $emb = 0;
+    private $wsh = 0;
+    private $sub = 0;
+    private $area = null;
+    private $pqty = null;
+    private $aqty = null;
 
     private $po;
 
@@ -28,11 +29,11 @@ class WO
             case 'id':
                 return $this->id;
                 break;
-            case 'inttDt':
-                return $this->inttdt;
+            case 'initdt':
+                return $this->initdt;
                 break;
-            case 'apDT':
-                return $this->apdT;
+            case 'apdt':
+                return $this->apdt;
                 break;
             case 'size':
                 return $this->size;
@@ -65,14 +66,14 @@ class WO
                 return $this->po;
                 break;
             default:
-                throw new Exception("Invalid Getter", 1);
+                throw new Exception("Invalid Getter: " . $name, 1);
         }
     }
 
     public function __set($name, $value)
     {
         switch ($name) {
-            case 'apDT':
+            case 'apdt':
                 $this->apdT = $value;
                 break;
             case 'size':
@@ -103,7 +104,7 @@ class WO
                 $this->aqty = $value;
                 break;
             default:
-                throw new Exception("Invalid setter: ". $name, 1);
+                throw new Exception("Invalid setter: " . $name, 1);
         }
     }
 
@@ -116,28 +117,33 @@ class WO
                 if ($row = $results->fetch_array()) {
                     $this->id = date("YW") . substr($row['id'], -4) + 1;
                     $this->initdt = date("Y-m-d H:i:s");
+                    $this->apdt = $this->initdt;
                 }
             }
         } else if ($id == null) {
             $this->id = null;
         } else {
             $this->id = $id;
-            $query = "SELECT * from woht where ='" . $this->id . "'";
+            $query = "SELECT * from woht where id ='" . $this->id . "'";
             if ($results = $this->db->select($query)) {
                 if ($row = $results->fetch_array()) {
                     $this->id = $row['id'];
-                    $this->initDt = $row['initdt'];
-                    $this->apDt = $row['apdt'];
+                    $this->initdt = $row['initdt'];
+                    $this->apdt = $row['apdt'];
                     $this->po = new PO($row['poid']);
                     $this->size = $row['size'];
                     $this->color = $row['color'];
-                    $this->qty = $row['qty'];
+                    $this->pqty = $row['pqty'];
                     $this->lcs = $row['lcs'];
-                    $this->prt = ($row['prt'] == 0 ? false : true);
-                    $this->emb = ($row['emb'] == 0 ? false : true);
-                    $this->wsh = ($row['wsh'] == 0 ? false : true);
-                    $this->sub = ($row['sub'] == 0 ? false : true);
+                    $this->prt = $row['prt'];
+                    $this->emb = $row['emb'];
+                    $this->wsh = $row['wsh'];
+                    $this->sub = $row['sub'];
+                } else {
+                    throw new Exception('Invalid WO ID', 0);
                 }
+            } else {
+                throw new Exception('Invalid WO ID', 0);
             }
         }
     }
@@ -145,9 +151,12 @@ class WO
     public function save()
     {
         $this->db = new Database();
-        $query = "INSERT INTO umf (id, initdt, apdt, poid, size, color, lcs, prt, emb, wsh, sub, area, pqty, aqty) VALUES ('" . $this->id . "', '" . $this->initdt . "', '" . $this->apdt . "', '" . $this->po->id . "', '" . $this->size . "', '" . $this->color . "', '" . $this->lcs . "', '" . $this->prt . "', '" . $this->emb . "', '" . $this->wsh . "', '" . $this->sub . "', '" . $this->area . "', '" . $this->pqty . "', '" . $this->aqty . "') ON DUPLICATE KEY UPDATE initdt = '" . $this->initdt . "', apdt = '" . $this->apdt . "', poid = '" . $this->po->id . "', size = '" . $this->size . "', color = '" . $this->color . "', lcs = '" . $this->lcs . "', prt = '" . $this->prt . "', emb = '" . $this->emb . "', wsh = '" . $this->wsh . "', sub = '" . $this->sub . "', area = '" . $this->area . "', pqty = '" . $this->pqty . "', aqty = '" . $this->aqty . "'";
+        $query = "INSERT INTO woht (id, initdt, apdt, poid, size, color, lcs, prt, emb, wsh, sub, area, pqty, aqty) VALUES ('" . $this->id . "', '" . $this->initdt . "', '" . $this->apdt . "', '" . $this->po->id . "', '" . $this->size . "', '" . $this->color . "', '" . $this->lcs . "', '" . $this->prt . "', '" . $this->emb . "', '" . $this->wsh . "', '" . $this->sub . "', '" . $this->pqty . "', '" . $this->pqty . "', '" . $this->pqty . "') ON DUPLICATE KEY UPDATE initdt = '" . $this->initdt . "', apdt = '" . $this->apdt . "', poid = '" . $this->po->id . "', size = '" . $this->size . "', color = '" . $this->color . "', lcs = '" . $this->lcs . "', prt = '" . $this->prt . "', emb = '" . $this->emb . "', wsh = '" . $this->wsh . "', sub = '" . $this->sub . "', area = '" . $this->pqty . "', pqty = '" . $this->pqty . "', aqty = '" . $this->pqty . "'";
         $stat = $this->db->iud($query);
-        return $stat;
+        if ($stat == 0)
+            throw new Exception('Invalid Request at WO', 0);
+        else
+            return $stat;
     }
 
 
@@ -176,5 +185,56 @@ class WO
             }
         }
         return $tqty;
+    }
+    public function getpap($lcs)
+    {
+        $this->db = new Database();
+        $query = "SELECT *  from woht where lcs ='" . $lcs . "' AND initdt = apdt";
+        return $this->db->select($query);
+    }
+
+    public function getaped($lcs)
+    {
+        $this->db = new Database();
+        $query = "SELECT *  from woht where lcs ='" . $lcs . "' AND initdt < apdt";
+        return $this->db->select($query);
+    }
+
+    public function getcomed($lcs)
+    {
+        $this->db = new Database();
+        $query = "SELECT *  from woht where lcs ='" . $lcs . "' AND initdt < apdt";
+        return $this->db->select($query);
+    }
+
+    public function accept()
+    {
+        $this->db = new Database();
+        $lcs = $this->user->priLev;
+        $log = new alog($this->id, null);
+        if ($log->checklog($lcs) != 1) {
+            $query = "update woht set lcs = '" . $lcs - 1 . "' where id = '" . $this->id . "'";
+            $this->db->iud($query);
+            $query = "select lcs from woht where id = '" . $this->id . "'";
+            if (mysqli_num_rows($this->db->select($query)) > 0) {
+                $log = new alog($this->id, "0");
+                $log->add();
+                return 1;
+            } else {
+                return 0;
+            }
+        } else {
+            return 0;
+        }
+    }
+
+    public function reject($rNO)
+    {
+        $log = new alog($this->id, $rNO);
+        if ($log->add() > 0) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }

@@ -26,7 +26,7 @@ class UsersController
 {
     private $views;
     private $cache;
-    private $error = null;
+    private $error;
     private $user;
 
     public function index()
@@ -40,13 +40,14 @@ class UsersController
                     case "1":
                     case "2":
                     case "3":
+                    case "6":
                         $this->search($this->user->getPriv());
                         break;
                     case "4":
                         $this->kanban($this->user->getPriv());
                         break;
                     case "5":
-                        $this->kanban($this->user->getPriv());
+                        $this->kanban_issue($this->user->getPriv());
                         break;
                 }
             } else {
@@ -129,6 +130,9 @@ class UsersController
     {
         $title = $prev['title'];
         $poset = [];
+        $wosetp = [];
+        $woset = [];
+
         $po = new PO(null);
         $results = $po->getlcs($prev['stage'] - 1);
         while ($row = $results->fetch_array()) {
@@ -137,12 +141,69 @@ class UsersController
             array_push($poset, $row);
         }
 
+        $wo = new WO(null);
+        $results = $wo->getpap($prev['stage']);
+        while ($row = $results->fetch_array()) {
+            $row["date"] = $row['initdt'];
+            array_push($wosetp, $row);
+        }
+
+        $wo = new WO(null);
+        $results = $wo->getaped($prev['stage']);
+        while ($row = $results->fetch_array()) {
+            $row["date"] = $row['apdt'];
+            array_push($woset, $row);
+        }
+
         $csrfk = Token::setcsrfk();
         $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
         echo $blade->run("kanban", array(
             "title" => $title,
             "body" => $prev['body'],
             "B1" => $poset,
+            "B2" => $wosetp,
+            "B3" => $woset,
+            "csrfk" => $csrfk,
+            "error" => $this->error
+        ));
+    }
+
+    public function kanban_issue($prev)
+    {
+        $title = $prev['title'];
+        $wosetp = [];
+        $woset = [];
+        $wosetc = [];
+
+        $wo = new WO(null);
+        $results = $wo->getpap($prev['stage'] - 1);
+        while ($row = $results->fetch_array()) {
+            $row["date"] = $row['initdt'];
+            array_push($wosetp, $row);
+        }
+
+        $wo = new WO(null);
+        $results = $wo->getaped($prev['stage'] - 1);
+        while ($row = $results->fetch_array()) {
+            $row["date"] = $row['apdt'];
+            array_push($woset, $row);
+        }
+
+        $wo = new WO(null);
+        $results = $wo->getcomed($prev['stage']);
+        while ($row = $results->fetch_array()) {
+            $row["date"] = $row['apdt'];
+            array_push($wosetc, $row);
+        }
+
+        $csrfk = Token::setcsrfk();
+        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+        echo $blade->run("kanban", array(
+            "title" => $title,
+            "body" => $prev['body'],
+            "B1" => $wosetp,
+            "B2" => $woset,
+            "B3" => $wosetc,
             "csrfk" => $csrfk,
             "error" => $this->error
         ));
@@ -200,16 +261,74 @@ class UsersController
         }
     }
 
+    public function qa_wo(Request $request)
+    {
+
+        session_start();
+        if (Token::chkcsrfk($request->csrfk) == 1) {
+            $this->user = new User($_SESSION['uid']);
+            if ($this->user->session() == 0) {
+                $this->index();
+            } else {
+                $prev = $this->user->getPriv();
+                $title = $prev['title'];
+                $action = "/" . $prev["S2"]['next'];
+                try {
+                    $wo = new WO($request->id);
+                    $log = new alog($request->id, null);
+                    $log->checklog($this->user->priLev);
+                    if ($wo->lcs != "0") {
+                        $csrfk = Token::setcsrfk();
+                        $info = $prev["S2"]["info"];
+                        foreach ($info as $key => $value) {
+                            $info[$key] = $wo->__get($value);
+                        }
+
+                        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+                        echo $blade->run("qa", array(
+                            "title" => $title,
+                            "id" => $wo->id,
+                            "info" => $info,
+                            "stage" => $prev["stage"],
+                            "action" => $action,
+                            "method" => "post",
+                            "csrfk" => $csrfk
+                        ));
+                    } else {
+                        $this->error = "Not allowed to process, Old WO";
+                        $this->index();
+                    }
+                } catch (Exception $th) {
+                    $this->error = $th->getMessage();
+                    $this->index();
+                }
+            }
+        } else {
+            $this->error = "Request Timeout";
+            $this->index();
+        }
+    }
+
     public function qaA(Request $request)
     {
-        $po = new PO($request->id);
-        return $po->accept();
+        if ($request->stage < 4) {
+            $po = new PO($request->id);
+            return $po->accept();
+        } else {
+            $wo = new WO($request->id);
+            return $wo->accept();
+        }
     }
 
     public function qaR(Request $request)
     {
-        $po = new PO($request->id);
-        return $po->reject($request->reason);
+        if ($request->stage < 4) {
+            $po = new PO($request->id);
+            return $po->reject($request->reason);
+        } else {
+            $wo = new WO($request->id);
+            return $wo->reject($request->reason);
+        }
     }
 
     public function getPO(Request $request)
@@ -246,17 +365,23 @@ class UsersController
                         $wo->getPO($request->poid);
                         $wo->size = $request->sizef;
                         $wo->color = $request->colorf;
+                        $wo->pqty = $request->rqty;
                         $wo->lcs = $this->user->priLev;
-                        if ($wo->save() == 1) {
+
+                        if ($wo->save() > 0) {
+                            $this->error = "Success";
                             header("Location: http://" . $_SERVER['HTTP_HOST']);
                             die();
                         } else {
-                            $this->error = "Invalid Request";
+                            $this->error = "Request failed";
                             header("Location: http://" . $_SERVER['HTTP_HOST']);
                             die();
                         }
                     } catch (Exception $e) {
                         echo $e->getMessage();
+                        exit;
+                        header("Location: http://" . $_SERVER['HTTP_HOST']);
+                        die();
                     }
                 } else {
                     $this->error = "Invalid Request";

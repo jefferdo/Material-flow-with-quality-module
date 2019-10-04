@@ -192,7 +192,7 @@
                         if (response == 1) {
                             Swal.fire(
                                 'Confirm!',
-                                '',
+                                response,
                                 'success'
                             ).then(() => {
                                 window.location.replace("/")
@@ -200,7 +200,7 @@
                         } else {
                             Swal.fire(
                                 'Request has not proccesed, try again!',
-                                '',
+                                response,
                                 'failed'
                             )
                         }

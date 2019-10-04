@@ -22,6 +22,10 @@ $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/qa_wo', ['uses' => 'UsersController@qa_wo']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
     $router->post('/qaA', ['uses' => 'UsersController@qaA']);
 });
 

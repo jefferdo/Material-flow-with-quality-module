@@ -63,8 +63,9 @@
                 "C1": {
                     "info": {
                         "PO ID": "id",
-                        "Style No": "stid",
-                        "Qty": "qty"
+                        "Style No": "data",
+                        "Qty": "qty",
+                        "Rack time": "date"
                     },
                     "Buttons": {
                         "0": {
@@ -79,12 +80,11 @@
                 "title": "In progress",
                 "subtitle": "Work orders, which prepared to be processed",
                 "C1": {
-                    "WO ID": "id",
-                    "Customer": "name",
-                    "Style No": "stid",
-                    "Color": "color",
-                    "Size": "size",
-                    "Qty": "qty",
+                    "info": {
+                        "PO ID": "id",
+                        "Qty": "pqty",
+                        "Initiated time": "date"
+                    },
                     "Buttons": "no"
                 }
             },
@@ -92,15 +92,80 @@
                 "title": "Ready",
                 "subtitle": "Work orders to be Accepted",
                 "C1": {
-                    "WO ID": "id",
-                    "Customer": "name",
-                    "Style No": "stid",
-                    "Color": "color",
-                    "Size": "size",
-                    "Qty": "qty",
+                    "info": {
+                        "PO ID": "id",
+                        "Qty": "pqty",
+                        "Approved time": "date"
+                    },
                     "Buttons": "no"
                 }
             }
+        }
+    },
+    "5": {
+        "stage": 5,
+        "title": "Kanban System - Issue for cutting Section",
+        "body": {
+            "B1": {
+                "title": "Upcoming",
+                "subtitle": "Work orders, which prepared to be processed",
+                "C1": {
+                    "info": {
+                        "WO ID": "id",
+                        "Qty": "pqty",
+                        "Initiated time": "date"
+                    },
+                    "Buttons": {
+                        "0": {
+                            "label": "Select",
+                            "value": "id",
+                            "target": "getPO"
+                        }
+                    }
+                }
+            },
+            "B2": {
+                "title": "In progress",
+                "subtitle": "Work orders to be Accepted",
+                "C1": {
+                    "info": {
+                        "WO ID": "id",
+                        "Qty": "pqty",
+                        "Approved time": "date"
+                    },
+                    "Buttons": "no"
+                }
+            },
+            "B3": {
+                "title": "Completed",
+                "subtitle": "Work orders Completed",
+                "C1": {
+                    "info": {
+                        "WO ID": "id",
+                        "Qty": "pqty",
+                        "Approved time": "date"
+                    },
+                    "Buttons": "no"
+                }
+            }
+        }
+    },
+    "6": {
+        "stage": 6,
+        "title": "Cutting in",
+        "S1": {
+            "title": "Search WO",
+            "lable": "Scan WO barcode",
+            "type": "1",
+            "next": "qa_wo"
+        },
+        "S2": {
+            "info": {
+                "WO ID": "id"
+            },
+            "accept": "qaA",
+            "reject": "qaR",
+            "next": "searchpo"
         }
     }
 }
