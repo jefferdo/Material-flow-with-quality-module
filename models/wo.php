@@ -65,6 +65,9 @@ class WO
             case 'po':
                 return $this->po;
                 break;
+            case 'user':
+                return $this->po->user;
+                break;
             default:
                 throw new Exception("Invalid Getter: " . $name, 1);
         }
@@ -139,11 +142,14 @@ class WO
                     $this->emb = $row['emb'];
                     $this->wsh = $row['wsh'];
                     $this->sub = $row['sub'];
+                    if ($this->user->priLev != $this->lcs + 1 and $this->lcs > 3) {
+                        throw new Exception('Not allowed to proccess [LCS: ' . $this->lcs . " priLev:" . $this->user->priLev . "]", 0);
+                    }
                 } else {
-                    throw new Exception('Invalid WO ID', 0);
+                    throw new Exception('Invalid WO ID : 0x02', 0);
                 }
             } else {
-                throw new Exception('Invalid WO ID', 0);
+                throw new Exception('Invalid WO ID : 0x01', 0);
             }
         }
     }
@@ -203,28 +209,28 @@ class WO
     public function getcomed($lcs)
     {
         $this->db = new Database();
-        $query = "SELECT *  from woht where lcs ='" . $lcs . "' AND initdt < apdt";
+        $query = "SELECT *  from woht where lcs > '" . $lcs . "' AND initdt < apdt";
         return $this->db->select($query);
     }
 
     public function accept()
     {
         $this->db = new Database();
-        $lcs = $this->user->priLev;
+        $this->lcs = $this->user->priLev - 1;
         $log = new alog($this->id, null);
-        if ($log->checklog($lcs) != 1) {
-            $query = "update woht set lcs = '" . $lcs - 1 . "' where id = '" . $this->id . "'";
+        if ($log->checklog($this->lcs + 1) != 1) {
+            $query = "update woht set lcs = '" . ($this->lcs) . "' where id = '" . $this->id . "'";
             $this->db->iud($query);
-            $query = "select lcs from woht where id = '" . $this->id . "'";
+            $query = "select lcs from woht where id = '" . $this->id . "' and lcs = '" . ($this->lcs) . "'";
             if (mysqli_num_rows($this->db->select($query)) > 0) {
                 $log = new alog($this->id, "0");
                 $log->add();
                 return 1;
             } else {
-                return 0;
+                return $query;
             }
         } else {
-            return 0;
+            return 2;
         }
     }
 

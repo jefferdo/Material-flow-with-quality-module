@@ -72,7 +72,7 @@
  <b><?php echo static::e(end(array_keys($body["B1"]["C1"]["info"]))); ?>:</b>
  <?php echo static::e($item['date']); ?></p>
  </div>
- <form action="/getPO" method="post">
+ <form action="/<?php echo static::e($body['B1']['C1']['target']); ?>" method="post">
  <input type="hidden" name='csrfk' value="<?php echo static::e($csrfk); ?>">
  <input type="hidden" name="id" name="id" value="<?php echo static::e($item['id']); ?>">
  <div class="col-auto">

@@ -40,7 +40,8 @@ class UsersController
                     case "1":
                     case "2":
                     case "3":
-                    case "6":
+                    case "6":                    
+                    case "7":
                         $this->search($this->user->getPriv());
                         break;
                     case "4":
@@ -343,6 +344,23 @@ class UsersController
             "stage" => $po->priLev,
             "orderQty" => $po->qty,
             "action" => "makeWO",
+            "method" => "post",
+            "csrfk" => $csrfk
+        ));
+    }
+
+    public function getWO(Request $request)
+    {
+        $wo = new WO($request->id);
+        $csrfk = Token::setcsrfk();
+        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+        echo $blade->run("kanbangetWO", array(
+            "title" => $wo->id,
+            "id" => $wo->id,
+            "info" => $wo,
+            "stage" => $wo->user->priLev,
+            "orderQty" => $po->qty,
+            "action" => "readyWO",
             "method" => "post",
             "csrfk" => $csrfk
         ));

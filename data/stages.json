@@ -67,11 +67,11 @@
                         "Qty": "qty",
                         "Rack time": "date"
                     },
+                    "target": "getPO",
                     "Buttons": {
                         "0": {
                             "label": "Select",
-                            "value": "id",
-                            "target": "getPO"
+                            "value": "id"
                         }
                     }
                 }
@@ -115,17 +115,17 @@
                         "Qty": "pqty",
                         "Initiated time": "date"
                     },
+                    "target": "getWO",
                     "Buttons": {
                         "0": {
                             "label": "Select",
-                            "value": "id",
-                            "target": "getPO"
+                            "value": "id"
                         }
                     }
                 }
             },
             "B2": {
-                "title": "In progress",
+                "title": "Ready",
                 "subtitle": "Work orders to be Accepted",
                 "C1": {
                     "info": {
@@ -153,6 +153,24 @@
     "6": {
         "stage": 6,
         "title": "Cutting in",
+        "S1": {
+            "title": "Search WO",
+            "lable": "Scan WO barcode",
+            "type": "1",
+            "next": "qa_wo"
+        },
+        "S2": {
+            "info": {
+                "WO ID": "id"
+            },
+            "accept": "qaA",
+            "reject": "qaR",
+            "next": "searchpo"
+        }
+    },
+    "7": {
+        "stage": 7,
+        "title": "Cutting out",
         "S1": {
             "title": "Search WO",
             "lable": "Scan WO barcode",
