@@ -125,7 +125,7 @@
                 }
             },
             "B2": {
-                "title": "Ready",
+                "title": "Ready For Collection",
                 "subtitle": "Work orders to be Accepted",
                 "C1": {
                     "info": {
@@ -137,7 +137,7 @@
                 }
             },
             "B3": {
-                "title": "Completed",
+                "title": "Cutting In Progress",
                 "subtitle": "Work orders Completed",
                 "C1": {
                     "info": {

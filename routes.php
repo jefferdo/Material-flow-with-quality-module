@@ -53,8 +53,12 @@ $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
     $router->post('/readyWO', ['uses' => 'UsersController@readyWO']);
 });
 
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->get('/getBarcode/{key}', ['uses' => 'UsersController@getBarcode']);
+});
+
 // catch-all route
 $router->any('{any}', function () {
-    $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+    $blade = new BladeOne($views, $cache, BladeOne::MODE_AUTO);
     echo $blade->run("404");
 })->where('any', '(.*)');

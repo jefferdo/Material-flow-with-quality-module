@@ -1,5 +1,9 @@
 <?php
 
+//require $_SERVER['DOCUMENT_ROOT']."/vender/autoload.php";
+
+use Picqer\Barcode\BarcodeGeneratorHTML;
+
 class Token
 {
     public static function sh1salt($pwd)
@@ -67,5 +71,10 @@ class Token
         } else {
             return 0;
         }
+    }
+
+    public static function getBarcode($code){
+        $bar = new BarcodeGeneratorHTML();
+        return $bar->getBarcode($code, $bar::TYPE_CODE_128);
     }
 }

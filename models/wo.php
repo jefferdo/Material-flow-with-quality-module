@@ -68,6 +68,10 @@ class WO
             case 'user':
                 return $this->po->user;
                 break;
+            case 'cus':
+                $cus = json_decode($this->po->data)->Customer;
+                return $cus;
+                break;
             default:
                 throw new Exception("Invalid Getter: " . $name, 1);
         }
@@ -202,7 +206,7 @@ class WO
     public function getaped($lcs)
     {
         $this->db = new Database();
-        $query = "SELECT *  from woht where lcs ='" . $lcs . "' AND initdt < apdt";
+        $query = "SELECT *  from woht where lcs ='" . ($lcs + 1) . "' AND initdt < apdt";
         return $this->db->select($query);
     }
 
@@ -219,15 +223,15 @@ class WO
         $this->lcs = $this->user->priLev - 1;
         $log = new alog($this->id, null);
         if ($log->checklog($this->lcs + 1) != 1) {
-            $query = "update woht set lcs = '" . ($this->lcs) . "' where id = '" . $this->id . "'";
+            $query = "update woht set lcs = '" . ($this->lcs + 1) . "' where id = '" . $this->id . "'";
             $this->db->iud($query);
-            $query = "select lcs from woht where id = '" . $this->id . "' and lcs = '" . ($this->lcs) . "'";
+            $query = "select lcs from woht where id = '" . $this->id . "' and lcs = '" . ($this->lcs + 1) . "'";
             if (mysqli_num_rows($this->db->select($query)) > 0) {
                 $log = new alog($this->id, "0");
                 $log->add();
                 return 1;
             } else {
-                return $query;
+                return 0;
             }
         } else {
             return 2;
@@ -241,6 +245,28 @@ class WO
             return 1;
         } else {
             return 0;
+        }
+    }
+
+    public function ready()
+    {
+        $this->db = new Database();
+        $this->apdt = date("Y-m-d H:i:s");
+        $this->lcs = $this->user->priLev - 1;
+        $log = new alog($this->id, null);
+        if ($log->checklog($this->lcs + 1) != 1) {
+            $query = "UPDATE woht set lcs = '" . ($this->lcs + 1) . "', apdt = '" . $this->apdt . "' where id = '" . $this->id . "'";
+            $this->db->iud($query);
+            $query = "SELECT lcs from woht where id = '" . $this->id . "' and lcs = '" . ($this->lcs + 1) . "'";
+            if (mysqli_num_rows($this->db->select($query)) > 0) {
+                $log = new alog($this->id, "0");
+                $log->add();
+                return 1;
+            } else {
+                return 0;
+            }
+        } else {
+            return 2;
         }
     }
 }

@@ -27,31 +27,34 @@
                             <table class="table table-centered table-borderless table-striped mb-0">
                                 <tbody>
                                     <tr class="text">
-                                        <td style="width: 35%;">Order Qty</td>
-                                        <td><span>Select the Color first</span> </td>
+                                        <td style="width: 35%;">Size</td>
+                                        <td><span>{{ $size }}</span> </td>
                                     </tr>
-                                    <tr id="qtyr" class="textg" style="display: none">
-                                        <td style="width: 35%;">Initial size Qty</td>
-                                        <td><span>Select the Color first</span> </td>
+                                    <tr class="text">
+                                        <td style="width: 35%;">Color</td>
+                                        <td><span>{{ $color }}</span> </td>
+                                    </tr>
+                                    <tr class="text">
+                                        <td style="width: 35%;">Quantity</td>
+                                        <td><span>{{ $qty }}</span> </td>
+                                    </tr>
+                                    <tr class="text">
+                                        <td style="width: 35%;">Cutomer</td>
+                                        <td><span>{{ $cus }}</span> </td>
+                                    </tr>
+                                    <tr class="text">
+                                        <td style="width: 35%;">Initiated Date</td>
+                                        <td><span>{{ $initdt }}</span> </td>
                                     </tr>
                                     <tr>
-                                        <td>Requied Qty</td>
+                                        <td></td>
                                         <td>
-                                            <form action="/makeWO" method="post">
+                                            <form action="/readyWO" method="post">
                                                 <input type="hidden" name='csrfk' value="{{ $csrfk }}">
-                                                <input type="hidden" name="poid" value="{{ $id }}">
-                                                <input type="hidden" id='oqtyf' name='oqty' value="">
-                                                <input type="hidden" id='iqtyf' name='iqty' value="">
-                                                <input type="hidden" id='colorf' name='colorf' value="">
-                                                <input type="hidden" id='sizef' name='sizef' value="">
+                                                <input type="hidden" name="id" value="{{ $id }}">
                                                 <div class="row">
-                                                    <div class="form-group mx-sm-3">
-                                                        <input type="text" class="form-control" id="rqty" name="rqty"
-                                                            required>
-                                                    </div>
                                                     <button type="submit"
-                                                        class="btn btn-primary waves-effect waves-light mb-2">Create
-                                                        WO</button>
+                                                        class="btn btn-primary waves-effect waves-light mb-2">Ready</button>
                                                     <div class="p-1"></div>
                                                     <a href="/" class="btn btn-danger waves-effect waves-light mb-2">Go
                                                         to
