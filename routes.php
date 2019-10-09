@@ -42,7 +42,19 @@ $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/getWO', ['uses' => 'UsersController@getWO']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
     $router->post('/makeWO', ['uses' => 'UsersController@makeWO']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/readyWO', ['uses' => 'UsersController@readyWO']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->get('/getBarcode/{key}', ['uses' => 'UsersController@getBarcode']);
 });
 
 // catch-all route

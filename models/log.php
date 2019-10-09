@@ -46,7 +46,7 @@ class alog
         $query = "SELECT * FROM alt WHERE log LIKE '" . $this->id . "@%@%@" . $lcs . "@%'";
         $this->db = new Database();
         if (mysqli_num_rows($this->db->select($query)) > 0) {
-            throw new Exception('Not allowed to proccess', 0);
+            throw new Exception('Not allowed to proccess [LCS: ' . $lcs . "]", 0);
         }
     }
 
@@ -59,7 +59,7 @@ class alog
                 $this->log = $row['log'];
             }
         }
-        return explode("@",$this->log)[1];
+        return explode("@", $this->log)[1];
     }
 
     public function getuser($lcs)
@@ -71,7 +71,7 @@ class alog
                 $this->log = $row['log'];
             }
         }
-        return explode("@",$this->log)[2];
+        return explode("@", $this->log)[2];
     }
 
     public function getreason($lcs)
@@ -83,6 +83,6 @@ class alog
                 $this->log = $row['log'];
             }
         }
-        return explode("@",$this->log)[3];
+        return explode("@", $this->log)[3];
     }
 }

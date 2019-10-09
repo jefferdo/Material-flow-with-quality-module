@@ -41,6 +41,7 @@ class UsersController
                     case "2":
                     case "3":
                     case "6":
+                    case "7":
                         $this->search($this->user->getPriv());
                         break;
                     case "4":
@@ -348,6 +349,30 @@ class UsersController
         ));
     }
 
+    public function getWO(Request $request)
+    {
+        $wo = new WO($request->id);
+        $size = $wo->size;
+        $color = $wo->color;
+        $qty = $wo->pqty;
+        $cus = $wo->cus;
+        $initdt = $wo->initdt;
+        $csrfk = Token::setcsrfk();
+        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+        echo $blade->run("kanbangetWO", array(
+            "title" => $wo->id,
+            "id" => $wo->id,
+            "size" => $size,
+            "color" => $color,
+            "qty" => $qty,
+            "cus" => $cus,
+            "initdt" => $initdt,
+            "action" => "readyWO",
+            "method" => "post",
+            "csrfk" => $csrfk
+        ));
+    }
+
     public function makeWO(Request $request)
     {
         session_start();
@@ -378,8 +403,7 @@ class UsersController
                             die();
                         }
                     } catch (Exception $e) {
-                        echo $e->getMessage();
-                        exit;
+                        $this->error = $e->getMessage();
                         header("Location: http://" . $_SERVER['HTTP_HOST']);
                         die();
                     }
@@ -394,5 +418,47 @@ class UsersController
             header("Location: http://" . $_SERVER['HTTP_HOST']);
             die();
         }
+    }
+
+    public function readyWO(Request $request)
+    {
+        session_start();
+        if (Token::chkcsrfk($request->csrfk) == 1) {
+
+            $this->user = new User($_SESSION['uid']);
+            if ($this->user->session() == 0) {
+                $this->error = "Request Timeout";
+                header("Location: http://" . $_SERVER['HTTP_HOST']);
+                die();
+            } else {
+                try {
+                    $wo = new WO($request->id);
+                    if ($wo->ready() > 0) {
+                        $this->error = "Success";
+                        header("Location: http://" . $_SERVER['HTTP_HOST']);
+                        die();
+                    } else {
+                        $this->error = "Request failed";
+                        header("Location: http://" . $_SERVER['HTTP_HOST']);
+                        die();
+                    }
+                } catch (Exception $e) {
+                    echo $e->getMessage();
+                    exit;
+                    header("Location: http://" . $_SERVER['HTTP_HOST']);
+                    die();
+                }
+            }
+        } else {
+            $this->error = "Request Timeout";
+            echo $this->error;
+            exit;
+            header("Location: http://" . $_SERVER['HTTP_HOST']);
+            die();
+        }
+    }
+
+    public function getBarcode($key) {
+        return Token::getBarcode($key);
     }
 }

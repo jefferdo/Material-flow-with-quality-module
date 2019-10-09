@@ -30,6 +30,8 @@ class PO
                 break;
             case 'data':
                 return $this->data;
+            case 'user':
+                return $this->user;
                 break;
         }
     }
@@ -49,7 +51,7 @@ class PO
                     $this->lcs = $row['lcs'];
                     $this->data = $row['data'];
                     $this->user = new user(null);
-                    if ($this->user->priLev != $this->lcs + 1 AND $this->lcs != 3) {
+                    if ($this->user->priLev != $this->lcs + 1 and $this->lcs != 3) {
                         throw new Exception('Not allowed to proccess [LCS: ' . $this->lcs . " priLev:" . $this->user->priLev . "]", 0);
                     }
                 } else {

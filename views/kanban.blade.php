@@ -69,7 +69,7 @@
                                             <b>{{ end(array_keys($body["B1"]["C1"]["info"])) }}:</b>
                                             {{ $item['date'] }}</p>
                                     </div>
-                                    <form action="/getPO" method="post">
+                                    <form action="/{{ $body['B1']['C1']['target'] }}" method="post">
                                         <input type="hidden" name='csrfk' value="{{ $csrfk }}">
                                         <input type="hidden" name="id" name="id" value="{{ $item['id'] }}">
                                         <div class="col-auto">

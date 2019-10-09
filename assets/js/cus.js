@@ -27,21 +27,20 @@
 
 (function ($) {
     $.fn.numKey = function (options) {
-        if ($(window).width() <= 640) {
 
-            var defaults = {
-                limit: 100,
-                disorder: false
-            }
-            var options = $.extend({}, defaults, options);
-            var input = $(this);
-            var nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-            if (options.disorder) {
-                nums.sort(function () {
-                    return 0.5 - Math.random();
-                });
-            }
-            var html = '\
+        var defaults = {
+            limit: 100,
+            disorder: false
+        }
+        var options = $.extend({}, defaults, options);
+        var input = $(this);
+        var nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        if (options.disorder) {
+            nums.sort(function () {
+                return 0.5 - Math.random();
+            });
+        }
+        var html = '\
 		<div class="fuzy-numKey">\
 		<div class="fuzy-numKey-active">﹀</div>\
 		<table>\
@@ -117,48 +116,57 @@
 		}\
 		</style>\
 		</div>';
-            input.on("click", function () {
-                $(this).attr('readonly', 'readonly');
-                $(".fuzy-numKey").remove();
-                $('body').append(html);
-                $(".fuzy-numKey").show(100);
-                $(".fuzy-numKey table tr td").on("click", function () {
-                    if (isNaN($(this).text())) {
-                        if ($(this).text() == 'Clear') {
-                            input.val('');
-                        } else {
-                            input.val(input.val().substring(0, input.val().length - 1));
-                        }
+        input.on("click", function () {
+            $(this).attr('readonly', 'readonly');
+            $(".fuzy-numKey").remove();
+            $('body').append(html);
+            $(".fuzy-numKey").show(100);
+            $(".fuzy-numKey table tr td").on("click", function () {
+                if (isNaN($(this).text())) {
+                    if ($(this).text() == 'Clear') {
+                        input.val('');
                     } else {
-                        input.val(input.val() + $(this).text());
-                        if (input.val().length >= options.limit) {
-                            input.val(input.val().substring(0, options.limit));
-                            remove();
-                        }
+                        input.val(input.val().substring(0, input.val().length - 1));
                     }
-                });
-                $(".fuzy-numKey div").on("click", function () {
-                    remove();
-                });
+                } else {
+                    input.val(input.val() + $(this).text());
+                    if (input.val().length >= options.limit) {
+                        input.val(input.val().substring(0, options.limit));
+                        remove();
+                    }
+                }
             });
+            $(".fuzy-numKey div").on("click", function () {
+                remove();
+            });
+        });
 
-            function remove() {
-                $(".fuzy-numKey").hide(100, function () {
-                    $(".fuzy-numKey").remove();
-                });
-                input.removeAttr('readonly');
-            }
+        function remove() {
+            $(".fuzy-numKey").hide(100, function () {
+                $(".fuzy-numKey").remove();
+            });
+            input.removeAttr('readonly');
         }
     }
 
+    var uid, password;
+
+    if ($(window).width() <= 640) {
+        uid = "#uid";
+        password = "#password";
+        console.log("Keyboard ready");        
+    } else {
+        uid = null; 
+        password= null;
+    }
 
 
-    $("#uid").numKey({
+    $(uid).numKey({
         limit: 12,
         disorder: true
     });
 
-    $("#password").numKey({
+    $(password).numKey({
         limit: 12,
         disorder: true
     });
