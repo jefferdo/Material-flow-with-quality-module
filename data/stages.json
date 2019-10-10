@@ -63,7 +63,7 @@
                 "C1": {
                     "info": {
                         "PO ID": "id",
-                        "Style No": "data",
+                        "Style No": "style",
                         "Qty": "qty",
                         "Rack time": "date"
                     },

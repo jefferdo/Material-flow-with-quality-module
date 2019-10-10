@@ -139,6 +139,7 @@ class UsersController
         while ($row = $results->fetch_array()) {
             $log = new alog($row['id'], null);
             $row["date"] = $log->getdate($prev['stage'] - 1);
+            $row['style'] = (json_decode($row['data'])->Style);
             array_push($poset, $row);
         }
 
@@ -458,7 +459,8 @@ class UsersController
         }
     }
 
-    public function getBarcode($key) {
+    public function getBarcode($key)
+    {
         return Token::getBarcode($key);
     }
 }
