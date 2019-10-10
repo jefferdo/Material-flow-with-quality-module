@@ -46,7 +46,7 @@ class alog
         $query = "SELECT * FROM alt WHERE log LIKE '" . $this->id . "@%@%@" . $lcs . "@%'";
         $this->db = new Database();
         if (mysqli_num_rows($this->db->select($query)) > 0) {
-            throw new Exception('Not allowed to proccess [LCS: ' . $lcs . "]", 0);
+            //throw new Exception('Not allowed to proccess [LCS: ' . $lcs . "]", 0);
         }
     }
 

@@ -42,6 +42,8 @@ class UsersController
                     case "3":
                     case "6":
                     case "7":
+                    case "8":
+                    case "9":
                         $this->search($this->user->getPriv());
                         break;
                     case "4":

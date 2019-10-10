@@ -185,5 +185,41 @@
             "reject": "qaR",
             "next": "searchpo"
         }
+    },
+    "8": {
+        "stage": 8,
+        "title": "Supermarket in",
+        "S1": {
+            "title": "Search WO",
+            "lable": "Scan WO barcode",
+            "type": "1",
+            "next": "qa_wo"
+        },
+        "S2": {
+            "info": {
+                "WO ID": "id"
+            },
+            "accept": "qaA",
+            "reject": "qaR",
+            "next": "searchpo"
+        }
+    },
+    "9": {
+        "stage": 9,
+        "title": "Supermarket out",
+        "S1": {
+            "title": "Search WO",
+            "lable": "Scan WO barcode",
+            "type": "1",
+            "next": "qa_wo"
+        },
+        "S2": {
+            "info": {
+                "WO ID": "id"
+            },
+            "accept": "qaA",
+            "reject": "qaR",
+            "next": "searchpo"
+        }
     }
 }

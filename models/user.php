@@ -87,7 +87,7 @@ class User
         }
     }
 
-    public function getPriv()
+     public function getPriv()
     {
         try {
             $data = file_get_contents("data/stages.json");

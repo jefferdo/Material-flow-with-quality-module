@@ -125,7 +125,11 @@ class WO
                     $this->id = date("YW") . substr($row['id'], -4) + 1;
                     $this->initdt = date("Y-m-d H:i:s");
                     $this->apdt = $this->initdt;
+                } else {
+                    $this->id = date("YW") . "0001";
                 }
+            } else {
+                $this->id = date("YW") . "0001";
             }
         } else if ($id == null) {
             $this->id = null;
