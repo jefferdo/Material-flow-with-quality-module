@@ -149,7 +149,7 @@
         }
     }
 
-    var uid, password;
+/*     var uid, password;
 
     if ($(window).width() <= 640) {
         uid = "#uid";
@@ -169,7 +169,7 @@
     $(password).numKey({
         limit: 12,
         disorder: true
-    });
+    }); */
 
 
 })(jQuery);
