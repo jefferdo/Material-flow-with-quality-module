@@ -62,8 +62,8 @@
                             </div>
                             <div class="col-6">
                                 <div class="text-right">
-                                    <h3 class="text-dark mt-1"><span data-plugin="counterup">624</span></h3>
-                                    <p class="text-muted mb-1 text-truncate">Pending Tickets</p>
+                                    <h3 class="text-dark mt-1"><span data-plugin="counterup">{{ $npo }}</span></h3>
+                                    <p class="text-muted mb-1">Total No. of Purchase Orders</p>
                                 </div>
                             </div>
                         </div> <!-- end row-->
@@ -170,16 +170,19 @@
                                                 data-toggle="dropdown" aria-expanded="false"><i
                                                     class="mdi mdi-dots-horizontal"></i></a>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="#"><i
-                                                        class="mdi mdi-cross mr-2 text-muted font-18 vertical-middle"></i>Add matirials
-                                                    Ticket</a>
-                                                <a class="dropdown-item" href="#"><i
-                                                        class="mdi mdi-check-all mr-2 text-muted font-18 vertical-middle"></i>Close</a>
-                                                <a class="dropdown-item" href="#"><i
-                                                        class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Remove</a>
-                                                <a class="dropdown-item" href="#"><i
-                                                        class="mdi mdi-star mr-2 font-18 text-muted vertical-middle"></i>Mark
-                                                    as Unread</a>
+                                                <button class="dropdown-item" type="submit"><i
+                                                        class="mdi mdi-shopping mr-2 text-muted font-18 vertical-middle"></i>
+                                                    Add matirials
+                                                </button>
+                                                <form action="{{ $action }}" method="{{ $method }}" class='pt-2'>
+
+                                                    <input type="hidden" name='csrfk' value="{{ $csrfk }}">
+                                                    <input type="hidden" name='id' value="{{ $item['id'] }}">
+                                                    <button class="dropdown-item" type="submit"><i
+                                                            class="mdi mdi-star-box mr-2 font-18 text-muted vertical-middle"></i>
+                                                        Mark as Passed or Rejected
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
                                     </td>
@@ -198,25 +201,6 @@
         </div> <!-- container -->
 
     </div> <!-- content -->
-
-    <!-- Footer Start -->
-    <footer class="footer">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-6">
-                    2015 - 2018 &copy; UBold theme by <a href="">Coderthemes</a>
-                </div>
-                <div class="col-md-6">
-                    <div class="text-md-right footer-links d-none d-sm-block">
-                        <a href="javascript:void(0);">About Us</a>
-                        <a href="javascript:void(0);">Help</a>
-                        <a href="javascript:void(0);">Contact Us</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- end Footer -->
 
 </div>
 

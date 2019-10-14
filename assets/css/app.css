@@ -53,6 +53,13 @@ body {
   overflow-x: hidden;
 }
 
+.watermark {
+  background-image: url(/assets/images/bg.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
 @media only screen and (max-width: 640px) {
   .raspw {
     height: 450px;
@@ -67,7 +74,6 @@ body {
   .mt-5 {
     margin-top: 2.25rem!important;
   }
-
   .fuzy-numKey {
     width: 100%;
   }
@@ -82,10 +88,10 @@ body {
 }
 
 .alertColors {
-	animation-name: color_change;
-	animation-duration: 1s;
-	animation-iteration-count: infinite;
-	animation-direction: alternate;
+  animation-name: color_change;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
 
 #barcodeBox {
@@ -835,7 +841,7 @@ body.enlarged {
   right: 0;
   color: #98a6ad;
   left: 240px;
-  background-color: #f1f2f5;
+  /* background-color: #f1f2f5; */
 }
 
 .footer .footer-links a {

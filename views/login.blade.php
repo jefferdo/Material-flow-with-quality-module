@@ -9,7 +9,7 @@
                     <div class="card-body py-2 px-5">
                         <div class="text-center w-75 m-auto">
                             <a href="index.html">
-                                <span><img src="assets/images/logo-dark.png" alt="" height="50"></span>
+                                <span><img src="/assets/images/logo-dark-flow.png" alt="" height="100"></span>
                             </a>
                         </div>
                         @if ($error != null)

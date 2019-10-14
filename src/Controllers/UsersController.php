@@ -92,7 +92,7 @@ class UsersController
             $row['matdt'] = (json_decode($row['data'])->matDate);
             array_push($poset, $row);
         }
-
+        $npo = count($poset, 0);
         $csrfk = Token::setcsrfk();
         $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
         echo $blade->run("MR", array(
@@ -102,7 +102,8 @@ class UsersController
             "method" => "post",
             "error" => $this->error,
             "csrfk" => $csrfk,
-            "PO" => $poset
+            "PO" => $poset,
+            "npo" => $npo
         ));
     }
 
@@ -251,14 +252,14 @@ class UsersController
 
     public function preview()
     {
-        /* $title = "Preview";
+        $title = "Preview";
         $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
-        echo $blade->run("MR", array(
+        echo $blade->run("addMat", array(
             "title" => $title
-        )); */
+        ));
 
-        header("HTTP/1.1 404 Not Found");
-        die();
+        /* header("HTTP/1.1 404 Not Found");
+        die(); */
     }
 
     public function qa(Request $request)

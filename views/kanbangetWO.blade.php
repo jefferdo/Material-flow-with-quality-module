@@ -39,7 +39,7 @@
                                         <td><span>{{ $qty }}</span> </td>
                                     </tr>
                                     <tr class="text">
-                                        <td style="width: 35%;">Cutomer</td>
+                                        <td style="width: 35%;">Customer</td>
                                         <td><span>{{ $cus }}</span> </td>
                                     </tr>
                                     <tr class="text">

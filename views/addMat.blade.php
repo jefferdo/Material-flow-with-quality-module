@@ -1,0 +1,160 @@
+@extends('layouts.kanbanL')
+
+
+@section('content')
+
+<div class="content-page">
+    <div class="content">
+
+        <!-- Start Content-->
+        <div class="container-fluid">
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                        <h4 style="text-transform:capitalize" class="page-title">Add Matirials related to PO No.: {{ $title }}</h4>
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card-box">
+                        <div class="table-responsive">
+                            <table class="table table-centered table-borderless table-striped mb-0">
+                                <tbody>
+                                    <tr class="text">
+                                        <td style="width: 35%;">Currently available matirial (Rolls)</td>
+                                        <td><span>{{ $size }}</span> </td>
+                                    </tr>
+                                    <tr class="text">
+                                        <td style="width: 35%;">Cutomer</td>
+                                        <td><span>{{ $cus }}</span> </td>
+                                    </tr>
+                                    <tr class="text">
+                                        <td style="width: 35%;">Initiated Date</td>
+                                        <td><span>{{ $cdt }}</span> </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <form action="/readyWO" method="post">
+                                                <input type="hidden" name='csrfk' value="{{ $csrfk }}">
+                                                <input type="hidden" name="id" value="{{ $id }}">
+                                                <div class="row">
+                                                    <button type="submit"
+                                                        class="btn btn-primary waves-effect waves-light mb-2">Ready</button>
+                                                    <div class="p-1"></div>
+                                                    <a href="/" class="btn btn-danger waves-effect waves-light mb-2">Go
+                                                        to
+                                                        home</a>
+                                                </div>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div> <!-- end .table-responsive -->
+                    </div> <!-- end card-box -->
+                </div><!-- end col -->
+            </div>
+            <!-- end row -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card-box">
+                        <button type="button" id='AddMat'
+                            class="btn btn-sm btn-blue waves-effect waves-light float-right">
+                            <i class="mdi mdi-plus-circle"></i> Add Matirials
+                        </button>
+                        <h4 style="text-transform:capitalize" class="header-title mb-4">Currently available matirial Details</h4>
+
+                        <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100"
+                            id="tickets-table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Roll / Unit ID
+                                    </th>
+                                    <th>Related PO No</th>
+                                    <th>Suppllier</th>
+                                    <th>Length</th>
+                                    <th>Height</th>
+                                    <th>Width</th>
+                                    <th>Status</th>
+                                    <th>Added Date</th>
+                                    <th>Added by</th>
+                                    <th class="hidden-sm">Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach ($rolls as $roll)
+
+                                @endforeach
+                                <tr>
+                                    <td><b>{{ $roll['id'] }}</b></td>
+                                    <td>
+                                        <span class="ml-2">{{ $roll['poid'] }}</span>
+                                    </td>
+
+                                    <td>
+                                        {{ $roll['supid'] }}
+                                    </td>
+
+                                    <td>
+                                        {{ $roll['lgth'] }}
+                                    </td>
+
+                                    <td>
+                                        {{ $roll['hgt'] }}
+                                    </td>
+
+                                    <td>
+                                        {{ $roll['wdth'] }}
+                                    </td>
+
+                                    <td>
+                                        {{ $roll['stage'] }}
+                                    </td>
+
+                                    <td>
+                                        {{ $roll['adt'] }}
+                                    </td>
+
+                                    <td>
+                                        {{ $roll['user'] }}
+                                    </td>
+
+                                    <td>
+                                        <div class="btn-group dropdown">
+                                            <a href="javascript: void(0);"
+                                                class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm"
+                                                data-toggle="dropdown" aria-expanded="false"><i
+                                                    class="mdi mdi-dots-horizontal"></i></a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" href="#"><i
+                                                        class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Remove</a>
+                                                <a class="dropdown-item" href="#"><i
+                                                        class="mdi mdi-star mr-2 font-18 text-muted vertical-middle"></i>Mark
+                                                    as ready</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div><!-- end col -->
+            </div>
+
+            <div id="errorbox"></div>
+
+        </div> <!-- container -->
+
+    </div> <!-- content -->
+
+</div>
+
+@endsection
