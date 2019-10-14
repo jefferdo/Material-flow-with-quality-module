@@ -1,8 +1,10 @@
 {
     "0": {
+        "stage": 0,
         "title": null
     },
     "1": {
+        "stage": 1,
         "title": "Material Receive",
         "S1": {
             "title": "Search PO",
@@ -20,6 +22,7 @@
         }
     },
     "2": {
+        "stage": 2,
         "title": "Material Inspection",
         "S1": {
             "title": "Search PO",
@@ -37,6 +40,7 @@
         }
     },
     "3": {
+        "stage": 3,
         "title": "Store at Rack",
         "S1": {
             "title": "Search PO",

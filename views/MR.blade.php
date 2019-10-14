@@ -9,6 +9,20 @@
         <!-- Start Content-->
         <div class="container-fluid">
 
+            <div id="errorbox">
+                @if ($error != null)
+                <div class="pt-1">
+                    <div class="alert alert-danger alert-dismissible bg-danger text-white border-0 fade show"
+                        role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{ $error }}
+                    </div>
+                </div>
+                @endif
+            </div>
+
             <!-- start page title -->
             <div class="row">
                 <div class="col-12">
@@ -106,8 +120,8 @@
                                     <th>ID</th>
                                     <th>Customer</th>
                                     <th>Style</th>
-                                    <th>Assignee</th>
-                                    <th>Priority</th>
+                                    <th>Quantity</th>
+                                    <th>Product</th>
                                     <th>Status</th>
                                     <th>Created Date</th>
                                     <th>Due Date</th>
@@ -116,41 +130,37 @@
                             </thead>
 
                             <tbody>
+                                @foreach ($PO as $item)
+
                                 <tr>
-                                    <td><b>#1256</b></td>
+                                    <td><b>{{ $item['id'] }}</b></td>
                                     <td>
-                                        <a href="javascript: void(0);" class="text-body">
-                                            <img src="assets/images/users/user-2.jpg" alt="contact-img"
-                                                title="contact-img" class="rounded-circle avatar-xs" />
-                                            <span class="ml-2">George A. Llanes</span>
-                                        </a>
+                                        {{ $item['cus'] }}
                                     </td>
 
                                     <td>
-                                        Support for theme
+                                        {{ $item['style'] }}
                                     </td>
 
                                     <td>
-                                        <a href="javascript: void(0);">
-                                            <img src="assets/images/users/user-10.jpg" alt="contact-img"
-                                                title="contact-img" class="rounded-circle avatar-xs" />
-                                        </a>
+                                        {{ $item['qty'] }}
                                     </td>
 
                                     <td>
-                                        <span class="badge bg-soft-secondary text-secondary">Low</span>
+                                        <span
+                                            class="badge bg-soft-secondary text-secondary">{{ $item['product'] }}</span>
                                     </td>
 
                                     <td>
-                                        <span class="badge badge-success">Open</span>
+                                        <span class="badge badge-success">Waiting for Matirials</span>
                                     </td>
 
                                     <td>
-                                        2017/04/28
+                                        {{ $item['cdt'] }}
                                     </td>
 
                                     <td>
-                                        2017/04/28
+                                        {{ $item['matdt'] }}
                                     </td>
 
                                     <td>
@@ -161,7 +171,7 @@
                                                     class="mdi mdi-dots-horizontal"></i></a>
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <a class="dropdown-item" href="#"><i
-                                                        class="mdi mdi-pencil mr-2 text-muted font-18 vertical-middle"></i>Edit
+                                                        class="mdi mdi-cross mr-2 text-muted font-18 vertical-middle"></i>Add matirials
                                                     Ticket</a>
                                                 <a class="dropdown-item" href="#"><i
                                                         class="mdi mdi-check-all mr-2 text-muted font-18 vertical-middle"></i>Close</a>
@@ -174,6 +184,9 @@
                                         </div>
                                     </td>
                                 </tr>
+                                @endforeach
+
+
 
                             </tbody>
                         </table>

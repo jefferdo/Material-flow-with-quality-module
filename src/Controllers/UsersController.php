@@ -38,6 +38,8 @@ class UsersController
             if ($this->user->session() == 1) {
                 switch ($this->user->priLev) {
                     case "1":
+                        $this->showInventory($this->user->getPriv());
+                        break;
                     case "2":
                     case "3":
                     case "6":
@@ -69,6 +71,39 @@ class UsersController
                 "error" => $this->error
             ));
         }
+    }
+
+    public function showInventory($prev)
+    {
+        $title = $prev['title'];
+        $lable = $prev["S1"]['lable'];
+        $action = "/" . $prev["S1"]['next'];
+        $poset = [];
+        $po = new PO(null);
+        $results = $po->getlcs($prev['stage'] - 1);
+        while ($row = $results->fetch_array()) {
+            $log = new alog($row['id'], null);
+            $row["date"] = $log->getdate($prev['stage'] - 1);
+            $row['style'] = (json_decode($row['data'])->Style);
+            $row['product'] = (json_decode($row['data'])->Product);
+            $row['cus'] = (json_decode($row['data'])->Customer);
+            $row['cus'] = (json_decode($row['data'])->Customer);
+            $row['cdt'] = (json_decode($row['data'])->initDate);
+            $row['matdt'] = (json_decode($row['data'])->matDate);
+            array_push($poset, $row);
+        }
+
+        $csrfk = Token::setcsrfk();
+        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+        echo $blade->run("MR", array(
+            "title" => $title,
+            "lable" => $lable,
+            "action" => $action,
+            "method" => "post",
+            "error" => $this->error,
+            "csrfk" => $csrfk,
+            "PO" => $poset
+        ));
     }
 
     public function login(Request $request)
@@ -216,11 +251,14 @@ class UsersController
 
     public function preview()
     {
-        $title = "Preview";
+        /* $title = "Preview";
         $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
         echo $blade->run("MR", array(
             "title" => $title
-        ));
+        )); */
+
+        header("HTTP/1.1 404 Not Found");
+        die();
     }
 
     public function qa(Request $request)
