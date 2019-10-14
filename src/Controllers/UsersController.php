@@ -216,7 +216,11 @@ class UsersController
 
     public function preview()
     {
-        return 0;
+        $title = "Preview";
+        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+        echo $blade->run("MR", array(
+            "title" => $title
+        ));
     }
 
     public function qa(Request $request)

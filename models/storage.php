@@ -4,11 +4,23 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/services/token.php');
 
 
 class Storage
+{ 
+    private $racks;
+
+    public function __construct() {
+        
+    }
+}
+
+
+class Rack
 {
     private $id;
     private $lgth;
     private $hgt;
     private $wdth;
+
+    private $db;
 
     public function __set($name, $value)
     {
@@ -60,7 +72,7 @@ class Storage
                     $this->id = $row['id'] + 1;
                 }
             } else {
-                $this->id = "0000001";
+                $this->id = "1";
             }
         } else if ($id == null) {
             $this->id = null;
@@ -89,4 +101,14 @@ class Storage
             }
         }
     }
+
+    public function getfree()
+    {
+        $query = "select id, lgth * hgt * wdth as cu from stht";
+        $this->db = new Database();
+        return $this->db->select($query);
+    }
+
+    public function bestfit()
+    { }
 }

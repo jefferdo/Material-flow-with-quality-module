@@ -11,10 +11,13 @@
  <!-- App favicon -->
  <link rel="shortcut icon" href="assets/images/favicon.ico">
 
+ <link href="/assets/libs/datatables/dataTables.bootstrap4.css" rel="stylesheet" type="text/css" />
+ <link href="/assets/libs/datatables/responsive.bootstrap4.css" rel="stylesheet" type="text/css" />
+
  <!-- App css -->
- <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
- <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
- <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
+ <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+ <link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+ <link href="/assets/css/app.min.css" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -85,7 +88,6 @@
  </a>
  </div>
 
-
  </div>
  <!-- end Topbar -->
 
@@ -150,19 +152,28 @@
 
 
  <!-- Vendor js -->
- <script src="assets/js/vendor.min.js"></script>
+ <script src="/assets/js/vendor.min.js"></script>
 
  <!-- Jquery Ui js -->
- <script src="assets/libs/jquery-ui/jquery-ui.min.js"></script>
+ <script src="/assets/libs/jquery-ui/jquery-ui.min.js"></script>
 
  <!-- Sweet Alerts js -->
- <script src="assets/libs/sweetalert2/sweetalert2.min.js"></script>
+ <script src="/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+
+ <!-- third party js -->
+ <script src="assets/libs/datatables/jquery.dataTables.js"></script>
+ <script src="assets/libs/datatables/dataTables.bootstrap4.js"></script>
+ <script src="assets/libs/datatables/dataTables.responsive.min.js"></script>
+ <script src="assets/libs/datatables/responsive.bootstrap4.min.js"></script>
+
+ <!-- Tickets js -->
+ <script src="assets/js/tickets.js"></script>
 
  <!-- App js -->
- <script src="assets/js/app.min.js"></script>
- 
+ <script src="/assets/js/app.min.js"></script>
 
- <script src="assets/js/cuskanban.js"></script>
+
+ <script src="/assets/js/cuskanban.js"></script>
 
 
 </body>
