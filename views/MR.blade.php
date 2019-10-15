@@ -191,16 +191,12 @@
                                     </td>
                                 </tr>
                                 @endforeach
-
-
-
                             </tbody>
                         </table>
                     </div>
                 </div><!-- end col -->
             </div>
             <!-- end row -->
-
         </div> <!-- container -->
 
     </div> <!-- content -->

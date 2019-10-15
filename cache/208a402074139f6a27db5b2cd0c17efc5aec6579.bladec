@@ -197,16 +197,12 @@
  </td>
  </tr>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
-
-
-
  </tbody>
  </table>
  </div>
  </div><!-- end col -->
  </div>
  <!-- end row -->
-
  </div> <!-- container -->
 
  </div> <!-- content -->

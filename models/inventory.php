@@ -149,7 +149,7 @@ class Roll
     {
         $this->db = new Database();
         $token = new Token();
-        $query = "INSERT INTO umf (id, prilev, passwd, name, lsl, bc, hkey) VALUES ('" . $this->id . "', '" . $this->priLev . "', '" . $this->passwd . "', '" . $this->name . "', '" . $this->lsl . "', '" . $this->bc . "', '" . $this->key . "') ON DUPLICATE KEY UPDATE prilev = '" . $this->priLev . "', passwd ='" . $this->passwd . "', name = '" . $this->name . "', lsl = '" . $this->lsl . "', bc = '" . $this->bc . "', hkey = '" . $this->key . "'";
+        $query = "INSERT INTO inht(id, date, supid, lgth, hgt, wdth, shrk, color, aa, ua, stg) VALUES (<{id: }>, <{date: CURRENT_TIMESTAMP}>, <{supid: }>, <{lgth: }>, <{hgt: }>, <{wdth: }>, <{shrk: }>, <{color: }>, <{aa: }>, <{ua: }>, <{stg: }>)";
         $stat = $this->db->iud($query);
         return $stat;
     }
