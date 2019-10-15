@@ -39,7 +39,7 @@
  <td><span><?php echo static::e($qty); ?></span> </td>
  </tr>
  <tr class="text">
- <td style="width: 35%;">Cutomer</td>
+ <td style="width: 35%;">Customer</td>
  <td><span><?php echo static::e($cus); ?></span> </td>
  </tr>
  <tr class="text">

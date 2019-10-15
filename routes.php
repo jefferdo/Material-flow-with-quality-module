@@ -54,8 +54,17 @@ $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/addMat', ['uses' => 'UsersController@addMat']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/addRoll', ['uses' => 'UsersController@addRoll']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
     $router->get('/getBarcode/{key}', ['uses' => 'UsersController@getBarcode']);
 });
+
 
 // catch-all route
 $router->any('{any}', function () {

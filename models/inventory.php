@@ -3,7 +3,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/services/database.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/services/token.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/models/log.php');
 
-class Inventory
+class Roll
 {
     private $id;
     private $date;
@@ -23,7 +23,7 @@ class Inventory
 
 
     public function __set($name, $value)
-    { 
+    {
         switch ($name) {
             case 'id':
                 $this->id = $value;
@@ -114,8 +114,9 @@ class Inventory
                     $this->id = "R" + date("YW") . substr($row['id'], -4) + 1;
                 }
             } else {
-                $this->id = "R" + date("YW") . "0000001";
+                $this->id = "R" + date("YW") . "0001";
             }
+            $this->date = date("Y-m-d H:i:s");
         } else if ($id == null) {
             $this->id = null;
         } else {
@@ -146,6 +147,10 @@ class Inventory
 
     public function save()
     {
-        # code...
+        $this->db = new Database();
+        $token = new Token();
+        $query = "INSERT INTO umf (id, prilev, passwd, name, lsl, bc, hkey) VALUES ('" . $this->id . "', '" . $this->priLev . "', '" . $this->passwd . "', '" . $this->name . "', '" . $this->lsl . "', '" . $this->bc . "', '" . $this->key . "') ON DUPLICATE KEY UPDATE prilev = '" . $this->priLev . "', passwd ='" . $this->passwd . "', name = '" . $this->name . "', lsl = '" . $this->lsl . "', bc = '" . $this->bc . "', hkey = '" . $this->key . "'";
+        $stat = $this->db->iud($query);
+        return $stat;
     }
 }

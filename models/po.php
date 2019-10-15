@@ -16,6 +16,8 @@ class PO
 
     private $db;
 
+    private $rolls = [];
+
     public function __get($name)
     {
         switch ($name) {
@@ -107,5 +109,14 @@ class PO
     public function getData()
     {
         return $this->data;
+    }
+
+    public function addMat($h, $w, $l)
+    {
+        $roll = new Roll("new");
+        $roll->hgt = $h;
+        $roll->wdth = $w;
+        $roll->lgth = $l;
+        $roll->save();
     }
 }

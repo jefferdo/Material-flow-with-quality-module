@@ -170,10 +170,13 @@
                                                 data-toggle="dropdown" aria-expanded="false"><i
                                                     class="mdi mdi-dots-horizontal"></i></a>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <button class="dropdown-item" type="submit"><i
-                                                        class="mdi mdi-shopping mr-2 text-muted font-18 vertical-middle"></i>
-                                                    Add matirials
-                                                </button>
+                                                <form action="/addMat" method="post">
+                                                    <input type="hidden" name="id" value="{{ $item['id'] }}">
+                                                    <button class="dropdown-item" type="submit"><i
+                                                            class="mdi mdi-shopping mr-2 text-muted font-18 vertical-middle"></i>
+                                                        Add matirials
+                                                    </button>
+                                                </form>
                                                 <form action="{{ $action }}" method="{{ $method }}" class='pt-2'>
 
                                                     <input type="hidden" name='csrfk' value="{{ $csrfk }}">

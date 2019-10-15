@@ -255,7 +255,8 @@ class UsersController
         $title = "Preview";
         $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
         echo $blade->run("addMat", array(
-            "title" => $title
+            "title" => $title,
+            "nor" => 4567
         ));
 
         /* header("HTTP/1.1 404 Not Found");
@@ -502,6 +503,54 @@ class UsersController
             header("Location: http://" . $_SERVER['HTTP_HOST']);
             die();
         }
+    }
+
+    public function addMat(Request $request)
+    {
+        session_start();
+        $this->user = new User($_SESSION['uid']);
+        if ($this->user->session() == 0) {
+            $this->index();
+        } else {
+            $prev = $this->user->getPriv();
+            $title = $prev['title'];
+            $action = "/" . $prev["S2"]['next'];
+            try {
+                $po = new PO($request->id);
+                $log = new alog($request->id, null);
+                $log->checklog($this->user->priLev);
+                if ($po->data != "") {
+                    $csrfk = Token::setcsrfk();
+                    $info = $prev["S2"]["info"];
+                    foreach ($info as $key => $value) {
+                        $info[$key] = $po->__get($value);
+                    }
+                    $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+                    echo $blade->run("addMat", array(
+                        "title" => $title,
+                        "id" => $po->id,
+                        "info" => $info,
+                        "action" => $action,
+                        "method" => "post",
+                        "csrfk" => $csrfk
+
+                    ));
+                } else {
+                    $this->error = "Not allowed to process, Old PO";
+                    $this->index();
+                }
+            } catch (Exception $th) {
+                $this->error = $th->getMessage();
+                $this->index();
+            }
+        }
+    }
+
+    public function addRoll(Request $request)
+    {
+        $po =  new PO($request->poid);
+        $po->addMat($request->h, $request->w, $request->l);
+        
     }
 
     public function getBarcode($key)

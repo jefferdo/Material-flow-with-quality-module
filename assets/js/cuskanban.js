@@ -35,3 +35,62 @@
     });
 
 })(jQuery);
+
+(function ($) {
+
+    $("#AddMatN").on("click", function (e) {
+        Swal.mixin({
+            input: 'text',
+            confirmButtonText: 'Next &rarr;',
+            showCancelButton: true,
+            progressSteps: ['1', '2', '3']
+        }).queue([
+            'Enter Height (m)',
+            'Enter Width (m)',
+            'Enter Length (m)'
+        ]).then((result) => {
+            let dt = result.value;
+            if (dt != null) {
+                try {
+                    dt.forEach(element => {
+                        if (!$.isNumeric(element)) {
+                            throw new Error("Invalid Value")
+                        }
+                        else if (dt.length > 0) {
+                            let form = new FormData();
+                            form.append("poid", $("#poid").val());
+                            $.ajax({
+                                type: "post",
+                                url: "/addRoll",
+                                data: form,
+                                dataType: "dataType",
+                                success: function (response) {
+
+                                }
+                            });
+
+                            Swal.fire({
+                                title: 'All done!',
+                                html:
+                                    'Your answers: <pre><code>' +
+                                    dt +
+                                    '</code></pre>',
+                                confirmButtonText: 'Lovely!'
+                            })
+                        }
+                        else {
+
+                        }
+                    });
+                } catch (error) {
+                    Swal.fire({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong! ' + error,
+                    })
+                }
+            }
+        });
+    });
+
+})(jQuery);
