@@ -1,10 +1,12 @@
 {
     "0": {
         "stage": 0,
+        "nStage": 1,
         "title": null
     },
     "1": {
         "stage": 1,
+        "nStage": 2,
         "title": "Material Receive",
         "S1": {
             "title": "Search PO",
@@ -23,6 +25,7 @@
     },
     "2": {
         "stage": 2,
+        "nStage": 4,
         "title": "Material Inspection",
         "S1": {
             "title": "Search PO",
@@ -41,6 +44,7 @@
     },
     "3": {
         "stage": 3,
+        "nStage": 4,
         "title": "Store at Rack",
         "S1": {
             "title": "Search PO",
@@ -59,6 +63,7 @@
     },
     "4": {
         "stage": 4,
+        "nStage": 5,
         "title": "Kanban System - Cutting Section",
         "body": {
             "B1": {
@@ -108,6 +113,7 @@
     },
     "5": {
         "stage": 5,
+        "nStage": 6,
         "title": "Kanban System - Issue for cutting Section",
         "body": {
             "B1": {
@@ -156,6 +162,7 @@
     },
     "6": {
         "stage": 6,
+        "nStage": 7,
         "title": "Cutting in",
         "S1": {
             "title": "Search WO",
@@ -174,6 +181,7 @@
     },
     "7": {
         "stage": 7,
+        "nStage": 8,
         "title": "Cutting out",
         "S1": {
             "title": "Search WO",
@@ -192,6 +200,7 @@
     },
     "8": {
         "stage": 8,
+        "nStage": 9,
         "title": "Supermarket in",
         "S1": {
             "title": "Search WO",
@@ -210,6 +219,7 @@
     },
     "9": {
         "stage": 9,
+        "nStage": 10,
         "title": "Supermarket out",
         "S1": {
             "title": "Search WO",

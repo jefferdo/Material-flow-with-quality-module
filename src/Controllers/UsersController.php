@@ -15,8 +15,10 @@ use Illuminate\Http\Request;
 use eftec\bladeone\BladeOne;
 use Exception;
 use PO;
+use Roll;
 use Token;
 use User;
+use waterFall;
 use WO;
 
 $views = $_SERVER['DOCUMENT_ROOT'] . '/views';
@@ -41,6 +43,8 @@ class UsersController
                         $this->showInventory($this->user->getPriv());
                         break;
                     case "2":
+                        $this->showInInventory($this->user->getPriv());
+                        break;
                     case "3":
                     case "6":
                     case "7":
@@ -96,6 +100,40 @@ class UsersController
         $csrfk = Token::setcsrfk();
         $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
         echo $blade->run("MR", array(
+            "title" => $title,
+            "lable" => $lable,
+            "action" => $action,
+            "method" => "post",
+            "error" => $this->error,
+            "csrfk" => $csrfk,
+            "PO" => $poset,
+            "npo" => $npo
+        ));
+    }
+
+    public function showInInventory($prev)
+    {
+        $title = $prev['title'];
+        $lable = $prev["S1"]['lable'];
+        $action = "/" . $prev["S1"]['next'];
+        $poset = [];
+        $po = new PO(null);
+        $results = $po->getlcs($prev['stage'] - 1);
+        while ($row = $results->fetch_array()) {
+            $log = new alog($row['id'], null);
+            $row["date"] = $log->getdate($prev['stage'] - 1);
+            $row['style'] = (json_decode($row['data'])->Style);
+            $row['product'] = (json_decode($row['data'])->Product);
+            $row['cus'] = (json_decode($row['data'])->Customer);
+            $row['cus'] = (json_decode($row['data'])->Customer);
+            $row['cdt'] = (json_decode($row['data'])->initDate);
+            $row['matdt'] = (json_decode($row['data'])->matDate);
+            array_push($poset, $row);
+        }
+        $npo = count($poset, 0);
+        $csrfk = Token::setcsrfk();
+        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+        echo $blade->run("MI", array(
             "title" => $title,
             "lable" => $lable,
             "action" => $action,
@@ -252,14 +290,17 @@ class UsersController
 
     public function preview()
     {
-        $title = "Preview";
+        $roll = new Roll('new');
+        print_r($roll->id);
+        exit;
+        /* $title = "Preview";
         $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
         echo $blade->run("addMat", array(
             "title" => $title,
             "nor" => 4567
         ));
 
-        /* header("HTTP/1.1 404 Not Found");
+         header("HTTP/1.1 404 Not Found");
         die(); */
     }
 
@@ -517,6 +558,7 @@ class UsersController
             $action = "/" . $prev["S2"]['next'];
             try {
                 $po = new PO($request->id);
+                $rolls = $po->getMat();
                 $log = new alog($request->id, null);
                 $log->checklog($this->user->priLev);
                 if ($po->data != "") {
@@ -530,6 +572,57 @@ class UsersController
                         "title" => $title,
                         "id" => $po->id,
                         "info" => $info,
+                        "rolls" => $rolls,
+                        "nor" => mysqli_num_rows($rolls),
+                        "cus" => json_decode($po->data)->Customer,
+                        "cdt" => $po->date,
+                        "action" => $action,
+                        "method" => "post",
+                        "csrfk" => $csrfk
+
+                    ));
+                } else {
+                    $this->error = "Not allowed to process, Old PO";
+                    $this->index();
+                }
+            } catch (Exception $th) {
+                $this->error = $th->getMessage();
+                $this->index();
+            }
+        }
+    }
+
+
+    public function inMat(Request $request)
+    {
+        session_start();
+        $this->user = new User($_SESSION['uid']);
+        if ($this->user->session() == 0) {
+            $this->index();
+        } else {
+            $prev = $this->user->getPriv();
+            $title = $prev['title'];
+            $action = "/" . $prev["S2"]['next'];
+            try {
+                $po = new PO($request->id);
+                $rolls = $po->getMat();
+                $log = new alog($request->id, null);
+                $log->checklog($this->user->priLev);
+                if ($po->data != "") {
+                    $csrfk = Token::setcsrfk();
+                    $info = $prev["S2"]["info"];
+                    foreach ($info as $key => $value) {
+                        $info[$key] = $po->__get($value);
+                    }
+                    $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+                    echo $blade->run("inMat", array(
+                        "title" => $title,
+                        "id" => $po->id,
+                        "info" => $info,
+                        "rolls" => $rolls,
+                        "nor" => mysqli_num_rows($rolls),
+                        "cus" => json_decode($po->data)->Customer,
+                        "cdt" => $po->date,
                         "action" => $action,
                         "method" => "post",
                         "csrfk" => $csrfk
@@ -549,8 +642,30 @@ class UsersController
     public function addRoll(Request $request)
     {
         $po =  new PO($request->poid);
-        $po->addMat($request->h, $request->w, $request->l);
-        
+        return $po->addMat($request->h, $request->w, $request->l);
+    }
+
+    public function creWF(Request $request)
+    {
+        $csrfk = Token::setcsrfk();
+        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+        echo $blade->run("creWF", array(
+            "id" => $request->poid,
+            "wfs" => $wfs,
+            "nor" => mysqli_num_rows($rolls),
+            "cus" => json_decode($po->data)->Customer,
+            "cdt" => $po->date,
+            "action" => $action,
+            "method" => "post",
+            "csrfk" => $csrfk
+
+        ));
+    }
+
+    public function addWF(Request $request)
+    {
+        $po =  new waterFall(null);
+        return $po->addMat($request->h, $request->w, $request->l);
     }
 
     public function getBarcode($key)

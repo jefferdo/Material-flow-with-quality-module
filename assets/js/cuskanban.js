@@ -43,54 +43,137 @@
             input: 'text',
             confirmButtonText: 'Next &rarr;',
             showCancelButton: true,
-            progressSteps: ['1', '2', '3']
+            progressSteps: ['1', '2', '3', '4']
         }).queue([
             'Enter Height (m)',
             'Enter Width (m)',
-            'Enter Length (m)'
+            'Enter Length (m)',
+            'Enter Area (square m)'
         ]).then((result) => {
-            let dt = result.value;
-            if (dt != null) {
-                try {
-                    dt.forEach(element => {
-                        if (!$.isNumeric(element)) {
-                            throw new Error("Invalid Value")
-                        }
-                        else if (dt.length > 0) {
-                            let form = new FormData();
-                            form.append("poid", $("#poid").val());
-                            $.ajax({
-                                type: "post",
-                                url: "/addRoll",
-                                data: form,
-                                dataType: "dataType",
-                                success: function (response) {
-
-                                }
-                            });
-
-                            Swal.fire({
-                                title: 'All done!',
-                                html:
-                                    'Your answers: <pre><code>' +
-                                    dt +
-                                    '</code></pre>',
-                                confirmButtonText: 'Lovely!'
-                            })
-                        }
-                        else {
-
-                        }
-                    });
-                } catch (error) {
-                    Swal.fire({
-                        type: 'error',
-                        title: 'Oops...',
-                        text: 'Something went wrong! ' + error,
-                    })
+            if (result.value) {
+                $(':button').prop('disabled', true);
+                let dt = result.value;
+                if (dt != null) {
+                    try {
+                        dt.forEach(element => {
+                            if (!$.isNumeric(element)) {
+                                throw new Error("Invalid Value: " + element)
+                            }
+                        });
+                        let form = new FormData();
+                        form.append("poid", $("#poid").val());
+                        form.append("h", dt[0]);
+                        form.append("w", dt[1]);
+                        form.append("l", dt[2]);
+                        $.ajax({
+                            type: "post",
+                            url: "/addRoll",
+                            data: form,
+                            processData: false,
+                            contentType: false,
+                            success: function (response) {
+                                $(':button').prop('disabled', false);
+                                Swal.fire(
+                                    'Confirm!',
+                                    response,
+                                    'success'
+                                ).then(() => {
+                                    location.reload();
+                                })
+                            },
+                            error: function (request, status, error) {
+                                $(':button').prop('disabled', false);
+                                Swal.fire({
+                                    type: 'error',
+                                    title: 'Oops...',
+                                    html: '<pre><code> Something went wrong! ' +
+                                        request.responseText +
+                                        '</code></pre>',
+                                })
+                            }
+                        });
+                    } catch (error) {
+                        $(':button').prop('disabled', false);
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Oops...',
+                            text: 'Something went wrong! ' + error,
+                        })
+                    }
                 }
             }
         });
+        $(':button').prop('disabled', false);
     });
+
+
+
+})(jQuery);
+
+(function ($) {
+
+    $("#addWF").on("click", function (e) {
+        Swal.mixin({
+            input: 'text',
+            confirmButtonText: 'Next &rarr;',
+            showCancelButton: true
+        }).queue([
+            'Enter Shrinkage',
+        ]).then((result) => {
+            if (result.value) {
+                $(':button').prop('disabled', true);
+                let dt = result.value;
+                if (dt != null) {
+                    try {
+                        dt.forEach(element => {
+                            if (!$.isNumeric(element)) {
+                                throw new Error("Invalid Value: " + element)
+                            }
+                        });
+                        let form = new FormData();
+                        form.append("poid", $("#poid").val());
+                        form.append("s", dt[0]);
+                        $.ajax({
+                            type: "post",
+                            url: "/addRoll",
+                            data: form,
+                            processData: false,
+                            contentType: false,
+                            success: function (response) {
+                                $(':button').prop('disabled', false);
+                                Swal.fire(
+                                    'Confirm!',
+                                    response,
+                                    'success'
+                                ).then(() => {
+                                    location.reload();
+                                })
+                            },
+                            error: function (request, status, error) {
+                                $(':button').prop('disabled', false);
+                                Swal.fire({
+                                    type: 'error',
+                                    title: 'Oops...',
+                                    html: '<pre><code> Something went wrong! ' +
+                                        request.responseText +
+                                        '</code></pre>',
+                                })
+                            }
+                        });
+                    } catch (error) {
+                        $(':button').prop('disabled', false);
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Oops...',
+                            text: 'Something went wrong! ' + error,
+                        })
+                    }
+                }
+            }
+        });
+        $(':button').prop('disabled', false);
+    });
+
+
 
 })(jQuery);

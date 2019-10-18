@@ -62,6 +62,18 @@ $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/inMat', ['uses' => 'UsersController@inMat']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/creWF', ['uses' => 'UsersController@creWF']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/addWF', ['uses' => 'UsersController@addWF']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
     $router->get('/getBarcode/{key}', ['uses' => 'UsersController@getBarcode']);
 });
 

@@ -152,7 +152,7 @@
                                     </td>
 
                                     <td>
-                                        <span class="badge badge-success">Waiting for Matirials</span>
+                                        <span class="badge badge-success">Waiting for Insspections</span>
                                     </td>
 
                                     <td>
@@ -174,7 +174,7 @@
                                                     <input type="hidden" name="id" value="{{ $item['id'] }}">
                                                     <button class="dropdown-item" type="submit"><i
                                                             class="mdi mdi-shopping mr-2 text-muted font-18 vertical-middle"></i>
-                                                        Add matirials
+                                                        Inspect matirials
                                                     </button>
                                                 </form>
                                                 <form action="{{ $action }}" method="{{ $method }}" class='pt-2'>

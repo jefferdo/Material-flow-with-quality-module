@@ -253,7 +253,7 @@
                                     response,
                                     'success'
                                 ).then(() => {
-                                    window.location.replace("/")
+                                    window.location.replace("/");
                                 })
                             },
                             error: function (error) {

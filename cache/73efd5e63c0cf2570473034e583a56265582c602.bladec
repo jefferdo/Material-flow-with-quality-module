@@ -156,7 +156,7 @@
  </td>
 
  <td>
- <span class="badge badge-success">Waiting for Matirials</span>
+ <span class="badge badge-success">Waiting for Insspections</span>
  </td>
 
  <td>
@@ -176,11 +176,11 @@
  data-toggle="dropdown" aria-expanded="false"><i
  class="mdi mdi-dots-horizontal"></i></a>
  <div class="dropdown-menu dropdown-menu-right">
- <form action="/addMat" method="post">
+ <form action="/inMat" method="post">
  <input type="hidden" name="id" value="<?php echo static::e($item['id']); ?>">
  <button class="dropdown-item" type="submit"><i
  class="mdi mdi-shopping mr-2 text-muted font-18 vertical-middle"></i>
- Add matirials
+ Inspect matirials
  </button>
  </form>
  <form action="<?php echo static::e($action); ?>" method="<?php echo static::e($method); ?>" class='pt-2'>

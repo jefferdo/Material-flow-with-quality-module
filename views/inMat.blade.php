@@ -12,13 +12,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 style="text-transform:capitalize" class="page-title">Add Matirials related to PO No.:
+                        <h4 style="text-transform:capitalize" class="page-title">Inspect Matirials related to PO No.:
                             {{ $id }}</h4>
                     </div>
                 </div>
             </div>
             <!-- end page title -->
-
 
             <div class="row">
                 <div class="col-12">
@@ -66,11 +65,14 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
-                        <input type="hidden" name="poid" id="poid" value="{{ $id }}">
-                        <button type="button" id='AddMatN'
-                            class="btn btn-sm btn-blue waves-effect waves-light float-right">
-                            <i class="mdi mdi-plus-circle"></i> Add Matirials
-                        </button>
+                        <form action="/creWF" method="post">
+                            <input type="hidden" name="poid" id="poid" value="{{ $id }}">
+                            <button type="submit" id='creWF'
+                                class="btn btn-sm btn-blue waves-effect waves-light float-right">
+                                <i class="mdi mdi-plus-circle"></i> Create Waterfall
+                            </button>
+                        </form>
+
                         <h4 style="text-transform:capitalize" class="header-title mb-4">Currently available matirial
                             Details</h4>
                         <h5 style="text-transform:capitalize" class="header-subtitle">Currently available matirial
@@ -144,9 +146,6 @@
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <a class="dropdown-item" href="#"><i
                                                         class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Remove</a>
-                                                <a class="dropdown-item" href="#"><i
-                                                        class="mdi mdi-star mr-2 font-18 text-muted vertical-middle"></i>Mark
-                                                    as ready</a>
                                             </div>
                                         </div>
                                     </td>

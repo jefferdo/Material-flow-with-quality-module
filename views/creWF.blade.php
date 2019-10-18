@@ -12,13 +12,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 style="text-transform:capitalize" class="page-title">Add Matirials related to PO No.:
+                        <h4 style="text-transform:capitalize" class="page-title">Create New Waterfall for PO No.:
                             {{ $id }}</h4>
                     </div>
                 </div>
             </div>
             <!-- end page title -->
-
 
             <div class="row">
                 <div class="col-12">
@@ -26,10 +25,6 @@
                         <div class="table-responsive">
                             <table class="table table-centered table-borderless table-striped mb-0">
                                 <tbody>
-                                    <tr class="text">
-                                        <td style="width: 35%;">Currently available matirial (Rolls)</td>
-                                        <td><span>{{ $nor }}</span> </td>
-                                    </tr>
                                     <tr class="text">
                                         <td style="width: 35%;">Customer</td>
                                         <td><span>{{ $cus }}</span> </td>
@@ -41,7 +36,7 @@
                                     <tr>
                                         <td></td>
                                         <td>
-                                            <form action="/qa" method="post">
+                                            <form action="/addWF" method="post">
                                                 <input type="hidden" name='csrfk' value="{{ $csrfk }}">
                                                 <input type="hidden" name="id" value="{{ $id }}">
                                                 <div class="row">
@@ -66,12 +61,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
-                        <input type="hidden" name="poid" id="poid" value="{{ $id }}">
-                        <button type="button" id='AddMatN'
-                            class="btn btn-sm btn-blue waves-effect waves-light float-right">
-                            <i class="mdi mdi-plus-circle"></i> Add Matirials
-                        </button>
-                        <h4 style="text-transform:capitalize" class="header-title mb-4">Currently available matirial
+                            <input type="hidden" name="poid" id="poid" value="{{ $id }}">
+                            <button type="button" id='addWF'
+                                class="btn btn-sm btn-blue waves-effect waves-light float-right">
+                                <i class="mdi mdi-plus-circle"></i> Add a Waterfall
+                            </button>
+                        <h4 style="text-transform:capitalize" class="header-title mb-4">Waterfall
                             Details</h4>
                         <h5 style="text-transform:capitalize" class="header-subtitle">Currently available matirial
                             (Rolls): <span>{{ $nor }}</span></h5>
@@ -80,14 +75,10 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        Roll / Unit ID
+                                        Waterfall ID
                                     </th>
-                                    <th>Related PO No</th>
-                                    <th>Suppllier</th>
-                                    <th>Length</th>
-                                    <th>Height</th>
-                                    <th>Width</th>
-                                    <th>Status</th>
+                                    <th>Shrinkage</th>
+                                    <th>No. Rolls</th>
                                     <th>Added Date</th>
                                     <th>Added by</th>
                                     <th class="hidden-sm">Action</th>
@@ -95,44 +86,24 @@
                             </thead>
 
                             <tbody id="rolltable">
-                                @foreach ($rolls as $roll)
+                                @foreach ($wfs as $wf)
                                 <tr>
-                                    <td><b>{{ $roll['id'] }}</b></td>
+                                    <td><b>{{ $wf['id'] }}</b></td>
+
                                     <td>
-                                        <span class="ml-2">{{ $roll['poid'] }}</span>
+                                        {{ $wf['shrk'] }}
                                     </td>
 
                                     <td>
-                                        {{ $roll['supid'] }}
+                                        {{ $wf['nor'] }}
                                     </td>
 
                                     <td>
-                                        {{ $roll['lgth'] }}
+                                        {{ $wf['date'] }}
                                     </td>
 
                                     <td>
-                                        {{ $roll['hgt'] }}
-                                    </td>
-
-                                    <td>
-                                        {{ $roll['wdth'] }}
-                                    </td>
-
-                                    <td>
-                                        @if ($roll == 1)
-                                        <span class="badge badge-success">Approved</span>
-                                        @else
-                                        <span class="badge badge-warning">Pending</span>
-                                        @endif
-
-                                    </td>
-
-                                    <td>
-                                        {{ $roll['date'] }}
-                                    </td>
-
-                                    <td style="text-transform:capitalize">
-                                        {{ $roll['user'] }}
+                                        {{ $wf['user'] }}
                                     </td>
 
                                     <td>
@@ -144,9 +115,6 @@
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <a class="dropdown-item" href="#"><i
                                                         class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Remove</a>
-                                                <a class="dropdown-item" href="#"><i
-                                                        class="mdi mdi-star mr-2 font-18 text-muted vertical-middle"></i>Mark
-                                                    as ready</a>
                                             </div>
                                         </div>
                                     </td>

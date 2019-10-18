@@ -19,6 +19,8 @@ class WO
     private $pqty = null;
     private $aqty = null;
 
+    private $user;
+
     private $po;
 
     private $db;
@@ -110,6 +112,9 @@ class WO
             case 'aqty':
                 $this->aqty = $value;
                 break;
+            case 'userid':
+                $this->user = new User($value);
+                break;
             default:
                 throw new Exception("Invalid setter: " . $name, 1);
         }
@@ -127,6 +132,7 @@ class WO
                     $this->apdt = $this->initdt;
                 } else {
                     $this->id = date("YW") . "0001";
+                    $this->id = new User(null);
                 }
             } else {
                 $this->id = date("YW") . "0001";
@@ -150,6 +156,7 @@ class WO
                     $this->emb = $row['emb'];
                     $this->wsh = $row['wsh'];
                     $this->sub = $row['sub'];
+                    $this->userid = $row['ab'];
                     if ($this->user->priLev != $this->lcs + 1 and $this->lcs > 3) {
                         throw new Exception('Not allowed to proccess [LCS: ' . $this->lcs . " priLev:" . $this->user->priLev . "]", 0);
                     }

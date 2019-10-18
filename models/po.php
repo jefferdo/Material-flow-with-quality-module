@@ -9,6 +9,7 @@ class PO
     private $id;
     private $qty;
     private $data;
+    private $date;
 
     private $customer;
     private $user;
@@ -32,6 +33,8 @@ class PO
                 break;
             case 'data':
                 return $this->data;
+            case 'date':
+                return $this->date;
             case 'user':
                 return $this->user;
                 break;
@@ -45,13 +48,14 @@ class PO
         } else {
             $this->id = $id;
             $this->db = new Database();
-            $query = "SELECT poht.id, poht.qty, poht.lcs, podt.td as data from poht inner join podt on poht.id = podt.poid where id ='" . $this->id . "'";
+            $query = "SELECT poht.* , podt.td as data from poht inner join podt on poht.id = podt.poid where id ='" . $this->id . "'";
             if ($results = $this->db->select($query)) {
                 if ($row = $results->fetch_array()) {
                     $this->id = $row['id'];
                     $this->qty = $row['qty'];
                     $this->lcs = $row['lcs'];
                     $this->data = $row['data'];
+                    $this->date = $row['date'];
                     $this->user = new user(null);
                     if ($this->user->priLev != $this->lcs + 1 and $this->lcs != 3) {
                         throw new Exception('Not allowed to proccess [LCS: ' . $this->lcs . " priLev:" . $this->user->priLev . "]", 0);
@@ -74,9 +78,10 @@ class PO
     {
         $this->db = new Database();
         $lcs = $this->user->priLev;
+        $nStage = $this->user->getPriv()['nStage'];
         $log = new alog($this->id, null);
         if ($log->checklog($lcs) != 1) {
-            $query = "update poht set lcs = '" . $lcs . "' where id = '" . $this->id . "'";
+            $query = "update poht set lcs = '" . ($nStage - 1) . "' where id = '" . $this->id . "'";
             $this->db->iud($query);
             $query = "select lcs from poht where id = '" . $this->id . "'";
             if (mysqli_num_rows($this->db->select($query)) > 0) {
@@ -111,12 +116,33 @@ class PO
         return $this->data;
     }
 
+    public function setData($dt)
+    {
+        $query = "INSERT INTO podt set id = '" . $dt . "'";
+        $stat = $this->db->iud($query);
+        return $stat;
+    }
+
     public function addMat($h, $w, $l)
     {
         $roll = new Roll("new");
         $roll->hgt = $h;
         $roll->wdth = $w;
         $roll->lgth = $l;
-        $roll->save();
+        if ($roll->save() == 1) {
+            if ($roll->assignPO($this->id) == 1)
+                return 1;
+            else {
+                $roll->delete();
+                return 0;
+            }
+        } else return 2;
+    }
+
+    public function getMat()
+    {
+        $this->db = new Database();
+        $query = "SELECT inht.*, indt.*, umf.name as user from inht inner join indt on inht.id = indt.roid inner join umf on inht.ab = umf.id where indt.poid = '" . $this->id . "'";
+        return $this->db->select($query);
     }
 }

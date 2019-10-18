@@ -66,6 +66,7 @@ class User
         } else {
             $this->id = $id;
         }
+        
         if ($id == 'new') {
             $query = "SELECT id from umf ORDER BY id desc LIMIT 1";
             if ($results = $this->db->select($query)) {
@@ -87,7 +88,7 @@ class User
         }
     }
 
-     public function getPriv()
+    public function getPriv()
     {
         try {
             $data = file_get_contents("data/stages.json");

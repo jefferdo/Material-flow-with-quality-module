@@ -12,13 +12,12 @@
  <div class="row">
  <div class="col-12">
  <div class="page-title-box">
- <h4 style="text-transform:capitalize" class="page-title">Add Matirials related to PO No.:
+ <h4 style="text-transform:capitalize" class="page-title">Create New Waterfall for PO No.:
  <?php echo static::e($id); ?></h4>
  </div>
  </div>
  </div>
  <!-- end page title -->
-
 
  <div class="row">
  <div class="col-12">
@@ -26,10 +25,6 @@
  <div class="table-responsive">
  <table class="table table-centered table-borderless table-striped mb-0">
  <tbody>
- <tr class="text">
- <td style="width: 35%;">Currently available matirial (Rolls)</td>
- <td><span><?php echo static::e($nor); ?></span> </td>
- </tr>
  <tr class="text">
  <td style="width: 35%;">Customer</td>
  <td><span><?php echo static::e($cus); ?></span> </td>
@@ -41,7 +36,7 @@
  <tr>
  <td></td>
  <td>
- <form action="/qa" method="post">
+ <form action="/addWF" method="post">
  <input type="hidden" name='csrfk' value="<?php echo static::e($csrfk); ?>">
  <input type="hidden" name="id" value="<?php echo static::e($id); ?>">
  <div class="row">
@@ -67,11 +62,11 @@
  <div class="col-12">
  <div class="card-box">
  <input type="hidden" name="poid" id="poid" value="<?php echo static::e($id); ?>">
- <button type="button" id='AddMatN'
+ <button type="button" id='addWF'
  class="btn btn-sm btn-blue waves-effect waves-light float-right">
- <i class="mdi mdi-plus-circle"></i> Add Matirials
+ <i class="mdi mdi-plus-circle"></i> Add a Waterfall
  </button>
- <h4 style="text-transform:capitalize" class="header-title mb-4">Currently available matirial
+ <h4 style="text-transform:capitalize" class="header-title mb-4">Waterfall
  Details</h4>
  <h5 style="text-transform:capitalize" class="header-subtitle">Currently available matirial
  (Rolls): <span><?php echo static::e($nor); ?></span></h5>
@@ -80,14 +75,10 @@
  <thead>
  <tr>
  <th>
- Roll / Unit ID
+ Waterfall ID
  </th>
- <th>Related PO No</th>
- <th>Suppllier</th>
- <th>Length</th>
- <th>Height</th>
- <th>Width</th>
- <th>Status</th>
+ <th>Shrinkage</th>
+ <th>No. Rolls</th>
  <th>Added Date</th>
  <th>Added by</th>
  <th class="hidden-sm">Action</th>
@@ -95,49 +86,27 @@
  </thead>
 
  <tbody id="rolltable">
- <?php $__currentLoopData = $rolls; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $roll): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <?php $__currentLoopData = $wfs; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $wf): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <tr>
- <td><b><?php echo static::e($roll['id']); ?></b></td>
- <td>
- <span class="ml-2"><?php echo static::e($roll['poid']); ?></span>
- </td>
+ <td><b><?php echo static::e($wf['id']); ?></b></td>
 
  <td>
- <?php echo static::e($roll['supid']); ?>
-
- </td>
-
- <td>
- <?php echo static::e($roll['lgth']); ?>
+ <?php echo static::e($wf['shrk']); ?>
 
  </td>
 
  <td>
- <?php echo static::e($roll['hgt']); ?>
+ <?php echo static::e($wf['nor']); ?>
 
  </td>
 
  <td>
- <?php echo static::e($roll['wdth']); ?>
+ <?php echo static::e($wf['date']); ?>
 
  </td>
 
  <td>
- <?php if($roll == 1): ?>
- <span class="badge badge-success">Approved</span>
- <?php else: ?>
- <span class="badge badge-warning">Pending</span>
- <?php endif; ?>
-
- </td>
-
- <td>
- <?php echo static::e($roll['date']); ?>
-
- </td>
-
- <td style="text-transform:capitalize">
- <?php echo static::e($roll['user']); ?>
+ <?php echo static::e($wf['user']); ?>
 
  </td>
 
@@ -150,9 +119,6 @@
  <div class="dropdown-menu dropdown-menu-right">
  <a class="dropdown-item" href="#"><i
  class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Remove</a>
- <a class="dropdown-item" href="#"><i
- class="mdi mdi-star mr-2 font-18 text-muted vertical-middle"></i>Mark
- as ready</a>
  </div>
  </div>
  </td>
