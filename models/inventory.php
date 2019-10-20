@@ -199,25 +199,74 @@ class waterFall
 
     private $id;
     private $shrk;
-    private $poid;
+    private $date;
 
+    private $po;
     private $rolls;
+
+    private $db;
+
+    private $user;
+
+    public function __get($name)
+    {
+        switch ($name) {
+            case 'id':
+                return $this->id;
+                break;
+            case 'shrk':
+                return $this->shrk;
+                break;
+            case 'poid':
+                return $this->po->id;
+                break;
+            case 'rolls':
+                return $this->rolls;
+                break;
+            case 'date':
+                return $this->date;
+                break;
+
+            default:
+                throw new Exception("Invalid getter: " . $name, 1);
+        }
+    }
+
+    public function __set($name, $value)
+    {
+        switch ($name) {
+            case 'priLev':
+                $this->priLev = $value;
+                break;
+            case 'shrk':
+                $this->shrk = $value;
+                break;
+            case 'date':
+                $this->date = $value;
+                break;
+            case 'poid':
+                $this->po = new PO($value);
+                break;
+            default:
+                throw new Exception("Invalid setter: " . $name, 1);
+        }
+    }
 
     public function __construct($id)
     {
         $this->db = new Database();
         if ($id == "new") {
-            $query = "Select id from wfht where id LIKE 'R" . date("YW") . "%' ORDER BY id desc LIMIT 1";
+            $query = "Select id from wfht where id LIKE 'WF" . date("YW") . "%' ORDER BY id desc LIMIT 1";
             if ($results = $this->db->select($query)) {
                 if ($row = $results->fetch_array()) {
-                    $this->id = "W" . date("YW") . str_pad(substr($row['id'], -5) + 1, 5, "0", STR_PAD_LEFT);
+                    $this->id = "WF" . date("YW") . str_pad(substr($row['id'], -5) + 1, 5, "0", STR_PAD_LEFT);
                     $this->user = new User(null);
                 } else {
-                    $this->id = "W" . date("YW") . "00001";
+                    $this->id = "WF" . date("YW") . "00001";
                     $this->user = new User(null);
                 }
             } else {
-                $this->id = "W" . date("YW") . "00001";
+                $this->id = "WF" . date("YW") . "00001";
                 $this->user = new User(null);
             }
             $this->date = date("Y-m-d H:i:s");
@@ -237,5 +286,18 @@ class waterFall
                 throw new Exception('Invalid Roll ID : 0x01', 0);
             }
         }
+    }
+
+
+    public function save()
+    {
+        # code...
+        $this->db = new Database();
+        $query = "INSERT INTO wfht(id, shrk, poid, ab) VALUES ('" . $this->id . "', '" . $this->shrk . "', '" . $this->poid . "',  '" . $this->user->id . "')";
+        $stat = $this->db->iud($query);
+        if ($stat == 0)
+            throw new Exception('Invalid Request at WF', 0);
+        else
+            return $stat;
     }
 }

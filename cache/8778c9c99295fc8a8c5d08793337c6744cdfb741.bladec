@@ -85,9 +85,9 @@
  </tr>
  </thead>
 
- <tbody id="rolltable">
+ <tbody id="WFtable">
  <?php $__currentLoopData = $wfs; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $wf): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
- <tr>
+ <tr style="text-transform:capitalize">
  <td><b><?php echo static::e($wf['id']); ?></b></td>
 
  <td>

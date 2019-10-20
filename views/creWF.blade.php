@@ -87,7 +87,7 @@
 
                             <tbody id="WFtable">
                                 @foreach ($wfs as $wf)
-                                <tr>
+                                <tr style="text-transform:capitalize">
                                     <td><b>{{ $wf['id'] }}</b></td>
 
                                     <td>

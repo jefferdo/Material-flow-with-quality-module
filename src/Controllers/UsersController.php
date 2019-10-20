@@ -654,7 +654,7 @@ class UsersController
         } else {
             $prev = $this->user->getPriv();
             try {
-                $po = new PO($request->id);
+                $po = new PO($request->poid);
                 $wfs = $po->getWF();
                 $log = new alog($request->id, null);
                 $log->checklog($this->user->priLev);
@@ -671,8 +671,6 @@ class UsersController
                     "method" => "post",
                     "csrfk" => $csrfk
                 ));
-
-
             } catch (Exception $th) {
                 $this->error = $th->getMessage();
                 $this->index();
@@ -682,9 +680,14 @@ class UsersController
 
     public function addWF(Request $request)
     {
-        $wf =  new waterFall(null);
+        $wf =  new waterFall("new");
         $wf->poid = $request->poid;
-        return $po->addMat($request->h, $request->w, $request->l);
+        $wf->shrk = $request->s;
+        if ($wf->save() ==1) {
+            return $wf->id;
+        } else {
+            throw new Exception("Error Processing Request", 1);
+        }
     }
 
     public function getBarcode($key)

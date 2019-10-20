@@ -141,12 +141,19 @@
                             contentType: false,
                             success: function (response) {
                                 $(':button').prop('disabled', false);
-                                Swal.fire(
-                                    'Confirm!',
-                                    response,
-                                    'success'
-                                ).then(() => {
-                                    location.reload();
+                                Swal.fire({
+                                    type: 'success',
+                                    title: 'Waterfall No: ' + response + " is created.",
+                                    html: '<form action="/buildWF" method="post">' +
+                                        '<input type = "hidden" name = "id" value = "' + response + '">' +
+                                        '<button class="btn btn-success" type = "submit" >' +
+                                        '<i class="mdi mdi-shopping mr-2 text-white font-18 vertical-middle"></i>' +
+                                        'Add Sequence' +
+                                        '</button >' +
+                                        '</form >',
+                                    confirmButtonText: 'Skip',
+                                }).then(() => {
+                                    //location.reload();
                                 })
                             },
                             error: function (request, status, error) {
