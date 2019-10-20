@@ -68,8 +68,8 @@
  </button>
  <h4 style="text-transform:capitalize" class="header-title mb-4">Waterfall
  Details</h4>
- <h5 style="text-transform:capitalize" class="header-subtitle">Currently available matirial
- (Rolls): <span><?php echo static::e($nor); ?></span></h5>
+ <h5 style="text-transform:capitalize" class="header-subtitle">Currently available Waterfalls
+ : <span><?php echo static::e($now); ?></span></h5>
  <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100"
  id="tickets-table">
  <thead>

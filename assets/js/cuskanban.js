@@ -135,7 +135,7 @@
                         form.append("s", dt[0]);
                         $.ajax({
                             type: "post",
-                            url: "/addRoll",
+                            url: "/addWF",
                             data: form,
                             processData: false,
                             contentType: false,

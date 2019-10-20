@@ -647,24 +647,43 @@ class UsersController
 
     public function creWF(Request $request)
     {
-        $csrfk = Token::setcsrfk();
-        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
-        echo $blade->run("creWF", array(
-            "id" => $request->poid,
-            "wfs" => $wfs,
-            "nor" => mysqli_num_rows($rolls),
-            "cus" => json_decode($po->data)->Customer,
-            "cdt" => $po->date,
-            "action" => $action,
-            "method" => "post",
-            "csrfk" => $csrfk
+        session_start();
+        $this->user = new User($_SESSION['uid']);
+        if ($this->user->session() == 0) {
+            $this->index();
+        } else {
+            $prev = $this->user->getPriv();
+            try {
+                $po = new PO($request->id);
+                $wfs = $po->getWF();
+                $log = new alog($request->id, null);
+                $log->checklog($this->user->priLev);
 
-        ));
+                $csrfk = Token::setcsrfk();
+                $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+                echo $blade->run("creWF", array(
+                    "id" => $request->poid,
+                    "wfs" => $wfs,
+                    "now" => mysqli_num_rows($wfs),
+                    "cus" => json_decode($po->data)->Customer,
+                    "cdt" => $po->date,
+                    "action" => $action,
+                    "method" => "post",
+                    "csrfk" => $csrfk
+                ));
+
+
+            } catch (Exception $th) {
+                $this->error = $th->getMessage();
+                $this->index();
+            }
+        }
     }
 
     public function addWF(Request $request)
     {
-        $po =  new waterFall(null);
+        $wf =  new waterFall(null);
+        $wf->poid = $request->poid;
         return $po->addMat($request->h, $request->w, $request->l);
     }
 

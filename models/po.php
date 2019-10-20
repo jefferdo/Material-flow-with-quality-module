@@ -145,4 +145,11 @@ class PO
         $query = "SELECT inht.*, indt.*, umf.name as user from inht inner join indt on inht.id = indt.roid inner join umf on inht.ab = umf.id where indt.poid = '" . $this->id . "'";
         return $this->db->select($query);
     }
+
+    public function getWF()
+    {
+        $this->db = new Database();
+        $query = "SELECT inht.*, indt.*, umf.name as user from inht inner join indt on inht.id = indt.roid inner join umf on inht.ab = umf.id where indt.poid = '" . $this->id . "'";
+        return $this->db->select($query);
+    }
 }

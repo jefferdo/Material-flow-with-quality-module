@@ -61,15 +61,15 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
-                            <input type="hidden" name="poid" id="poid" value="{{ $id }}">
-                            <button type="button" id='addWF'
-                                class="btn btn-sm btn-blue waves-effect waves-light float-right">
-                                <i class="mdi mdi-plus-circle"></i> Add a Waterfall
-                            </button>
+                        <input type="hidden" name="poid" id="poid" value="{{ $id }}">
+                        <button type="button" id='addWF'
+                            class="btn btn-sm btn-blue waves-effect waves-light float-right">
+                            <i class="mdi mdi-plus-circle"></i> Add a Waterfall
+                        </button>
                         <h4 style="text-transform:capitalize" class="header-title mb-4">Waterfall
                             Details</h4>
-                        <h5 style="text-transform:capitalize" class="header-subtitle">Currently available matirial
-                            (Rolls): <span>{{ $nor }}</span></h5>
+                        <h5 style="text-transform:capitalize" class="header-subtitle">Currently available Waterfalls
+                            : <span>{{ $now }}</span></h5>
                         <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100"
                             id="tickets-table">
                             <thead>
@@ -85,7 +85,7 @@
                                 </tr>
                             </thead>
 
-                            <tbody id="rolltable">
+                            <tbody id="WFtable">
                                 @foreach ($wfs as $wf)
                                 <tr>
                                     <td><b>{{ $wf['id'] }}</b></td>

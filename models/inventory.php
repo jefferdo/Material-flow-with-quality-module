@@ -199,6 +199,7 @@ class waterFall
 
     private $id;
     private $shrk;
+    private $poid;
 
     private $rolls;
 
@@ -229,7 +230,6 @@ class waterFall
                 if ($row = $results->fetch_array()) {
                     $this->id = $row['id'];
                     $this->date = $row['date'];
-
                 } else {
                     throw new Exception('Invalid Roll ID : 0x02', 0);
                 }

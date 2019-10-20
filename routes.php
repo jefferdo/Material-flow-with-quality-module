@@ -77,7 +77,6 @@ $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
     $router->get('/getBarcode/{key}', ['uses' => 'UsersController@getBarcode']);
 });
 
-
 // catch-all route
 $router->any('{any}', function () {
     $blade = new BladeOne($views, $cache, BladeOne::MODE_AUTO);
