@@ -226,7 +226,6 @@ class waterFall
             case 'date':
                 return $this->date;
                 break;
-
             default:
                 throw new Exception("Invalid getter: " . $name, 1);
         }
@@ -235,9 +234,6 @@ class waterFall
     public function __set($name, $value)
     {
         switch ($name) {
-            case 'priLev':
-                $this->priLev = $value;
-                break;
             case 'shrk':
                 $this->shrk = $value;
                 break;
@@ -274,11 +270,13 @@ class waterFall
             $this->id = null;
         } else {
             $this->id = $id;
-            $query = "SELECT * from wfht INNER JOIN wfdt on wfht.id = wfdt.wfid inner join inht on wfdt.roid = inht.id where id ='" . $this->id . "'";
+            $query = "SELECT wfht.*, wfht.date as cdt, umf.name as user from wfht inner join poht on wfht.poid = poht.id inner join umf on wfht.ab = umf.id where wfht.id = '" . $this->id . "'";
             if ($results = $this->db->select($query)) {
                 if ($row = $results->fetch_array()) {
                     $this->id = $row['id'];
-                    $this->date = $row['date'];
+                    $this->date = $row['cdt'];
+                    $this->poid = $row['poid'];
+                    $this->shrk = $row['shrk'];
                 } else {
                     throw new Exception('Invalid Roll ID : 0x02', 0);
                 }
@@ -291,7 +289,6 @@ class waterFall
 
     public function save()
     {
-        # code...
         $this->db = new Database();
         $query = "INSERT INTO wfht(id, shrk, poid, ab) VALUES ('" . $this->id . "', '" . $this->shrk . "', '" . $this->poid . "',  '" . $this->user->id . "')";
         $stat = $this->db->iud($query);
@@ -299,5 +296,47 @@ class waterFall
             throw new Exception('Invalid Request at WF', 0);
         else
             return $stat;
+    }
+
+    public function getSqn()
+    {
+        $this->db = new Database();
+        $query = "SELECT wfht.*, wfdt.* from wfht inner join wfdt on wfht.id = wfdt.wfid where wfdt.wfid = '" . $this->id . "'";
+        return $this->db->select($query);
+    }
+
+    public function addRoll($roid)
+    {
+        $this->db = new Database();
+        $roll = new Roll($roid);
+        $query = "SELECT * from wfdt where wfid = '" . $this->id . "' AND roid = '" . $roid . "'";
+        if ($results = $this->db->select($query)) {
+            if ($results->fetch_array() == null) {
+                $query = "INSERT INTO wfdt (wfid, roid, sqn) VALUES ('" . $this->id . "', '" . $roll->id . "', '" . $this->getLSN() . "')";
+                $stat = $this->db->iud($query);
+                if ($stat == 0)
+                    throw new Exception('Invalid Request at Roll: 0x001' . $query, 0);
+                else
+                    return $stat;
+            } else {
+                throw new Exception('Invalid Request at Roll: 0x002' . $query, 0);
+            }
+        } else {
+            throw new Exception('Invalid Request at Roll: 0x003' . $query, 0);
+        }
+    }
+
+    public function getLSN()
+    {
+        $query = "Select sqn from wfdt where wfid = '" . $this->id . "' ORDER BY sqn desc LIMIT 1";
+        if ($results = $this->db->select($query)) {
+            if ($row = $results->fetch_array()) {
+                return ($row['sqn'] + 1);
+            } else {
+                return "1";
+            }
+        } else {
+            return "1";
+        }
     }
 }

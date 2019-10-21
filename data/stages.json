@@ -235,5 +235,42 @@
             "reject": "qaR",
             "next": "searchpo"
         }
+    },
+    "10": {
+        "stage": 10,
+        "nStage": 11,
+        "title": "Finishing",
+        "S1": {
+            "title": "Search WO",
+            "lable": "Scan WO barcode",
+            "type": "1",
+            "next": "qa_wo"
+        },
+        "S2": {
+            "info": {
+                "WO ID": "id"
+            },
+            "accept": "qaA",
+            "reject": "qaR",
+            "next": "searchpo"
+        }
+    },
+    "100": {
+        "stage": "A",
+        "title": "Supermarket",
+        "C1": {
+            "title": "Pending Work Orders",
+            "info": {
+                "WO ID": "id",
+                "Quantity": "pqty"
+            }
+        },
+        "C2": {
+            "title": "In progress Work Orders",
+            "info": {
+                "WO ID": "id",
+                "Quantity": "pqty"
+            }
+        }
     }
 }

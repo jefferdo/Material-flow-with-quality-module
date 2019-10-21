@@ -228,6 +228,20 @@ class WO
         return $this->db->select($query);
     }
 
+    public function getSupPen()
+    {
+        $this->db = new Database();
+        $query = "SELECT *  from woht where lcs = '8' AND initdt < apdt";
+        return $this->db->select($query);
+    }
+
+    public function getSupInp()
+    {
+        $this->db = new Database();
+        $query = "SELECT *  from woht where lcs = '9' AND initdt < apdt";
+        return $this->db->select($query);
+    }
+
     public function accept()
     {
         $this->db = new Database();

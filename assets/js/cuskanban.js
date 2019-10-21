@@ -181,6 +181,66 @@
         $(':button').prop('disabled', false);
     });
 
+})(jQuery);
 
+(function ($) {
+
+    $("#addRollWF").on("click", function (e) {
+        addRollWF("Scan Ready");
+    });
+
+    function addRollWF(e) {
+        text = e;
+        Swal.mixin({
+            input: 'text',
+            confirmButtonText: 'Next &rarr;',
+            text: text,
+            showCancelButton: true
+        }).queue([
+            'Enter/ Scan Roll No',
+        ]).then((result) => {
+            if (result.value) {
+                $(':button').prop('disabled', true);
+                let dt = result.value;
+                if (dt != null) {
+                    try {
+                        let form = new FormData();
+                        form.append("wfid", $("#wfid").val());
+                        form.append("roid", dt[0]);
+                        $.ajax({
+                            type: "post",
+                            url: "/addRollWF",
+                            data: form,
+                            processData: false,
+                            contentType: false,
+                            success: function (response) {
+                                $(':button').prop('disabled', false);
+                                addRollWF(response);
+                            },
+                            error: function (request, status, error) {
+                                $(':button').prop('disabled', false);
+                                Swal.fire({
+                                    type: 'error',
+                                    title: 'Oops...',
+                                    html: '<pre><code> Something went wrong! ' +
+                                        request.responseText +
+                                        '</code></pre>',
+                                })
+                            }
+                        });
+                    } catch (error) {
+                        $(':button').prop('disabled', false);
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Oops...',
+                            text: 'Something went wrong! ' + error,
+                        })
+                    }
+                }
+            }
+            //location.reload();
+        });
+        $(':button').prop('disabled', false);
+    }
 
 })(jQuery);

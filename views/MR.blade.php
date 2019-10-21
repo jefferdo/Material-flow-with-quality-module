@@ -170,7 +170,7 @@
                                                 data-toggle="dropdown" aria-expanded="false"><i
                                                     class="mdi mdi-dots-horizontal"></i></a>
                                             <div class="dropdown-menu dropdown-menu-right">
-                                                <form action="/inMat" method="post">
+                                                <form action="/addMat" method="post">
                                                     <input type="hidden" name="id" value="{{ $item['id'] }}">
                                                     <button class="dropdown-item" type="submit"><i
                                                             class="mdi mdi-shopping mr-2 text-muted font-18 vertical-middle"></i>

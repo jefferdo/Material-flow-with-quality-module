@@ -58,6 +58,9 @@ class UsersController
                     case "5":
                         $this->kanban_issue($this->user->getPriv());
                         break;
+                    case "100":
+                        $this->showSup($this->user->getPriv());
+                        break;
                 }
             } else {
                 $csrfk = Token::setcsrfk();
@@ -142,6 +145,39 @@ class UsersController
             "csrfk" => $csrfk,
             "PO" => $poset,
             "npo" => $npo
+        ));
+    }
+
+    public function showSup($prev)
+    {
+        $title = $prev['title'];
+        $wopen = [];
+        $woinp = [];
+
+
+        $wo = new WO(null);
+        $results = $wo->getSupPen();
+        while ($row = $results->fetch_array()) {
+            $row["date"] = $row['initdt'];
+            array_push($wopen, $row);
+        }
+
+        $wo = new WO(null);
+        $results = $wo->getSupInp();
+        while ($row = $results->fetch_array()) {
+            $row["date"] = $row['apdt'];
+            array_push($woinp, $row);
+        }
+
+        $csrfk = Token::setcsrfk();
+        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+        echo $blade->run("kanbanSup", array(
+            "title" => $title,
+            "body" => $prev['body'],
+            "B1" => $wopen,
+            "B2" => $woinp,
+            "csrfk" => $csrfk,
+            "error" => $this->error
         ));
     }
 
@@ -683,18 +719,56 @@ class UsersController
         $wf =  new waterFall("new");
         $wf->poid = $request->poid;
         $wf->shrk = $request->s;
-        if ($wf->save() ==1) {
+        if ($wf->save() == 1) {
             return $wf->id;
         } else {
             throw new Exception("Error Processing Request", 1);
         }
     }
 
-
     public function buildWF(Request $request)
     {
-        $wf =  new waterFall($request->id);
-        return $wf->poid;
+        session_start();
+        $this->user = new User($_SESSION['uid']);
+        if ($this->user->session() == 0) {
+            $this->index();
+        } else {
+            $prev = $this->user->getPriv();
+            try {
+                $wf =  new waterFall($request->id);
+                $sqn = $wf->getSqn();
+                $log = new alog($request->id, null);
+                $log->checklog($this->user->priLev);
+
+                $csrfk = Token::setcsrfk();
+                $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+                echo $blade->run("buildWF", array(
+                    "id" => $request->id,
+                    'poid' => $wf->poid,
+                    'date' => $wf->date,
+                    "sqn" => $sqn,
+                    "nos" => mysqli_num_rows($sqn),
+                    "cus" => json_decode($po->data)->Customer,
+                    "cdt" => $po->date,
+                    "action" => $action,
+                    "method" => "post",
+                    "csrfk" => $csrfk
+                ));
+            } catch (Exception $th) {
+                $this->error = $th->getMessage();
+                $this->index();
+            }
+        }
+    }
+
+    public function addRollWF(Request $request)
+    {
+        $wf =  new waterFall($request->wfid);
+        if ($wf->addRoll($request->roid) == 1) {
+            return $wf->id;
+        } else {
+            throw new Exception("Error Processing Request", 1);
+        }
     }
 
     public function getBarcode($key)
