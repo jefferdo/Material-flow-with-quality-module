@@ -147,7 +147,7 @@
                                     html: '<form action="/buildWF" method="post">' +
                                         '<input type="hidden" name="id" value="' + response + '">' +
                                         '<button class="btn btn-success" type="submit" >' +
-                                        '<i class="mdi mdi-shopping mr-2 text-white font-18 vertical-middle"></i>' +
+                                        '<i class="mdi mdi-shopping mr-2 text-white  font-18 vertical-middle"></i>' +
                                         'Add Sequence' +
                                         '</button >' +
                                         '</form >',
