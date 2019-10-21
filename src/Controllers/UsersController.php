@@ -690,6 +690,13 @@ class UsersController
         }
     }
 
+
+    public function buildWF(Request $request)
+    {
+        $wf =  new waterFall($request->id);
+        return $wf->poid;
+    }
+
     public function getBarcode($key)
     {
         return Token::getBarcode($key);

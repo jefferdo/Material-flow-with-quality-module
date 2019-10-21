@@ -74,6 +74,10 @@ $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/buildWF', ['uses' => 'UsersController@buildWF']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
     $router->get('/getBarcode/{key}', ['uses' => 'UsersController@getBarcode']);
 });
 
