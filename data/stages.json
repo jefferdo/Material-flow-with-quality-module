@@ -244,11 +244,13 @@
             "title": "Search WO",
             "lable": "Scan WO barcode",
             "type": "1",
-            "next": "qa_wo"
+            "next": "qa_items"
         },
         "S2": {
             "info": {
-                "WO ID": "id"
+                "WO ID": "id",
+                "Planned Qty": "pqty",
+                "Approved Qty": "finQty"
             },
             "accept": "qaA",
             "reject": "qaR",
@@ -269,7 +271,8 @@
             "title": "In progress Work Orders",
             "info": {
                 "WO ID": "id",
-                "Quantity": "pqty"
+                "Quantity": "pqty",
+                "Finished Qty": "finQty"
             }
         }
     }

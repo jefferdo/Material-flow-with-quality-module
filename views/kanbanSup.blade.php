@@ -3,6 +3,8 @@
 
 @section('content')
 
+<meta http-equiv="Refresh" content="60">
+
 <div class="content-page">
     <div class="content">
         <!-- Start Content-->
@@ -99,6 +101,7 @@
                             <li id="{{ $item['id'] }}">
                                 <h3 class="mt-0">WO No.: {{ $item['id'] }}</h3>
                                 <h4 class="mt-0">Qty.: {{ $item['pqty'] }}</h4>
+                                <h4 class="mt-0">Finished Qty.: {{ $item['finQty'] }}</h4>
                                 <div class="clearfix"></div>
                                 <div class="row">
                                     <div class="col">
@@ -124,5 +127,7 @@
     </div> <!-- content -->
 
 </div>
+<script>
 
+</script>
 @endsection

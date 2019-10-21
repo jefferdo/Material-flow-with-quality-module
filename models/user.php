@@ -66,7 +66,7 @@ class User
         } else {
             $this->id = $id;
         }
-        
+
         if ($id == 'new') {
             $query = "SELECT id from umf ORDER BY id desc LIMIT 1";
             if ($results = $this->db->select($query)) {
@@ -120,13 +120,13 @@ class User
             if ($this->save() > 0) {
                 $_SESSION['key'] = $this->key;
                 $stat = 1;
+                return $stat;
             } else {
-                $stat = 0;
+                throw new Exception("Error Processing Request", 1);
             }
         } else {
-            $stat = 0;
+            throw new Exception("Error Processing Request", 1);
         }
-        return $stat;
     }
 
     public function session()

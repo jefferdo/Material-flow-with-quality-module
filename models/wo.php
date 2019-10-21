@@ -18,6 +18,7 @@ class WO
     private $area = null;
     private $pqty = null;
     private $aqty = null;
+    private $finQty = 0;
 
     private $user;
 
@@ -74,6 +75,9 @@ class WO
                 $cus = json_decode($this->po->data)->Customer;
                 return $cus;
                 break;
+            case 'finQty':
+                return $this->finQty;
+                break;
             default:
                 throw new Exception("Invalid Getter: " . $name, 1);
         }
@@ -114,6 +118,9 @@ class WO
                 break;
             case 'userid':
                 $this->user = new User($value);
+                break;
+            case 'finQty':
+                $this->finQty = $value;
                 break;
             default:
                 throw new Exception("Invalid setter: " . $name, 1);
@@ -157,6 +164,7 @@ class WO
                     $this->wsh = $row['wsh'];
                     $this->sub = $row['sub'];
                     $this->userid = $row['ab'];
+                    $this->finQty = $row['finQty'];
                     if ($this->user->priLev != $this->lcs + 1 and $this->lcs > 3) {
                         throw new Exception('Not allowed to proccess [LCS: ' . $this->lcs . " priLev:" . $this->user->priLev . "]", 0);
                     }
@@ -262,6 +270,24 @@ class WO
             return 2;
         }
     }
+
+    public function accepti()
+    {
+        $this->db = new Database();
+        $this->lcs = $this->user->priLev - 1;
+        $log = new alog($this->id, null);
+        if ($log->checklog($this->lcs + 1) != 1) {
+            $query = "update woht set finQty = finQty + 1 where id = '" . $this->id . "' and finQty <= pqty";
+            if ($this->db->iud($query) > 0) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } else {
+            return 2;
+        }
+    }
+
 
     public function reject($rNO)
     {

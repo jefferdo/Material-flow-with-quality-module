@@ -26,7 +26,15 @@ $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/qa_items', ['uses' => 'UsersController@qa_items']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
     $router->post('/qaA', ['uses' => 'UsersController@qaA']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/qaAi', ['uses' => 'UsersController@qaAi']);
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {

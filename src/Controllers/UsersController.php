@@ -50,6 +50,7 @@ class UsersController
                     case "7":
                     case "8":
                     case "9":
+                    case "10":
                         $this->search($this->user->getPriv());
                         break;
                     case "4":
@@ -61,6 +62,8 @@ class UsersController
                     case "100":
                         $this->showSup($this->user->getPriv());
                         break;
+                    default:
+                        $this->p404();
                 }
             } else {
                 $csrfk = Token::setcsrfk();
@@ -188,21 +191,21 @@ class UsersController
                 $this->user = new User($request->uid);
                 $this->user->passwdT = $request->passwd;
                 if ($this->user->login() == 1) {
-                    header("Location: http://" . $_SERVER['HTTP_HOST']);
+                    $this->index();
                     die();
                 } else {
                     $this->error = "Check Usernanme and password";
-                    header("Location: http://" . $_SERVER['HTTP_HOST']);
+                    $this->index();
                     die();
                 }
             } else {
                 $this->error = "Something went wrong, try again";
-                header("Location: http://" . $_SERVER['HTTP_HOST']);
+                $this->index();
                 die();
             }
         } catch (Exception $th) {
             $this->error = "Something went wrong, try again";
-            header("Location: http://" . $_SERVER['HTTP_HOST']);
+            $this->index();
             die();
         }
     }
@@ -326,18 +329,24 @@ class UsersController
 
     public function preview()
     {
-        $roll = new Roll('new');
+        /* $roll = new Roll('new');
         print_r($roll->id);
-        exit;
-        /* $title = "Preview";
+        exit; */
+        $title = "Preview";
         $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
-        echo $blade->run("addMat", array(
+        echo $blade->run("qai", array(
             "title" => $title,
             "nor" => 4567
         ));
 
-         header("HTTP/1.1 404 Not Found");
+        /* header("HTTP/1.1 404 Not Found");
         die(); */
+    }
+
+    public function p404()
+    {
+        $blade = new BladeOne($views, $cache, BladeOne::MODE_AUTO);
+        echo $blade->run("404");
     }
 
     public function qa(Request $request)
@@ -434,6 +443,53 @@ class UsersController
         }
     }
 
+    public function qa_items(Request $request)
+    {
+        session_start();
+        if (true) {
+            $this->user = new User($_SESSION['uid']);
+            if ($this->user->session() == 0) {
+                $this->index();
+            } else {
+                $prev = $this->user->getPriv();
+                $title = $prev['title'];
+                $action = "/" . $prev["S2"]['next'];
+                try {
+                    $wo = new WO($request->id);
+                    $log = new alog($request->id, null);
+                    $log->checklog($this->user->priLev);
+                    if ($wo->lcs != "0") {
+                        $csrfk = Token::setcsrfk();
+                        $info = $prev["S2"]["info"];
+                        foreach ($info as $key => $value) {
+                            $info[$key] = $wo->__get($value);
+                        }
+
+                        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+                        echo $blade->run("qai", array(
+                            "title" => $title,
+                            "id" => $wo->id,
+                            "info" => $info,
+                            "stage" => $prev["stage"],
+                            "action" => $action,
+                            "method" => "post",
+                            "csrfk" => $csrfk
+                        ));
+                    } else {
+                        $this->error = "Not allowed to process, Old WO";
+                        $this->index();
+                    }
+                } catch (Exception $th) {
+                    $this->error = $th->getMessage();
+                    $this->index();
+                }
+            }
+        } else {
+            $this->error = "Request Timeout";
+            $this->index();
+        }
+    }
+
     public function qaA(Request $request)
     {
         if ($request->stage < 4) {
@@ -443,6 +499,12 @@ class UsersController
             $wo = new WO($request->id);
             return $wo->accept();
         }
+    }
+
+    public function qaAi(Request $request)
+    {
+        $wo = new WO($request->id);
+        return $wo->accepti();
     }
 
     public function qaR(Request $request)

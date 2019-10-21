@@ -3,6 +3,8 @@
 
 <?php $this->startSection('content'); ?>
 
+<meta http-equiv="Refresh" content="60">
+
 <div class="content-page">
  <div class="content">
  <!-- Start Content-->
@@ -100,6 +102,7 @@
  <li id="<?php echo static::e($item['id']); ?>">
  <h3 class="mt-0">WO No.: <?php echo static::e($item['id']); ?></h3>
  <h4 class="mt-0">Qty.: <?php echo static::e($item['pqty']); ?></h4>
+ <h4 class="mt-0">Finished Qty.: <?php echo static::e($item['finQty']); ?></h4>
  <div class="clearfix"></div>
  <div class="row">
  <div class="col">
@@ -125,6 +128,8 @@
  </div> <!-- content -->
 
 </div>
+<script>
 
+</script>
 <?php $this->stopSection(); ?>
 <?php if (@$_shouldextend[1]) { echo $this->runChild('layouts.kanbanL'); } ?>
