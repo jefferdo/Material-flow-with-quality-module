@@ -188,20 +188,22 @@ class WO
             return $stat;
     }
 
-
     public function getPO($poid)
     {
         $this->po = new PO($poid);
     }
-
 
     public function getId()
     {
         return $this->id;
     }
 
-    public function QA($status)
-    { }
+    public function setDates($type, $date)
+    {
+        $query = "INSERT INTO wodt (woid, type, adate) VALUES ('" . $this->id . "', '" . $type . "', '" . $date . "')";
+        $this->db = new Database();
+        return $this->db->iud($query);
+    }
 
     public static function getfullqty($id)
     {
@@ -250,6 +252,34 @@ class WO
         return $this->db->select($query);
     }
 
+    public function getSupOutside()
+    {
+        $this->db = new Database();
+        $query = "SELECT woht.*, wodt.adate as adate, wodt.type from woht inner join wodt on woht.id = wodt.woid where woht.lcs = '7'";
+        return $this->db->select($query);
+    }
+
+    public function getSupLoc()
+    {
+        $this->db = new Database();
+        $query = "SELECT *  from woht where lcs = '7' AND id NOT IN (SELECT woid from wodt)";
+        return $this->db->select($query);
+    }
+
+    public function getSupIn()
+    {
+        $this->db = new Database();
+        $query = "SELECT *  from woht where lcs = '8' AND initdt < apdt";
+        return $this->db->select($query);
+    }
+
+    public function getlcs($lcs)
+    {
+        $this->db = new Database();
+        $query = "SELECT woht.*, JSON_EXTRACT(podt.td,'$.Style') as style, JSON_EXTRACT(podt.td,'$.Product') as product from woht INNER JOIN poht on woht.poid = poht.id inner join podt on poht.id = podt.poid where woht.lcs = '" . $lcs . "'";
+        return $this->db->select($query);
+    }
+
     public function accept()
     {
         $this->db = new Database();
@@ -288,6 +318,46 @@ class WO
         }
     }
 
+    public function acceptF()
+    {
+        if ($this->wsh == 1) {
+            $this->db = new Database();
+            $this->lcs = $this->user->priLev - 1;
+            $log = new alog($this->id, null);
+            if ($log->checklog($this->lcs + 1) != 1) {
+                $query = "update woht set lcs = '" . ($this->lcs + 1) . "' where id = '" . $this->id . "'";
+                $this->db->iud($query);
+                $query = "select lcs from woht where id = '" . $this->id . "' and lcs = '" . ($this->lcs + 1) . "'";
+                if (mysqli_num_rows($this->db->select($query)) > 0) {
+                    $log = new alog($this->id, "0");
+                    $log->add();
+                    return 1;
+                } else {
+                    return 0;
+                }
+            } else {
+                return 2;
+            }
+        } else {
+            $this->db = new Database();
+            $this->lcs = $this->user->priLev - 1;
+            $log = new alog($this->id, null);
+            if ($log->checklog($this->lcs + 1) != 1) {
+                $query = "update woht set lcs = '14' where id = '" . $this->id . "'";
+                $this->db->iud($query);
+                $query = "select lcs from woht where id = '" . $this->id . "' and lcs = '14'";
+                if (mysqli_num_rows($this->db->select($query)) > 0) {
+                    $log = new alog($this->id, "0");
+                    $log->add();
+                    return 1;
+                } else {
+                    return 0;
+                }
+            } else {
+                return 2;
+            }
+        }
+    }
 
     public function reject($rNO)
     {
@@ -319,5 +389,28 @@ class WO
         } else {
             return 2;
         }
+    }
+
+    public function setDate($type, $date)
+    {
+        $this->db = new Database();
+        $query = "SELECT * from wodt where type = '" . $type . "' AND woid = '" . $this->id . "'";
+        if (mysqli_num_rows($this->db->select($query)) > 0) {
+            throw new Exception("Recode Already Exists: 0x01 " . $query, 1);
+        } else {
+            $query = "INSERT INTO wodt (woid, type, adate) VALUES ('" . $this->id . "', '" . $type . "', '" . $date . "')";
+            if ($this->db->iud($query) > 0) {
+                return 1;
+            } else {
+                throw new Exception("Error Processing Request: 0x02", 1);
+            }
+        }
+    }
+
+    public function getDates()
+    {
+        $this->db = new Database();
+        $query = "SELECT * FROM wodt where woid = '" . $this->id . "'";
+        return $this->db->select($query);
     }
 }

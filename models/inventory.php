@@ -191,6 +191,20 @@ class Roll
         $stat = $this->db->iud($query);
         return $stat;
     }
+
+    public function getCountTotal()
+    {
+        $count = 0;
+        $this->db = new Database();
+        $query = "SELECT COUNT(id) as nor from inht";
+        if ($results = $this->db->select($query)) {
+            if ($row = $results->fetch_array()) {
+                $count = $row['nor'];
+            }
+        }
+
+        return $count;
+    }
 }
 
 

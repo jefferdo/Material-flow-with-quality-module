@@ -15,6 +15,9 @@
  <link href="/assets/libs/datatables/responsive.bootstrap4.css" rel="stylesheet" type="text/css" />
  <link href="/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
 
+ <link href="assets/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
+ <link href="assets/libs/clockpicker/bootstrap-clockpicker.min.css" rel="stylesheet" type="text/css" />
+
  <!-- App css -->
  <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
  <link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
@@ -173,6 +176,10 @@
  <script src="assets/libs/datatables/dataTables.bootstrap4.js"></script>
  <script src="assets/libs/datatables/dataTables.responsive.min.js"></script>
  <script src="assets/libs/datatables/responsive.bootstrap4.min.js"></script>
+ <script src="assets/libs/flatpickr/flatpickr.min.js"></script>
+
+ <script src="assets/libs/clockpicker/bootstrap-clockpicker.min.js"></script>
+
 
  <!-- Tickets js -->
  <script src="assets/js/tickets.js"></script>
@@ -182,6 +189,8 @@
 
 
  <script src="/assets/js/cuskanban.js"></script>
+
+ <script src="/assets/js/form-pickers.init.js"></script>
 
 
 </body>

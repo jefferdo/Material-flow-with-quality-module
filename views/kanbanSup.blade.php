@@ -3,7 +3,7 @@
 
 @section('content')
 
-<meta http-equiv="Refresh" content="60">
+<meta http-equiv="Refresh" content="15;URL=/">
 
 <div class="content-page">
     <div class="content">
@@ -51,7 +51,7 @@
 
                         <h4 class="header-title">Pending Work orders</h4>
                         <p class="sub-header">
-                            Workorder to be proccesed in sawing
+                            Workorders to be proccesed in sawing
                         </p>
 
                         <ul class="sortable-list taskList list-unstyled" id="upcoming">

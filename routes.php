@@ -62,6 +62,14 @@ $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/sendForWo', ['uses' => 'UsersController@sendForWo']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/addDateWo', ['uses' => 'UsersController@addDateWo']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
     $router->post('/addMat', ['uses' => 'UsersController@addMat']);
 });
 

@@ -215,6 +215,50 @@
             "accept": "qaA",
             "reject": "qaR",
             "next": "searchpo"
+        },
+        "body": {
+            "B1": {
+                "title": "Outside Workorders",
+                "subtitle": "Work orders which are currenlty outside for printing, sublimation and embroidary",
+                "C1": {
+                    "info": {
+                        "WO ID": "id",
+                        "Qty": "pqty",
+                        "Initiated time": "date"
+                    },
+                    "target": "getPO",
+                    "Buttons": {
+                        "0": {
+                            "label": "Select",
+                            "value": "id"
+                        }
+                    }
+                }
+            },
+            "B2": {
+                "title": "In progress",
+                "subtitle": "Work orders, which prepared to be processed",
+                "C1": {
+                    "info": {
+                        "WO ID": "id",
+                        "Qty": "pqty",
+                        "Initiated time": "date"
+                    },
+                    "Buttons": "no"
+                }
+            },
+            "B3": {
+                "title": "Ready",
+                "subtitle": "Work orders to be Accepted",
+                "C1": {
+                    "info": {
+                        "WO ID": "id",
+                        "Qty": "pqty",
+                        "Initiated time": "date"
+                    },
+                    "Buttons": "no"
+                }
+            }
         }
     },
     "9": {
@@ -239,7 +283,8 @@
     "10": {
         "stage": 10,
         "nStage": 11,
-        "title": "Finishing",
+        "nStage2": 14,
+        "title": "Sawing End line",
         "S1": {
             "title": "Search WO",
             "lable": "Scan WO barcode",
@@ -257,9 +302,112 @@
             "next": "searchpo"
         }
     },
+    "11": {
+        "stage": 11,
+        "nStage": 12,
+        "title": "Washing In",
+        "S1": {
+            "title": "Search WO",
+            "lable": "Scan WO barcode",
+            "type": "1",
+            "next": "qa_wo"
+        },
+        "S2": {
+            "info": {
+                "WO ID": "id",
+                "Planned Qty": "pqty",
+                "Approved Qty": "finQty"
+            },
+            "accept": "qaA",
+            "reject": "qaR",
+            "next": "searchpo"
+        }
+    },
+    "12": {
+        "stage": 12,
+        "nStage": 13,
+        "title": "Washing out",
+        "S1": {
+            "title": "Search WO",
+            "lable": "Scan WO barcode",
+            "type": "1",
+            "next": "qa_wo"
+        },
+        "S2": {
+            "info": {
+                "WO ID": "id",
+                "Planned Qty": "pqty",
+                "Approved Qty": "finQty"
+            },
+            "accept": "qaA",
+            "reject": "qaR",
+            "next": "searchpo"
+        }
+    },
+    "13": {
+        "stage": 13,
+        "nStage": 14,
+        "title": "Finishing SM In",
+        "S1": {
+            "title": "Search WO",
+            "lable": "Scan WO barcode",
+            "type": "1",
+            "next": "qa_wo"
+        },
+        "S2": {
+            "info": {
+                "WO ID": "id",
+                "Planned Qty": "pqty",
+                "Approved Qty": "finQty"
+            },
+            "accept": "qaA",
+            "reject": "qaR",
+            "next": "searchpo"
+        }
+    },
+    "14": {
+        "stage": 14,
+        "nStage": 15,
+        "title": "Finishing Out",
+        "S1": {
+            "title": "Search WO",
+            "lable": "Scan WO barcode",
+            "type": "1",
+            "next": "qa_wo"
+        },
+        "S2": {
+            "info": {
+                "WO ID": "id",
+                "Planned Qty": "pqty",
+                "Approved Qty": "finQty"
+            },
+            "accept": "qaA",
+            "reject": "qaR",
+            "next": "searchpo"
+        }
+    },
     "100": {
         "stage": "A",
-        "title": "Supermarket",
+        "title": "Supermarket Dashboard",
+        "C1": {
+            "title": "Pending Work Orders",
+            "info": {
+                "WO ID": "id",
+                "Quantity": "pqty"
+            }
+        },
+        "C2": {
+            "title": "In progress Work Orders",
+            "info": {
+                "WO ID": "id",
+                "Quantity": "pqty",
+                "Finished Qty": "finQty"
+            }
+        }
+    },
+    "101": {
+        "stage": "B",
+        "title": "Washing Dashboard",
         "C1": {
             "title": "Pending Work Orders",
             "info": {

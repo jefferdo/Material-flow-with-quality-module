@@ -39,25 +39,29 @@ class UsersController
             $this->user = new User($_SESSION['uid']);
             if ($this->user->session() == 1) {
                 switch ($this->user->priLev) {
+                    case "3":
+                    case "6":
+                    case "9":
+                    case "10":
+                        $this->search($this->user->getPriv());
+                        break;
                     case "1":
                         $this->showInventory($this->user->getPriv());
                         break;
                     case "2":
                         $this->showInInventory($this->user->getPriv());
                         break;
-                    case "3":
-                    case "6":
-                    case "7":
-                    case "8":
-                    case "9":
-                    case "10":
-                        $this->search($this->user->getPriv());
-                        break;
                     case "4":
                         $this->kanban($this->user->getPriv());
                         break;
                     case "5":
                         $this->kanban_issue($this->user->getPriv());
+                        break;
+                    case "7":
+                        $this->showCuttingOut($this->user->getPriv());
+                        break;
+                    case "8":
+                        $this->showSuperMarket($this->user->getPriv());
                         break;
                     case "100":
                         $this->showSup($this->user->getPriv());
@@ -151,6 +155,92 @@ class UsersController
         ));
     }
 
+    public function showCuttingOut($prev)
+    {
+        $title = $prev['title'];
+        $lable = $prev["S1"]['lable'];
+        $action = "/" . $prev["S1"]['next'];
+        $woset = [];
+        $wo = new WO(null);
+        $results = $wo->getlcs($prev['stage'] - 1);
+        $woset = $results;
+
+        $csrfk = Token::setcsrfk();
+        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+        echo $blade->run("kanbanCutOut", array(
+            "title" => $title,
+            "lable" => $lable,
+            "action" => $action,
+            "method" => "post",
+            "error" => $this->error,
+            "csrfk" => $csrfk,
+            "WO" => $woset,
+        ));
+    }
+
+    public function sendForWo(Request $request)
+    {
+        session_start();
+        if (true) {
+            $this->user = new User($_SESSION['uid']);
+            if ($this->user->session() == 0) {
+                $this->index();
+            } else {
+                $prev = $this->user->getPriv();
+                $title = $prev['title'];
+                $action = "/" . $prev["S2"]['next'];
+                try {
+                    $wo = new WO($request->id);
+                    $dates = $wo->getDates();
+                    $pdates  = [];
+                    while ($row = $dates->fetch_array()) {
+                        $pdates[$row['type']] = $row['date'];
+                    }
+                    $log = new alog($request->id, null);
+                    $log->checklog($this->user->priLev);
+                    if ($wo->lcs != "0") {
+                        $csrfk = Token::setcsrfk();
+                        $info = $prev["S2"]["info"];
+                        foreach ($info as $key => $value) {
+                            $info[$key] = $wo->__get($value);
+                        }
+                        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+                        echo $blade->run("kanbangetCuttingWO", array(
+                            "title" => $title,
+                            "id" => $wo->id,
+                            "info" => $info,
+                            "dates" => $pdates,
+                            "stage" => $prev["stage"],
+                            "action" => $action,
+                            "method" => "post",
+                            "csrfk" => $csrfk
+                        ));
+                    } else {
+                        $this->error = "Not allowed to process, Old WO";
+                        $this->index();
+                    }
+                } catch (Exception $th) {
+                    $this->error = $th->getMessage();
+                    $this->index();
+                }
+            }
+        } else {
+            $this->error = "Request Timeout";
+            $this->index();
+        }
+    }
+
+    public function addDateWo(Request $request)
+    {
+        $wo = new WO($request->id);
+        try {
+            $wo->setDate($request->type, $request->date);
+        } catch (Exception $th) {
+            $this->error = $th->getMessage();
+        }
+        $this->index();
+    }
+
     public function showSup($prev)
     {
         $title = $prev['title'];
@@ -184,6 +274,49 @@ class UsersController
         ));
     }
 
+    public function showSuperMarket($prev)
+    {
+        $title = $prev['title'];
+        $woout = [];
+        $woloc = [];
+        $woin = [];
+
+        $wo = new WO(null);
+        $results = $wo->getSupOutside();
+        while ($row = $results->fetch_array()) {
+            $row["date"] = $row['initdt'];
+            array_push($woout, $row);
+        }
+
+        $wo = new WO(null);
+        $results = $wo->getSupLoc();
+        while ($row = $results->fetch_array()) {
+            $row["date"] = $row['initdt'];
+            array_push($woloc, $row);
+        }
+
+        $wo = new WO(null);
+        $results = $wo->getSupPen();
+        while ($row = $results->fetch_array()) {
+            $row["date"] = $row['initdt'];
+            array_push($woin, $row);
+        }
+
+        $action = "qa_wo";
+        $csrfk = Token::setcsrfk();
+        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+        echo $blade->run("kanbanSuperMarket", array(
+            "title" => $title,
+            "body" => $prev['body'],
+            "B1" => $woout,
+            "B2" => $woloc,
+            "B3" => $woin,
+            "csrfk" => $csrfk,
+            "error" => $this->error,
+            "action" => $action
+        ));
+    }
+
     public function login(Request $request)
     {
         try {
@@ -195,17 +328,17 @@ class UsersController
                     die();
                 } else {
                     $this->error = "Check Usernanme and password";
-                    $this->index();
+                    header("Location: http://" . $_SERVER['HTTP_HOST'] . "/?error=" . $this->error);
                     die();
                 }
             } else {
                 $this->error = "Something went wrong, try again";
-                $this->index();
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/?error=" . $this->error);
                 die();
             }
         } catch (Exception $th) {
             $this->error = "Something went wrong, try again";
-            $this->index();
+            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/?error=" . $this->error);
             die();
         }
     }
@@ -397,7 +530,6 @@ class UsersController
 
     public function qa_wo(Request $request)
     {
-
         session_start();
         if (Token::chkcsrfk($request->csrfk) == 1) {
             $this->user = new User($_SESSION['uid']);
@@ -505,6 +637,13 @@ class UsersController
     {
         $wo = new WO($request->id);
         return $wo->accepti();
+    }
+
+    public function qaF(Request $request)
+    {
+
+        $wo = new WO($request->id);
+        return $wo->acceptF();
     }
 
     public function qaR(Request $request)

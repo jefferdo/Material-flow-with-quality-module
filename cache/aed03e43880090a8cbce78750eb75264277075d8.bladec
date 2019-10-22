@@ -3,8 +3,6 @@
 
 <?php $this->startSection('content'); ?>
 
-<meta http-equiv="Refresh" content="15;URL=/">
-
 <div class="content-page">
  <div class="content">
  <!-- Start Content-->
@@ -50,23 +48,47 @@
  </div>
  </div> <!-- end dropdown -->
 
- <h4 class="header-title">Pending Work orders</h4>
+ <h4 class="header-title">Outside Workorders</h4>
  <p class="sub-header">
- Workorders to be proccesed in sawing
+ Work orders which are currenlty outside for printing, sublimation and embroidary
  </p>
 
  <ul class="sortable-list taskList list-unstyled" id="upcoming">
  <?php $__currentLoopData = $B1; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <li id="<?php echo static::e($item['id']); ?>">
- <h3 class="mt-0">WO No.: <?php echo static::e($item['id']); ?></h3>
- <h4 class="mt-0">Qty.: <?php echo static::e($item['pqty']); ?></h4>
+ <h3 class="mt-0">WO No .: <?php echo static::e($item['id']); ?></h3>
+ <h4 class="mt-0">ETA .: <span class="badge badge-info"><?php echo static::e($item['adate']); ?></span></h4>
+ <h4 class="mt-0">Qty .: <?php echo static::e($item['pqty']); ?></h4>
+ <?php switch ($item['type']) {
+ case (0): ?>
+ <h4 class="mt-0">Process .:<span class="badge badge-pink">Printing</span></h4>
+ <?php break; ?>
+ <?php case (1): ?>
+ <h4 class="mt-0">Process .:<span class="badge badge-blue">Sublimation</span></h4>
+ <?php break; ?>
+ <?php case (2): ?>
+ <h4 class="mt-0">Process .:<span class="badge badge-dark">Embroidary</span></h4>
+ <?php break; ?>
+ <?php } // end switch ?>
  <div class="clearfix"></div>
  <div class="row">
  <div class="col">
  <p class="font-13 mt-2 mb-0"><i class="mdi mdi-calendar"></i>
- <b><?php echo static::e(array_keys($body["B2"]["C1"]["info"])[2]); ?></b>
+ <b><?php echo static::e(array_keys($body["B1"]["C1"]["info"])[2]); ?></b>
  <?php echo static::e($item['date']); ?></p>
  </div>
+ </div>
+ <div>
+ <form action="/<?php echo static::e($action); ?>" method="post" class='pt-2'>
+ <input type="hidden" name='csrfk' value="<?php echo static::e($csrfk); ?>">
+ <input id='id' name='id' class="form-control" type="hidden"
+ value="<?php echo static::e($item['id']); ?>" required="">
+ <div class="form-group mb-0 text-center">
+ <button class="btn btn-primary btn-block p-2 alertColors" type="submit">
+ Take in
+ </button>
+ </div>
+ </form>
  </div>
  </li>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
@@ -91,9 +113,9 @@
  </div>
  </div> <!-- end dropdown -->
 
- <h4 class="header-title">Work Orders in Progress</h4>
+ <h4 class="header-title">Local Work Orders</h4>
  <p class="sub-header">
- Workorders which are currently in sawing line
+ Workorders which are ready to collect locally
  </p>
 
  <ul class="sortable-list taskList list-unstyled" id="upcoming">
@@ -102,7 +124,60 @@
  <li id="<?php echo static::e($item['id']); ?>">
  <h3 class="mt-0">WO No.: <?php echo static::e($item['id']); ?></h3>
  <h4 class="mt-0">Qty.: <?php echo static::e($item['pqty']); ?></h4>
- <h4 class="mt-0">Finished Qty.: <?php echo static::e($item['finQty']); ?></h4>
+ <div class="clearfix"></div>
+ <div class="row">
+ <div class="col">
+ <p class="font-13 mt-2 mb-0"><i class="mdi mdi-calendar"></i>
+ <b><?php echo static::e(array_keys($body["B2"]["C1"]["info"])[2]); ?></b>
+ <?php echo static::e($item['date']); ?></p>
+ </div>
+ </div>
+ <div>
+ <form action="/<?php echo static::e($action); ?>" method="post" class='pt-2'>
+ <input type="hidden" name='csrfk' value="<?php echo static::e($csrfk); ?>">
+ <input id='id' name='id' class="form-control" type="hidden"
+ value="<?php echo static::e($item['id']); ?>" required="">
+ <div class="form-group mb-0 text-center">
+ <button class="btn btn-primary btn-block p-2 alertColors" type="submit">
+ Take in
+ </button>
+ </div>
+ </form>
+ </div>
+ </li>
+
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </ul>
+
+ </div>
+ </div>
+
+ <div class="col-lg-4">
+ <div class="card-box">
+ <div class="dropdown float-right">
+ <a href="#" class="dropdown-toggle arrow-none" data-toggle="dropdown" aria-expanded="false">
+ <i class="mdi mdi-dots-vertical m-0 text-muted h3"></i>
+ </a>
+ <div class="dropdown-menu dropdown-menu-right">
+ <a class="dropdown-item" href="#">Refresh</a>
+ <hr>
+ <a class="dropdown-item" href="#">Today</a>
+ <a class="dropdown-item" href="#">Week</a>
+ <a class="dropdown-item" href="#">Month</a>
+ <a class="dropdown-item" href="#">All</a>
+ </div>
+ </div> <!-- end dropdown -->
+
+ <h4 class="header-title">Supermarket Work Orders</h4>
+ <p class="sub-header">
+ Workorders which are inside the supermarket
+ </p>
+
+ <ul class="sortable-list taskList list-unstyled" id="upcoming">
+ <?php $__currentLoopData = $B3; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <li id="<?php echo static::e($item['id']); ?>">
+ <h3 class="mt-0">WO No.: <?php echo static::e($item['id']); ?></h3>
+ <h4 class="mt-0">Qty.: <?php echo static::e($item['pqty']); ?></h4>
  <div class="clearfix"></div>
  <div class="row">
  <div class="col">

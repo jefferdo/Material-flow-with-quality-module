@@ -12,14 +12,14 @@
  <span><img src="/assets/images/logo-dark-flow.png" alt="" height="100"></span>
  </a>
  </div>
- <?php if($error != null): ?>
+ <?php if(@$_GET['error'] != null): ?>
  <div class="pt-1">
  <div class="alert alert-danger alert-dismissible bg-danger text-white border-0 fade show"
  role="alert">
  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
  <span aria-hidden="true">&times;</span>
  </button>
- <?php echo static::e($error); ?>
+ <?php echo static::e(@$_GET['error']); ?>
 
  </div>
  </div>
