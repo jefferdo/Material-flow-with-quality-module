@@ -27,7 +27,7 @@
                                 <div class="form-group mb-3">
                                     <div class="row pb-1">
                                         <div class="col-6">
-                                            <button id='btnqai_accept' type="button"
+                                            <button id='btnqaif_accept' type="button"
                                                 class="btn btn-block btn-success waves-effect waves-light btn-lg p-3">Accept</button>
                                         </div>
                                         <div class="col-6">

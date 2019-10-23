@@ -7,10 +7,12 @@ foreach (glob("models/*.php") as $filename) {
 }
 
 include_once $_SERVER['DOCUMENT_ROOT'] . "/services/token.php";
+include_once $_SERVER['DOCUMENT_ROOT'] . "/services/database.php";
 require $_SERVER['DOCUMENT_ROOT'] . "/vendor/autoload.php";
 include_once($_SERVER['DOCUMENT_ROOT'] . '/models/log.php');
 
 use alog;
+use Database;
 use Illuminate\Http\Request;
 use eftec\bladeone\BladeOne;
 use Exception;
@@ -39,10 +41,11 @@ class UsersController
             $this->user = new User($_SESSION['uid']);
             if ($this->user->session() == 1) {
                 switch ($this->user->priLev) {
-                    case "3":
                     case "6":
                     case "9":
                     case "10":
+                    case "13":
+                    case "14":
                         $this->search($this->user->getPriv());
                         break;
                     case "1":
@@ -66,6 +69,16 @@ class UsersController
                     case "100":
                         $this->showSup($this->user->getPriv());
                         break;
+                    case "102":
+                        $this->showOverview($this->user->getPriv());
+                        break;
+                    case "11":
+                        $this->showWashing($this->user->getPriv());
+                        break;
+                    case "12":
+                        $this->showSuperMarketF($this->user->getPriv());
+                        break;
+                    case "3":
                     default:
                         $this->p404();
                 }
@@ -178,6 +191,29 @@ class UsersController
         ));
     }
 
+    public function showWashing($prev)
+    {
+        $title = $prev['title'];
+        $lable = $prev["S1"]['lable'];
+        $action = "/" . $prev["S1"]['next'];
+        $woset = [];
+        $wo = new WO(null);
+        $results = $wo->getlcs($prev['stage'] - 1);
+        $woset = $results;
+
+        $csrfk = Token::setcsrfk();
+        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+        echo $blade->run("kanbanWashing", array(
+            "title" => $title,
+            "lable" => $lable,
+            "action" => "$action",
+            "method" => "post",
+            "error" => $this->error,
+            "csrfk" => $csrfk,
+            "WO" => $woset
+        ));
+    }
+
     public function sendForWo(Request $request)
     {
         session_start();
@@ -230,11 +266,75 @@ class UsersController
         }
     }
 
+    public function sendForWa(Request $request)
+    {
+        session_start();
+        if (true) {
+            $this->user = new User($_SESSION['uid']);
+            if ($this->user->session() == 0) {
+                $this->index();
+            } else {
+                $prev = $this->user->getPriv();
+                $title = $prev['title'];
+                $action = "/" . $prev["S1"]['next'];
+                try {
+                    $wo = new WO($request->id);
+                    $dates = $wo->getDates();
+                    $pdates  = [];
+                    while ($row = $dates->fetch_array()) {
+                        $pdates[$row['type']] = $row['date'];
+                    }
+                    $log = new alog($request->id, null);
+                    $log->checklog($this->user->priLev);
+                    if ($wo->lcs != "0") {
+                        $csrfk = Token::setcsrfk();
+                        $info = $prev["S2"]["info"];
+                        foreach ($info as $key => $value) {
+                            $info[$key] = $wo->__get($value);
+                        }
+                        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+                        echo $blade->run("kanbangetSendForWa", array(
+                            "title" => $title,
+                            "id" => $wo->id,
+                            "info" => $info,
+                            "dates" => $pdates,
+                            "stage" => $prev["stage"],
+                            "action" => $action,
+                            "method" => "post",
+                            "csrfk" => $csrfk
+                        ));
+                    } else {
+                        $this->error = "Not allowed to process, Old WO";
+                        $this->index();
+                    }
+                } catch (Exception $th) {
+                    $this->error = $th->getMessage();
+                    $this->index();
+                }
+            }
+        } else {
+            $this->error = "Request Timeout";
+            $this->index();
+        }
+    }
+
     public function addDateWo(Request $request)
     {
         $wo = new WO($request->id);
         try {
             $wo->setDate($request->type, $request->date);
+        } catch (Exception $th) {
+            $this->error = $th->getMessage();
+        }
+        $this->index();
+    }
+
+    public function addDateWa(Request $request)
+    {
+        $wo = new WO($request->id);
+
+        try {
+            $wo->setDate(3, $request->date);
         } catch (Exception $th) {
             $this->error = $th->getMessage();
         }
@@ -314,6 +414,69 @@ class UsersController
             "csrfk" => $csrfk,
             "error" => $this->error,
             "action" => $action
+        ));
+    }
+
+    public function showSuperMarketF($prev)
+    {
+        $title = $prev['title'];
+        $wooutwa = [];
+        $wofsm = [];
+        $wofin = [];
+
+        $wo = new WO(null);
+        $results = $wo->getWash();
+        while ($row = $results->fetch_array()) {
+            $row["date"] = $row['initdt'];
+            array_push($wooutwa, $row);
+        }
+
+        $wo = new WO(null);
+        $results = $wo->getFSM();
+        while ($row = $results->fetch_array()) {
+            $row["date"] = $row['initdt'];
+            array_push($wofsm, $row);
+        }
+
+        $wo = new WO(null);
+        $results = $wo->getFIN();
+        while ($row = $results->fetch_array()) {
+            $row["date"] = $row['initdt'];
+            array_push($wofin, $row);
+        }
+
+        $action = "qa_wo";
+        $csrfk = Token::setcsrfk();
+        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+        echo $blade->run("kanbanSuperMarketF", array(
+            "title" => $title,
+            "body" => $prev['body'],
+            "B1" => $wooutwa,
+            "B2" => $wofsm,
+            "B3" => $wofin,
+            "csrfk" => $csrfk,
+            "error" => $this->error,
+            "action" => $action
+        ));
+    }
+
+    public function showOverview($prev)
+    {
+        $stations = ["0" => "0", "1" => "0", "2" => "0", "3" => "0", "4" => "0", "5" => "0", "6" => "0", "7" => "0", "8" => "0", "9" => "0", "10" => "0", "11" => "0", "12" => "0", "13" => "0", "14" => "0", "15" => "0"];
+        $title = $prev['title'];
+        $db = new Database();
+        $query = "select lcs, count(*) as count from poht group by lcs union select lcs, count(*) as count from woht group by lcs;";
+        $results = $db->select($query);
+
+        while ($row = $results->fetch_array()) {
+            $stations[$row['lcs']] = $row['count'];
+        }
+
+        $csrfk = Token::setcsrfk();
+        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+        echo $blade->run("Overview", array(
+            "title" => $title,
+            "stations" => $stations
         ));
     }
 
@@ -549,7 +712,6 @@ class UsersController
                         foreach ($info as $key => $value) {
                             $info[$key] = $wo->__get($value);
                         }
-
                         $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
                         echo $blade->run("qa", array(
                             "title" => $title,
@@ -622,6 +784,53 @@ class UsersController
         }
     }
 
+    public function qa_itemsF(Request $request)
+    {
+        session_start();
+        if (true) {
+            $this->user = new User($_SESSION['uid']);
+            if ($this->user->session() == 0) {
+                $this->index();
+            } else {
+                $prev = $this->user->getPriv();
+                $title = $prev['title'];
+                $action = "/" . $prev["S2"]['next'];
+                try {
+                    $wo = new WO($request->id);
+                    $log = new alog($request->id, null);
+                    $log->checklog($this->user->priLev);
+                    if ($wo->lcs != "0") {
+                        $csrfk = Token::setcsrfk();
+                        $info = $prev["S2"]["info"];
+                        foreach ($info as $key => $value) {
+                            $info[$key] = $wo->__get($value);
+                        }
+
+                        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+                        echo $blade->run("qaif", array(
+                            "title" => $title,
+                            "id" => $wo->id,
+                            "info" => $info,
+                            "stage" => $prev["stage"],
+                            "action" => $action,
+                            "method" => "post",
+                            "csrfk" => $csrfk
+                        ));
+                    } else {
+                        $this->error = "Not allowed to process, Old WO";
+                        $this->index();
+                    }
+                } catch (Exception $th) {
+                    $this->error = $th->getMessage();
+                    $this->index();
+                }
+            }
+        } else {
+            $this->error = "Request Timeout";
+            $this->index();
+        }
+    }
+
     public function qaA(Request $request)
     {
         if ($request->stage < 4) {
@@ -633,10 +842,23 @@ class UsersController
         }
     }
 
+    public function qaAF(Request $request)
+    {
+
+        $wo = new WO($request->id);
+        return $wo->acceptF();
+    }
+
     public function qaAi(Request $request)
     {
         $wo = new WO($request->id);
         return $wo->accepti();
+    }
+
+    public function qaAif(Request $request)
+    {
+        $wo = new WO($request->id);
+        return $wo->acceptif();
     }
 
     public function qaF(Request $request)

@@ -30,11 +30,23 @@ $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/qa_itemsF', ['uses' => 'UsersController@qa_itemsF']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
     $router->post('/qaA', ['uses' => 'UsersController@qaA']);
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/qaAF', ['uses' => 'UsersController@qaAF']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
     $router->post('/qaAi', ['uses' => 'UsersController@qaAi']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/qaAif', ['uses' => 'UsersController@qaAif']);
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
@@ -66,7 +78,15 @@ $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/sendForWa', ['uses' => 'UsersController@sendForWa']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
     $router->post('/addDateWo', ['uses' => 'UsersController@addDateWo']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/addDateWa', ['uses' => 'UsersController@addDateWa']);
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {

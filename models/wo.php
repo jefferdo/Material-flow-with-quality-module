@@ -19,6 +19,7 @@ class WO
     private $pqty = null;
     private $aqty = null;
     private $finQty = 0;
+    private $fg = 0;
 
     private $user;
 
@@ -78,6 +79,9 @@ class WO
             case 'finQty':
                 return $this->finQty;
                 break;
+            case 'fg':
+                return $this->fg;
+                break;
             default:
                 throw new Exception("Invalid Getter: " . $name, 1);
         }
@@ -122,6 +126,9 @@ class WO
             case 'finQty':
                 $this->finQty = $value;
                 break;
+            case 'fg':
+                $this->fg = $value;
+                break;
             default:
                 throw new Exception("Invalid setter: " . $name, 1);
         }
@@ -165,6 +172,7 @@ class WO
                     $this->sub = $row['sub'];
                     $this->userid = $row['ab'];
                     $this->finQty = $row['finQty'];
+                    $this->fg = $row['fg'];
                     if ($this->user->priLev != $this->lcs + 1 and $this->lcs > 3) {
                         throw new Exception('Not allowed to proccess [LCS: ' . $this->lcs . " priLev:" . $this->user->priLev . "]", 0);
                     }
@@ -273,6 +281,26 @@ class WO
         return $this->db->select($query);
     }
 
+    public function getWash()
+    {
+        $this->db = new Database();
+        $query = "SELECT woht.*, wodt.adate as adate, wodt.type from woht inner join wodt on woht.id = wodt.woid where woht.lcs = '11'  and wodt.type = '3'";
+        return $this->db->select($query);
+    }
+    public function getFSM()
+    {
+        $this->db = new Database();
+        $query = "SELECT *  from woht where lcs = '12' AND initdt < apdt";
+        return $this->db->select($query);
+    }
+
+    public function getFIN()
+    {
+        $this->db = new Database();
+        $query = "SELECT *  from woht where lcs = '13' AND initdt < apdt";
+        return $this->db->select($query);
+    }
+
     public function getlcs($lcs)
     {
         $this->db = new Database();
@@ -307,7 +335,7 @@ class WO
         $this->lcs = $this->user->priLev - 1;
         $log = new alog($this->id, null);
         if ($log->checklog($this->lcs + 1) != 1) {
-            $query = "update woht set finQty = finQty + 1 where id = '" . $this->id . "' and finQty <= pqty";
+            $query = "update woht set finQty = finQty + 1 where id = '" . $this->id . "' and finQty < pqty";
             if ($this->db->iud($query) > 0) {
                 return 1;
             } else {
@@ -315,6 +343,28 @@ class WO
             }
         } else {
             return 2;
+        }
+    }
+
+    public function acceptif()
+    {
+        if ($this->fg < $this->finQty) {
+            $this->db = new Database();
+            $this->lcs = $this->user->priLev - 1;
+            $log = new alog($this->id, null);
+            if ($log->checklog($this->lcs + 1) != 1) {
+                $query = "update woht set fg = fg + 1 where id = '" . $this->id . "' and fg < finQty";
+                if ($this->db->iud($query) > 0) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            } else {
+                return 2;
+            }
+        }
+        else {
+            return "All Aprroved";
         }
     }
 
@@ -343,9 +393,9 @@ class WO
             $this->lcs = $this->user->priLev - 1;
             $log = new alog($this->id, null);
             if ($log->checklog($this->lcs + 1) != 1) {
-                $query = "update woht set lcs = '14' where id = '" . $this->id . "'";
+                $query = "update woht set lcs = '15' where id = '" . $this->id . "'";
                 $this->db->iud($query);
-                $query = "select lcs from woht where id = '" . $this->id . "' and lcs = '14'";
+                $query = "select lcs from woht where id = '" . $this->id . "' and lcs = '15'";
                 if (mysqli_num_rows($this->db->select($query)) > 0) {
                     $log = new alog($this->id, "0");
                     $log->add();

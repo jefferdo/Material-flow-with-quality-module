@@ -283,7 +283,6 @@
     "10": {
         "stage": 10,
         "nStage": 11,
-        "nStage2": 14,
         "title": "Sawing End line",
         "S1": {
             "title": "Search WO",
@@ -305,7 +304,7 @@
     "11": {
         "stage": 11,
         "nStage": 12,
-        "title": "Washing In",
+        "title": "Washing",
         "S1": {
             "title": "Search WO",
             "lable": "Scan WO barcode",
@@ -315,18 +314,16 @@
         "S2": {
             "info": {
                 "WO ID": "id",
-                "Planned Qty": "pqty",
                 "Approved Qty": "finQty"
             },
             "accept": "qaA",
-            "reject": "qaR",
-            "next": "searchpo"
+            "reject": "qaR"
         }
     },
     "12": {
         "stage": 12,
         "nStage": 13,
-        "title": "Washing out",
+        "title": "Finishing Super Market In",
         "S1": {
             "title": "Search WO",
             "lable": "Scan WO barcode",
@@ -336,7 +333,6 @@
         "S2": {
             "info": {
                 "WO ID": "id",
-                "Planned Qty": "pqty",
                 "Approved Qty": "finQty"
             },
             "accept": "qaA",
@@ -347,7 +343,7 @@
     "13": {
         "stage": 13,
         "nStage": 14,
-        "title": "Finishing SM In",
+        "title": "Finishing SM Out",
         "S1": {
             "title": "Search WO",
             "lable": "Scan WO barcode",
@@ -357,7 +353,6 @@
         "S2": {
             "info": {
                 "WO ID": "id",
-                "Planned Qty": "pqty",
                 "Approved Qty": "finQty"
             },
             "accept": "qaA",
@@ -368,18 +363,39 @@
     "14": {
         "stage": 14,
         "nStage": 15,
-        "title": "Finishing Out",
+        "title": "Finishing Endline",
         "S1": {
             "title": "Search WO",
             "lable": "Scan WO barcode",
             "type": "1",
-            "next": "qa_wo"
+            "next": "qa_itemsF"
         },
         "S2": {
             "info": {
                 "WO ID": "id",
-                "Planned Qty": "pqty",
-                "Approved Qty": "finQty"
+                "Approved Qty": "finQty",
+                "Finish Good": "fg"
+            },
+            "accept": "qaA",
+            "reject": "qaR",
+            "next": "searchpo"
+        }
+    },
+    "15": {
+        "stage": 14,
+        "nStage": 15,
+        "title": "Finished Good",
+        "S1": {
+            "title": "Search WO",
+            "lable": "Scan WO barcode",
+            "type": "1",
+            "next": "qa_itemsF"
+        },
+        "S2": {
+            "info": {
+                "WO ID": "id",
+                "Approved Qty": "finQty",
+                "Finish Good": "fg"
             },
             "accept": "qaA",
             "reject": "qaR",
@@ -408,6 +424,26 @@
     "101": {
         "stage": "B",
         "title": "Washing Dashboard",
+        "C1": {
+            "title": "Pending Work Orders",
+            "info": {
+                "WO ID": "id",
+                "Quantity": "pqty"
+            }
+        },
+        "C2": {
+            "title": "In progress Work Orders",
+            "info": {
+                "WO ID": "id",
+                "Quantity": "pqty",
+                "Finished Qty": "finQty"
+            }
+        }
+    }
+    ,
+    "102": {
+        "stage": "B",
+        "title": "Station Overview Dashboard",
         "C1": {
             "title": "Pending Work Orders",
             "info": {

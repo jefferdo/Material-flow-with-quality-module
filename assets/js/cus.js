@@ -211,6 +211,56 @@
                                 response,
                                 'failed'
                             )
+                            $(':button').prop('disabled', false);
+                        }
+
+                    },
+                    error: function (error) {
+                        alert('error');
+                        console.log(error);
+                    }
+                });
+            }
+        })
+    });
+
+    $("#btnqa_acceptf").on('click', function (e) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Confirm it!'
+        }).then((result) => {
+            if (result.value) {
+                var form = new FormData();
+                form.append('id', $("#id").val());
+                form.append('csrfk', $("#csrfk").val());
+                form.append('stage', $("#stage").val());
+                $.ajax({
+                    type: "post",
+                    url: "/qaAF",
+                    data: form,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        if (response == 1) {
+                            Swal.fire(
+                                'Confirm!',
+                                response,
+                                'success'
+                            ).then(() => {
+                                window.location.replace("/")
+                            })
+                        } else {
+                            Swal.fire(
+                                'Request has not proccesed, try again!',
+                                response,
+                                'failed'
+                            )
+                            $(':button').prop('disabled', false);
                         }
 
                     },
@@ -261,6 +311,58 @@
                                 response,
                                 'failed'
                             )
+                            $(':button').prop('disabled', false);
+                        }
+
+                    },
+                    error: function (error) {
+                        alert('error');
+                        console.log(error);
+                    }
+                });
+            }
+        })
+    });
+
+    $("#btnqaif_accept").on('click', function (e) {
+
+        Swal.fire({
+            title: 'Are you sure that the item is up to the quality?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Confirm it!'
+        }).then((result) => {
+            if (result.value) {
+                $(':button').prop('disabled', true);
+                var form = new FormData();
+                form.append('id', $("#id").val());
+                form.append('csrfk', $("#csrfk").val());
+                form.append('stage', $("#stage").val());
+                $.ajax({
+                    type: "post",
+                    url: "/qaAif",
+                    data: form,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        if (response == 1) {
+                            Swal.fire(
+                                'Confirm!',
+                                response,
+                                'success'
+                            ).then(() => {
+                                location.reload();
+                            })
+                        } else {
+                            Swal.fire(
+                                'Request has not proccesed, try again!',
+                                response,
+                                'failed'
+                            )
+                            $(':button').prop('disabled', false);
                         }
 
                     },
