@@ -1,7 +1,8 @@
 <?php
 class Database
 {
-    private $servername = "192.168.8.111";
+
+    private $servername = "192.168.1.6";
     private $database = "mFlow";
     private $username = "admin";
     private $passwd = "12341234";
