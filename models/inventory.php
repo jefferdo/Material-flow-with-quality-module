@@ -171,6 +171,21 @@ class Roll
         return $stat;
     }
 
+    public static function getTCount()
+    {
+        $query = "SELECT count(*) as c FROM inht";
+        $db = new Database();
+        if ($results = $db->select($query)) {
+            if ($row = $results->fetch_array()) {
+                return $row['c'];
+            } else {
+                return 0;
+            }
+        } else {
+            return 0;
+        }
+    }
+
     public function delete()
     {
         $this->db = new Database();

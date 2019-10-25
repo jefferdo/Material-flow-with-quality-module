@@ -41,6 +41,9 @@ class UsersController
             $this->user = new User($_SESSION['uid']);
             if ($this->user->session() == 1) {
                 switch ($this->user->priLev) {
+                    case "0":
+                        $this->showAdmin($this->user->getPriv());
+                        break;
                     case "6":
                     case "9":
                     case "10":
@@ -100,6 +103,21 @@ class UsersController
         }
     }
 
+
+    public function showAdmin($prev)
+    {
+        if ($prev['stage'] == 0) {
+            $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+            echo $blade->run("adminHome", array(
+                "title" => $prev['title'],
+                "name" => $this->user->name
+            ));
+        } else {
+            $this->error = "Access Denied";
+            $this->index();
+        }
+    }
+
     public function showInventory($prev)
     {
         $title = $prev['title'];
@@ -120,7 +138,9 @@ class UsersController
             array_push($poset, $row);
         }
         $npo = count($poset, 0);
+
         $csrfk = Token::setcsrfk();
+        $nor = Roll::getTCount();
         $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
         echo $blade->run("MR", array(
             "title" => $title,
@@ -130,7 +150,8 @@ class UsersController
             "error" => $this->error,
             "csrfk" => $csrfk,
             "PO" => $poset,
-            "npo" => $npo
+            "npo" => $npo,
+            "nor" => $nor
         ));
     }
 

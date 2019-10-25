@@ -393,9 +393,9 @@ class WO
             $this->lcs = $this->user->priLev - 1;
             $log = new alog($this->id, null);
             if ($log->checklog($this->lcs + 1) != 1) {
-                $query = "update woht set lcs = '15' where id = '" . $this->id . "'";
+                $query = "update woht set lcs = '14', fg = finQty where id = '" . $this->id . "'";
                 $this->db->iud($query);
-                $query = "select lcs from woht where id = '" . $this->id . "' and lcs = '15'";
+                $query = "select lcs from woht where id = '" . $this->id . "' and lcs = '14' and fg = finQty";
                 if (mysqli_num_rows($this->db->select($query)) > 0) {
                     $log = new alog($this->id, "0");
                     $log->add();

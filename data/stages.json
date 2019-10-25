@@ -1,8 +1,7 @@
 {
     "0": {
         "stage": 0,
-        "nStage": 1,
-        "title": null
+        "title": "System Admin"
     },
     "1": {
         "stage": 1,
@@ -283,7 +282,7 @@
     "10": {
         "stage": 10,
         "nStage": 11,
-        "title": "Sawing End line",
+        "title": "Sewing End line",
         "S1": {
             "title": "Search WO",
             "lable": "Scan WO barcode",

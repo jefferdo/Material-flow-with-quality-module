@@ -34,7 +34,7 @@
             <!-- end page title -->
 
             <div class="row">
-                <div class="col-md-6 col-xl-3">
+                <div class="col-md-12 col-xl-6">
                     <div class="widget-rounded-circle card-box">
                         <div class="row">
                             <div class="col-6">
@@ -44,15 +44,15 @@
                             </div>
                             <div class="col-6">
                                 <div class="text-right">
-                                    <h3 class="text-dark mt-1"><span data-plugin="counterup">3,947</span></h3>
-                                    <p class="text-muted mb-1 text-truncate">Total number of Rolls</p>
+                                    <h1 class="text-dark mt-1"><span data-plugin="counterup">{{ $nor }}</span></h1>
+                                    <h2 class="text-muted mb-1 text-truncate">Total number of Rolls</h2>
                                 </div>
                             </div>
                         </div> <!-- end row-->
                     </div> <!-- end widget-rounded-circle-->
                 </div> <!-- end col-->
 
-                <div class="col-md-6 col-xl-3">
+                <div class="col-md-12 col-xl-6">
                     <div class="widget-rounded-circle card-box">
                         <div class="row">
                             <div class="col-6">
@@ -62,44 +62,8 @@
                             </div>
                             <div class="col-6">
                                 <div class="text-right">
-                                    <h3 class="text-dark mt-1"><span data-plugin="counterup">{{ $npo }}</span></h3>
-                                    <p class="text-muted mb-1">Total No. of Purchase Orders</p>
-                                </div>
-                            </div>
-                        </div> <!-- end row-->
-                    </div> <!-- end widget-rounded-circle-->
-                </div> <!-- end col-->
-
-                <div class="col-md-6 col-xl-3">
-                    <div class="widget-rounded-circle card-box">
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="avatar-lg rounded-circle bg-success">
-                                    <i class="fe-check-circle font-22 avatar-title text-white"></i>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="text-right">
-                                    <h3 class="text-dark mt-1"><span data-plugin="counterup">3195</span></h3>
-                                    <p class="text-muted mb-1 text-truncate">Closed Tickets</p>
-                                </div>
-                            </div>
-                        </div> <!-- end row-->
-                    </div> <!-- end widget-rounded-circle-->
-                </div> <!-- end col-->
-
-                <div class="col-md-6 col-xl-3">
-                    <div class="widget-rounded-circle card-box">
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="avatar-lg rounded-circle bg-danger">
-                                    <i class="fe-trash-2 font-22 avatar-title text-white"></i>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="text-right">
-                                    <h3 class="text-dark mt-1"><span data-plugin="counterup">128</span></h3>
-                                    <p class="text-muted mb-1 text-truncate">Deleted Tickets</p>
+                                    <h1 class="text-dark mt-1"><span data-plugin="counterup">{{ $npo }}</span></h1>
+                                    <h2 class="text-muted mb-1">Total No. of Purchase Orders</h2>
                                 </div>
                             </div>
                         </div> <!-- end row-->
