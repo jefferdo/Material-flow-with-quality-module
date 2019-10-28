@@ -106,7 +106,29 @@
         $(':button').prop('disabled', false);
     });
 
+    $("#AddMatNB").on("click", async function (e) {
+        const { value: file } = await Swal.fire({
+            title: 'Select CSV File',
+            input: 'file',
+            inputAttributes: {
+                accept: '.csv',
+                'aria-label': 'Select only the formated CSV files'
+            }
+        })
 
+        if (file) {
+            const reader = new FileReader()
+            reader.onload = (e) => {
+                let data = e.target.files;
+                Swal.fire({
+                    title: 'Your uploaded picture',
+                    text: data
+                })   
+            }
+            reader.readAsText(data[0]);
+        }
+        $(':button').prop('disabled', false);
+    });
 
 })(jQuery);
 
@@ -244,3 +266,23 @@
     }
 
 })(jQuery);
+
+function showRoll(id) {
+    Swal.fire({
+        title: '<strong>Roll No:.' + id + '</strong>',
+        type: 'info',
+        html:
+            'You can use <b>bold text</b>, ' +
+            '<a href="//sweetalert2.github.io">links</a> ' +
+            'and other HTML tags',
+        showCloseButton: true,
+        showCancelButton: true,
+        focusConfirm: false,
+        confirmButtonText:
+            '<i class="fa fa-thumbs-up"></i> Great!',
+        confirmButtonAriaLabel: 'Thumbs up, great!',
+        cancelButtonText:
+            '<i class="fa fa-thumbs-down"></i>',
+        cancelButtonAriaLabel: 'Thumbs down'
+    })
+}

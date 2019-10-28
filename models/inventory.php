@@ -121,17 +121,18 @@ class Roll
     {
         $this->db = new Database();
         if ($id == "new") {
-            $query = "Select id from inht  where id LIKE 'R" . date("YW") . "%' ORDER BY id desc LIMIT 1";
+            $prefix = date("Yz");
+            $query = "Select id from inht  where id LIKE 'R" . $prefix . "%' ORDER BY id desc LIMIT 1";
             if ($results = $this->db->select($query)) {
                 if ($row = $results->fetch_array()) {
-                    $this->id = "R" . date("YW") . str_pad(substr($row['id'], -5) + 1, 5, "0", STR_PAD_LEFT);
+                    $this->id = "R" . $prefix . str_pad(substr($row['id'], -3) + 1, 3, "0", STR_PAD_LEFT);
                     $this->user = new User(null);
                 } else {
-                    $this->id = "R" . date("YW") . "00001";
+                    $this->id = "R" . $prefix . "001";
                     $this->user = new User(null);
                 }
             } else {
-                $this->id = "R" . date("YW") . "00001";
+                $this->id = "R" . $prefix . "001";
                 $this->user = new User(null);
             }
             $this->date = date("Y-m-d H:i:s");

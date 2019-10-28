@@ -45,3 +45,6 @@ if ($conn->connect_error) {
 }
 echo "Connected successfully";
  */
+
+
+ echo date("Yz");

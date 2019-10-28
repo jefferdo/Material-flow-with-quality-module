@@ -67,10 +67,15 @@
  <div class="col-12">
  <div class="card-box">
  <input type="hidden" name="poid" id="poid" value="<?php echo static::e($id); ?>">
- <button type="button" id='AddMatN'
+ <button style="margin:5px;" type="button" id='AddMatN'
  class="btn btn-sm btn-blue waves-effect waves-light float-right">
  <i class="mdi mdi-plus-circle"></i> Add Matirials
  </button>
+ <button style="margin:5px;" type="button" id='AddMatNB'
+ class="btn btn-sm btn-warning waves-effect waves-light float-right">
+ <i class="mdi mdi-plus-circle"></i> Add Matirials Batch
+ </button>
+
  <h4 style="text-transform:capitalize" class="header-title mb-4">Currently available matirial
  Details</h4>
  <h5 style="text-transform:capitalize" class="header-subtitle">Currently available matirial
@@ -79,15 +84,7 @@
  id="tickets-table">
  <thead>
  <tr>
- <th>
- Roll / Unit ID
- </th>
- <th>Related PO No</th>
- <th>Suppllier</th>
- <th>Length</th>
- <th>Height</th>
- <th>Width</th>
- <th>Status</th>
+ <th>Roll / Unit ID</th>
  <th>Added Date</th>
  <th>Added by</th>
  <th class="hidden-sm">Action</th>
@@ -98,49 +95,8 @@
  <?php $__currentLoopData = $rolls; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $roll): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <tr>
  <td><b><?php echo static::e($roll['id']); ?></b></td>
- <td>
- <span class="ml-2"><?php echo static::e($roll['poid']); ?></span>
- </td>
-
- <td>
- <?php echo static::e($roll['supid']); ?>
-
- </td>
-
- <td>
- <?php echo static::e($roll['lgth']); ?>
-
- </td>
-
- <td>
- <?php echo static::e($roll['hgt']); ?>
-
- </td>
-
- <td>
- <?php echo static::e($roll['wdth']); ?>
-
- </td>
-
- <td>
- <?php if($roll == 1): ?>
- <span class="badge badge-success">Approved</span>
- <?php else: ?>
- <span class="badge badge-warning">Pending</span>
- <?php endif; ?>
-
- </td>
-
- <td>
- <?php echo static::e($roll['date']); ?>
-
- </td>
-
- <td style="text-transform:capitalize">
- <?php echo static::e($roll['user']); ?>
-
- </td>
-
+ <td> <?php echo static::e($roll['date']); ?> </td>
+ <td style="text-transform:capitalize"> <?php echo static::e($roll['user']); ?> </td>
  <td>
  <div class="btn-group dropdown">
  <a href="javascript: void(0);"
@@ -148,11 +104,12 @@
  data-toggle="dropdown" aria-expanded="false"><i
  class="mdi mdi-dots-horizontal"></i></a>
  <div class="dropdown-menu dropdown-menu-right">
- <a class="dropdown-item" href="#"><i
- class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Remove</a>
- <a class="dropdown-item" href="#"><i
- class="mdi mdi-star mr-2 font-18 text-muted vertical-middle"></i>Mark
- as ready</a>
+ <button onclick="showRoll('<?php echo static::e($roll['id']); ?>')" class="dropdown-item"
+ href="#"><i
+ class="mdi mdi-clipboard mr-2 text-muted font-18 vertical-middle"></i>Show
+ Details</button>
+ <button class="dropdown-item" href="#"><i
+ class="mdi mdi-delete mr-2 font-18 text-muted vertical-middle"></i>Remove</button>
  </div>
  </div>
  </td>
