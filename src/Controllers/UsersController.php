@@ -483,21 +483,32 @@ class UsersController
 
     public function showOverview($prev)
     {
-        $stations = ["0" => "0", "1" => "0", "2" => "0", "3" => "0", "4" => "0", "5" => "0", "6" => "0", "7" => "0", "8" => "0", "9" => "0", "10" => "0", "11" => "0", "12" => "0", "13" => "0", "14" => "0", "15" => "0"];
         $title = $prev['title'];
         $db = new Database();
-        $query = "select lcs, count(*) as count from poht group by lcs union select lcs, count(*) as count from woht group by lcs;";
-        $results = $db->select($query);
 
-        while ($row = $results->fetch_array()) {
-            $stations[$row['lcs']] = $row['count'];
-        }
+        $posatMR = [];
+        $posatMRc = 0;
+
+        $query = "select * from inht";
+        $posatMR = $db->select($query);
+        $posatMRc = mysqli_num_rows($posatMR);
+
+        $rollinfo = [];
+        $rollinfoc = 0;
+
+        $query = "SELECT inht.*, indt.poid, umf.name, 0 as status from inht inner join indt on inht.id = indt.roid inner join poht on indt.poid = poht.id inner join umf on inht.ab = umf.id where poht.lcs = 1 AND inht.id NOT IN (select roid from wfdt) union select inht.*, indt.poid,  umf.name, 1 as status from inht inner join indt on inht.id = indt.roid inner join poht on indt.poid = poht.id inner join wfdt on inht.id = wfdt.roid inner join umf on inht.ab = umf.id where poht.lcs = 1;";
+        $rollinfo = $db->select($query);
+        $rollinfoc = mysqli_num_rows($rollinfo);
 
         $csrfk = Token::setcsrfk();
         $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
         echo $blade->run("Overview", array(
             "title" => $title,
-            "stations" => $stations
+            "csrfk" => $csrfk,
+            "posatMR" => $posatMR,
+            "posatMRc" => $posatMRc,
+            "rollinfo" => $rollinfo,
+            "rollinfoc" => $rollinfoc
         ));
     }
 
@@ -508,7 +519,7 @@ class UsersController
                 $this->user = new User($request->uid);
                 $this->user->passwdT = $request->passwd;
                 if ($this->user->login() == 1) {
-                    $this->index();
+                    header("Location: http://" . $_SERVER['HTTP_HOST']);
                     die();
                 } else {
                     $this->error = "Check Usernanme and password";

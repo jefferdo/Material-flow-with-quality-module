@@ -28,14 +28,16 @@
  <div class="row">
  <div class="col-12">
  <div class="page-title-box">
- <h4 class="page-title"><?php echo static::e($title); ?></h4>
+ <h1 class="page-title"><?php echo static::e($title); ?></h1>
  </div>
  </div>
  </div>
 
-
+ <div class="card">
+ <div class="card-body">
+ <h1 class="card-title">Material Receive</h1>
  <div class="row">
- <div class="col-md-3 col-xl-2">
+ <div class="col-md-12 col-xl-12">
  <div class="widget-rounded-circle card-box">
  <div class="row">
  <div class="col-6">
@@ -45,236 +47,73 @@
  </div>
  <div class="col-6">
  <div class="text-right">
- <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo static::e($stations[0]); ?></span></h3>
- <p class="text-muted mb-1 ">Initialted POs</p>
- </div>
- </div>
- </div> <!-- end row-->
- </div> <!-- end widget-rounded-circle-->
- </div> <!-- end col-->
-
- <div class="col-md-3 col-xl-2">
- <div class="widget-rounded-circle card-box">
- <div class="row">
- <div class="col-6">
- <div class="avatar-lg rounded-circle bg-success">
- <i class="fe-check-circle font-22 avatar-title text-white"></i>
- </div>
- </div>
- <div class="col-6">
- <div class="text-right">
- <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo static::e($stations[1]); ?></span></h3>
- <p class="text-muted mb-1">Matirial Recieve Point</p>
- </div>
- </div>
- </div> <!-- end row-->
- </div> <!-- end widget-rounded-circle-->
- </div> <!-- end col-->
-
- <div class="col-md-3 col-xl-2">
- <div class="widget-rounded-circle card-box">
- <div class="row">
- <div class="col-6">
- <div class="avatar-lg rounded-circle bg-success"> <i
- class="fe-check-circle font-22 avatar-title text-white"></i>
- </div>
- </div>
- <div class="col-6">
- <div class="text-right">
- <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo static::e($stations[3]); ?></span></h3>
- <p class="text-muted mb-1 ">Issue to Cut</p>
- </div>
- </div>
- </div> <!-- end row-->
- </div> <!-- end widget-rounded-circle-->
- </div> <!-- end col-->
-
- <div class="col-md-3 col-xl-2">
- <div class="widget-rounded-circle card-box">
- <div class="row">
- <div class="col-6">
- <div class="avatar-lg rounded-circle bg-success">
- <i class="fe-check-circle font-22 avatar-title text-white"></i>
- </div>
- </div>
- <div class="col-6">
- <div class="text-right">
- <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo static::e($stations[4]); ?></span></h3>
- <p class="text-muted mb-1 ">Cutting</p>
- </div>
- </div>
- </div> <!-- end row-->
- </div> <!-- end widget-rounded-circle-->
- </div> <!-- end col-->
-
- <div class="col-md-3 col-xl-2">
- <div class="widget-rounded-circle card-box">
- <div class="row">
- <div class="col-6">
- <div class="avatar-lg rounded-circle bg-success">
- <i class="fe-check-circle font-22 avatar-title text-white"></i>
- </div>
- </div>
- <div class="col-6">
- <div class="text-right">
- <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo static::e($stations[5]); ?></span></h3>
- <p class="text-muted mb-1">Total No. of Purchase Orders</p>
- </div>
- </div>
- </div> <!-- end row-->
- </div> <!-- end widget-rounded-circle-->
- </div> <!-- end col-->
-
- <div class="col-md-3 col-xl-2">
- <div class="widget-rounded-circle card-box">
- <div class="row">
- <div class="col-6">
- <div class="avatar-lg rounded-circle bg-success">
- <i class="fe-check-circle font-22 avatar-title text-white"></i>
- </div>
- </div>
- <div class="col-6">
- <div class="text-right">
- <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo static::e($stations[6]); ?></span></h3>
- <p class="text-muted mb-1 ">Closed Tickets</p>
- </div>
- </div>
- </div> <!-- end row-->
- </div> <!-- end widget-rounded-circle-->
- </div> <!-- end col-->
-
- <div class="col-md-3 col-xl-2">
- <div class="widget-rounded-circle card-box">
- <div class="row">
- <div class="col-6">
- <div class="avatar-lg rounded-circle bg-success"> <i
- class="fe-check-circle font-22 avatar-title text-white"></i>
- </div>
- </div>
- <div class="col-6">
- <div class="text-right">
- <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo static::e($stations[7]); ?></span></h3>
- <p class="text-muted mb-1 ">Deleted Tickets</p>
- </div>
- </div>
- </div> <!-- end row-->
- </div> <!-- end widget-rounded-circle-->
- </div> <!-- end col-->
-
- <div class="col-md-3 col-xl-2">
- <div class="widget-rounded-circle card-box">
- <div class="row">
- <div class="col-6">
- <div class="avatar-lg rounded-circle bg-success">
- <i class="fe-check-circle font-22 avatar-title text-white"></i>
- </div>
- </div>
- <div class="col-6">
- <div class="text-right">
- <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo static::e($stations[8]); ?></span></h3>
- <p class="text-muted mb-1 ">Total number of Rolls</p>
- </div>
- </div>
- </div> <!-- end row-->
- </div> <!-- end widget-rounded-circle-->
- </div> <!-- end col-->
-
- <div class="col-md-3 col-xl-2">
- <div class="widget-rounded-circle card-box">
- <div class="row">
- <div class="col-6">
- <div class="avatar-lg rounded-circle bg-success">
- <i class="fe-check-circle font-22 avatar-title text-white"></i>
- </div>
- </div>
- <div class="col-6">
- <div class="text-right">
- <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo static::e($stations[9]); ?></span></h3>
- <p class="text-muted mb-1">Total No. of Purchase Orders</p>
- </div>
- </div>
- </div> <!-- end row-->
- </div> <!-- end widget-rounded-circle-->
- </div> <!-- end col-->
-
- <div class="col-md-3 col-xl-2">
- <div class="widget-rounded-circle card-box">
- <div class="row">
- <div class="col-6">
- <div class="avatar-lg rounded-circle bg-success">
- <i class="fe-check-circle font-22 avatar-title text-white"></i>
- </div>
- </div>
- <div class="col-6">
- <div class="text-right">
- <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo static::e($stations[10]); ?></span></h3>
- <p class="text-muted mb-1 ">Closed Tickets</p>
- </div>
- </div>
- </div> <!-- end row-->
- </div> <!-- end widget-rounded-circle-->
- </div> <!-- end col-->
-
- <div class="col-md-3 col-xl-2">
- <div class="widget-rounded-circle card-box">
- <div class="row">
- <div class="col-6">
- <div class="avatar-lg rounded-circle bg-success">
- <i class="fe-check-circle font-22 avatar-title text-white"></i>
- </div>
- </div>
- <div class="col-6">
- <div class="text-right">
- <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo static::e($stations[11]); ?></span></h3>
- <p class="text-muted mb-1 ">Deleted Tickets</p>
+ <h1 class="text-dark mt-1"><span
+ data-plugin="counterup"><?php echo static::e($posatMRc); ?></span></h1>
+ <h2 class="text-muted mb-1" style="text-transform:capitalize">Total fabric
+ rolls available</h2>
  </div>
  </div>
  </div> <!-- end row-->
  </div> <!-- end widget-rounded-circle-->
  </div> <!-- end col-->
  </div>
- <div class="row">
- <div class="col-md-3 col-xl-2">
- <div class="widget-rounded-circle card-box">
- <div class="row">
- <div class="col-6">
- <div class="avatar-lg rounded-circle bg-success">
- <i class="fe-check-circle font-22 avatar-title text-white"></i>
+ <img class="card-img-bottom" src="" alt="">
  </div>
- </div>
- <div class="col-6">
- <div class="text-right">
- <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo static::e($stations[12]); ?></span></h3>
- <p class="text-muted mb-1 ">Total number of Rolls</p>
- </div>
- </div>
- </div> <!-- end row-->
- </div> <!-- end widget-rounded-circle-->
- </div> <!-- end col-->
-
- <div class="col-md-3 col-xl-2">
- <div class="widget-rounded-circle card-box">
- <div class="row">
- <div class="col-6">
- <div class="avatar-lg rounded-circle bg-success">
- <i class="fe-check-circle font-22 avatar-title text-white"></i>
- </div>
- </div>
- <div class="col-6">
- <div class="text-right">
- <h3 class="text-dark mt-1"><span data-plugin="counterup"><?php echo static::e($stations[13]); ?></span></h3>
- <p class="text-muted mb-1">Total No. of Purchase Orders</p>
- </div>
- </div>
- </div> <!-- end row-->
- </div> <!-- end widget-rounded-circle-->
- </div> <!-- end col-->
- <!-- end row -->
- </div> <!-- container -->
-
- </div> <!-- content -->
-
  </div>
 
- <?php $this->stopSection(); ?>
-<?php if (@$_shouldextend[1]) { echo $this->runChild('layouts.kanbanL'); } ?>
+ <div class="card">
+ <div class="card-body">
+ <h1 class="card-title">Material Inspection</h1>
+ <div class="col-12">
+ <div class="card">
+ <div class="card-body">
+
+ <h4 class="header-title">Number of roll: <?php echo static::e($rollinfoc); ?></h4>
+
+ <table id="datatable-buttons" class="table table-striped dt-responsive nowrap">
+ <thead>
+ <tr>
+ <th>Roll No</th>
+ <th>PO ID</th>
+ <th>Status</th>
+ <th>Added date</th>
+ <th>Added by</th>
+ </tr>
+ </thead>
+
+
+ <tbody>
+ <?php $__currentLoopData = $rollinfo; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <tr>
+ <td><?php echo static::e($item['id']); ?></td>
+ <td><?php echo static::e($item['poid']); ?></td>
+ <td>
+ <?php if( $item['status'] == 1): ?>
+ <span class="badge badge-success badge-pill">Approved</span>
+ <?php else: ?>
+ <span class="badge badge-warning badge-pill">Pending</span>
+ <?php endif; ?>
+ </td>
+ <td><?php echo static::e($item['date']); ?></td>
+ <td style="text-transform:capitalize"><?php echo static::e($item['name']); ?></td>
+ </tr>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+
+ </tbody>
+ </table>
+
+ </div> <!-- end card body-->
+ </div> <!-- end card -->
+ </div><!-- end col-->
+ </div>
+ </div>
+ <img class="card-img-bottom" src="" alt="">
+ </div>
+ </div>
+
+</div> <!-- content -->
+
+</div>
+
+<?php $this->stopSection(); ?>
+<?php if (@$_shouldextend[1]) { echo $this->runChild('layouts.DashL'); } ?>
