@@ -4,7 +4,7 @@ $(function () {
         $('.live').fadeIn(500);
     }
 
-    function updateSw() {
+    function updateSW() {
         $.ajax({
             type: "get",
             url: "/getSW",
@@ -12,10 +12,21 @@ $(function () {
                 $("#sewinglive").html(response);
             },
             error: function (error) {
-                
+
             }
         });
     }
-    setInterval(blink_text, 1000);
-    setInterval(updateSw, 15000);
+
+    var live = setInterval(blink_text, 1000);
+    var sw = setInterval(updateSW, 1000);
+
+    $("#sewingcard").hover(function () {
+        $('#LiveIcon').html("Live OFF").removeClass("badge-danger").addClass("badge-secondary");
+        clearInterval(live);
+        clearInterval(sw)
+    }, function () {
+        $('#LiveIcon').html("Live").removeClass("badge-secondary").addClass("badge-danger");
+        live = setInterval(blink_text, 500);
+        sw = setInterval(updateSW, 1000);
+    });
 });

@@ -69,8 +69,8 @@ class WO
             case 'po':
                 return $this->po;
                 break;
-            case 'user':
-                return $this->po->user;
+            case 'userid':
+                return $this->user->id;
                 break;
             case 'cus':
                 $cus = json_decode($this->po->data)->Customer;
@@ -188,7 +188,7 @@ class WO
     public function save()
     {
         $this->db = new Database();
-        $query = "INSERT INTO woht (id, initdt, apdt, poid, size, color, lcs, prt, emb, wsh, sub, area, pqty, aqty) VALUES ('" . $this->id . "', '" . $this->initdt . "', '" . $this->apdt . "', '" . $this->po->id . "', '" . $this->size . "', '" . $this->color . "', '" . $this->lcs . "', '" . $this->prt . "', '" . $this->emb . "', '" . $this->wsh . "', '" . $this->sub . "', '" . $this->pqty . "', '" . $this->pqty . "', '" . $this->pqty . "') ON DUPLICATE KEY UPDATE initdt = '" . $this->initdt . "', apdt = '" . $this->apdt . "', poid = '" . $this->po->id . "', size = '" . $this->size . "', color = '" . $this->color . "', lcs = '" . $this->lcs . "', prt = '" . $this->prt . "', emb = '" . $this->emb . "', wsh = '" . $this->wsh . "', sub = '" . $this->sub . "', area = '" . $this->pqty . "', pqty = '" . $this->pqty . "', aqty = '" . $this->pqty . "'";
+        $query = "INSERT INTO woht (id, initdt, apdt, poid, size, color, lcs, prt, emb, wsh, sub, area, pqty, aqty, ab) VALUES ('" . $this->id . "', '" . $this->initdt . "', '" . $this->apdt . "', '" . $this->po->id . "', '" . $this->size . "', '" . $this->color . "', '" . $this->lcs . "', '" . $this->prt . "', '" . $this->emb . "', '" . $this->wsh . "', '" . $this->sub . "', '" . $this->pqty . "', '" . $this->pqty . "', '" . $this->pqty . "', '" . $this->userid . "') ON DUPLICATE KEY UPDATE initdt = '" . $this->initdt . "', apdt = '" . $this->apdt . "', poid = '" . $this->po->id . "', size = '" . $this->size . "', color = '" . $this->color . "', lcs = '" . $this->lcs . "', prt = '" . $this->prt . "', emb = '" . $this->emb . "', wsh = '" . $this->wsh . "', sub = '" . $this->sub . "', area = '" . $this->pqty . "', pqty = '" . $this->pqty . "', aqty = '" . $this->pqty . "'";
         $stat = $this->db->iud($query);
         if ($stat == 0)
             throw new Exception('Invalid Request at WO', 0);
@@ -362,8 +362,7 @@ class WO
             } else {
                 return 2;
             }
-        }
-        else {
+        } else {
             return "All Aprroved";
         }
     }

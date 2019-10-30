@@ -503,7 +503,7 @@ class UsersController
         $poctin = [];
         $poctinc = 0;
 
-        $query = "SELECT * from woht where lcs = 6";
+        $query = "SELECT woht.*, umf.name from woht inner join umf on woht.ab = umf.id where lcs = 6";
         $poctin = $db->select($query);
         $poctinc = mysqli_num_rows($poctin);
 

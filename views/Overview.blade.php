@@ -119,7 +119,7 @@
                                         <tr>
                                             <th>Roll No</th>
                                             <th>PO ID</th>
-                                            <th>Status</th>
+                                            <th>Qty</th>
                                             <th>Added date</th>
                                             <th>Added by</th>
                                         </tr>
@@ -130,15 +130,9 @@
                                         @foreach ($poctin as $item)
                                         <tr>
                                             <td>{{ $item['id'] }}</td>
-                                            <td>{{ $item['poid'] }}</td>
-                                            <td>
-                                                @if ( $item['status'] == 1)
-                                                <span class="badge badge-success badge-pill">Approved</span>
-                                                @else
-                                                <span class="badge badge-warning badge-pill">Pending</span>
-                                                @endif
-                                            </td>
-                                            <td>{{ $item['date'] }}</td>
+                                            <td>{{ $item['poid'] }}</td>                                            
+                                            <td>{{ $item['pqty'] }}</td>
+                                            <td>{{ $item['apdt'] }}</td>
                                             <td style="text-transform:capitalize">{{ $item['name'] }}</td>
                                         </tr>
                                         @endforeach
@@ -154,9 +148,9 @@
 
             <div id="SW"></div>
 
-            <div class="card">
+            <div class="card" id="sewingcard">
                 <div class="card-body">
-                    <h1 class="card-title">Sewing <span class="badge badge-danger badge-pill live">Live</span></h1>
+                    <h1 class="card-title">Sewing <span id="LiveIcon" class="badge badge-danger badge-pill live">Live</span></h1>
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
@@ -179,7 +173,7 @@
                                             <td>{{ $item['id'] }}</td>
                                             <td>{{ $item['poid'] }}</td>
                                             <td>{{ $item['pqty'] }}</td>
-                                            <td><h5><span style="font-size:120%;" class="badge badge-success badge-pill live">{{ $item['finQty'] }}</span></h5></td>
+                                            <td><span style="font-size:120%;" class="badge badge-info badge-pill live">{{ $item['finQty'] }}</span></td>
                                             <td>{{ $item['apdt'] }}</td>
                                             <td style="text-transform:capitalize">{{ $item['name'] }}</td>
                                         </tr>

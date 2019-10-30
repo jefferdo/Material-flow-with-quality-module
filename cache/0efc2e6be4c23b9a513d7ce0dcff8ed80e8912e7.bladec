@@ -120,7 +120,7 @@
  <tr>
  <th>Roll No</th>
  <th>PO ID</th>
- <th>Status</th>
+ <th>Qty</th>
  <th>Added date</th>
  <th>Added by</th>
  </tr>
@@ -131,15 +131,9 @@
  <?php $__currentLoopData = $poctin; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
  <tr>
  <td><?php echo static::e($item['id']); ?></td>
- <td><?php echo static::e($item['poid']); ?></td>
- <td>
- <?php if( $item['status'] == 1): ?>
- <span class="badge badge-success badge-pill">Approved</span>
- <?php else: ?>
- <span class="badge badge-warning badge-pill">Pending</span>
- <?php endif; ?>
- </td>
- <td><?php echo static::e($item['date']); ?></td>
+ <td><?php echo static::e($item['poid']); ?></td>                                            
+ <td><?php echo static::e($item['pqty']); ?></td>
+ <td><?php echo static::e($item['apdt']); ?></td>
  <td style="text-transform:capitalize"><?php echo static::e($item['name']); ?></td>
  </tr>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
@@ -155,9 +149,9 @@
 
  <div id="SW"></div>
 
- <div class="card">
+ <div class="card" id="sewingcard">
  <div class="card-body">
- <h1 class="card-title">Sewing <span class="badge badge-danger badge-pill live">Live</span></h1>
+ <h1 class="card-title">Sewing <span id="LiveIcon" class="badge badge-danger badge-pill live">Live</span></h1>
  <div class="col-12">
  <div class="card">
  <div class="card-body">
@@ -180,7 +174,7 @@
  <td><?php echo static::e($item['id']); ?></td>
  <td><?php echo static::e($item['poid']); ?></td>
  <td><?php echo static::e($item['pqty']); ?></td>
- <td><h5><span style="text-size:150%" class="badge badge-success badge-pill"><?php echo static::e($item['finQty']); ?></span></h5></td>
+ <td><span style="font-size:120%;" class="badge badge-info badge-pill live"><?php echo static::e($item['finQty']); ?></span></td>
  <td><?php echo static::e($item['apdt']); ?></td>
  <td style="text-transform:capitalize"><?php echo static::e($item['name']); ?></td>
  </tr>
