@@ -16,7 +16,7 @@
     <link href="assets/libs/flatpickr/flatpickr.min.css" rel="stylesheet" type="text/css" />
     <link href="assets/libs/clockpicker/bootstrap-clockpicker.min.css" rel="stylesheet" type="text/css" />
     <link href="assets/libs/datatables/responsive.bootstrap4.css" rel="stylesheet" type="text/css" />
-    
+
     <link href="assets/libs/datatables/buttons.bootstrap4.css" rel="stylesheet" type="text/css" />
     <link href="assets/libs/datatables/select.bootstrap4.css" rel="stylesheet" type="text/css" />
 
@@ -117,11 +117,27 @@
                         <li class="menu-title">Navigation</li>
 
                         <li>
-                            <a href="/">
-                                <i class="fe-pocket"></i>
-                                <span>Overview</span>
+                            <a href="javascript: void(0);">
+                                <i class="fe-airplay"></i>
+                                <span>Station Overview</span>
+                                <span class="menu-arrow"></span>
                             </a>
+                            <ul class="nav-second-level" aria-expanded="false">
+                                <li>
+                                    <a href="#MR">Material Receive</a>
+                                </li>
+                                <li>
+                                    <a href="#MI">Material Inspection</a>
+                                </li>
+                                <li>
+                                    <a href="#CT">Cutting</a>
+                                </li>
+                                <li>
+                                    <a href="#SW">Sewing</a>
+                                </li>
+                            </ul>
                         </li>
+
 
                     </ul>
 
@@ -203,7 +219,7 @@
     <script src="/assets/js/app.min.js"></script>
 
 
-    <script src="/assets/js/cuskanban.js"></script>
+    <script src="/assets/js/dash.js"></script>
 
     <script src="/assets/js/pages/datatables.init.js"></script>
 

@@ -24,6 +24,7 @@
  <?php endif; ?>
  </div>
 
+ <div id="MR"></div>
  <!-- start page title -->
  <div class="row">
  <div class="col-12">
@@ -57,9 +58,10 @@
  </div> <!-- end widget-rounded-circle-->
  </div> <!-- end col-->
  </div>
- <img class="card-img-bottom" src="" alt="">
  </div>
  </div>
+
+ <div id="MI"></div>
 
  <div class="card">
  <div class="card-body">
@@ -67,10 +69,7 @@
  <div class="col-12">
  <div class="card">
  <div class="card-body">
-
- <h4 class="header-title">Number of roll: <?php echo static::e($rollinfoc); ?></h4>
-
- <table id="datatable-buttons" class="table table-striped dt-responsive nowrap">
+ <table id="datatable-buttonsMI" class="table table-striped dt-responsive nowrap">
  <thead>
  <tr>
  <th>Roll No</th>
@@ -107,7 +106,94 @@
  </div><!-- end col-->
  </div>
  </div>
- <img class="card-img-bottom" src="" alt="">
+
+ <div id="CT"></div>
+
+ <div class="card">
+ <div class="card-body">
+ <h1 class="card-title">Cutting</h1>
+ <div class="col-12">
+ <div class="card">
+ <div class="card-body">
+ <table id="datatable-buttonsCT" class="table table-striped dt-responsive nowrap">
+ <thead>
+ <tr>
+ <th>Roll No</th>
+ <th>PO ID</th>
+ <th>Status</th>
+ <th>Added date</th>
+ <th>Added by</th>
+ </tr>
+ </thead>
+
+
+ <tbody>
+ <?php $__currentLoopData = $poctin; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <tr>
+ <td><?php echo static::e($item['id']); ?></td>
+ <td><?php echo static::e($item['poid']); ?></td>
+ <td>
+ <?php if( $item['status'] == 1): ?>
+ <span class="badge badge-success badge-pill">Approved</span>
+ <?php else: ?>
+ <span class="badge badge-warning badge-pill">Pending</span>
+ <?php endif; ?>
+ </td>
+ <td><?php echo static::e($item['date']); ?></td>
+ <td style="text-transform:capitalize"><?php echo static::e($item['name']); ?></td>
+ </tr>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+
+ </tbody>
+ </table>
+
+ </div> <!-- end card body-->
+ </div> <!-- end card -->
+ </div><!-- end col-->
+ </div>
+ </div>
+
+ <div id="SW"></div>
+
+ <div class="card">
+ <div class="card-body">
+ <h1 class="card-title">Sewing <span class="badge badge-danger badge-pill live">Live</span></h1>
+ <div class="col-12">
+ <div class="card">
+ <div class="card-body">
+ <table id="datatable-buttonsSW" class="table table-striped dt-responsive nowrap">
+ <thead>
+ <tr>
+ <th>Roll No</th>
+ <th>PO ID</th>
+ <th>Qty</th>
+ <th>Finished Qty</th>
+ <th>Approved date</th>
+ <th>Added by</th>
+ </tr>
+ </thead>
+
+
+ <tbody id="sewinglive">
+ <?php $__currentLoopData = $poswin; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+ <tr>
+ <td><?php echo static::e($item['id']); ?></td>
+ <td><?php echo static::e($item['poid']); ?></td>
+ <td><?php echo static::e($item['pqty']); ?></td>
+ <td><h5><span style="text-size:150%" class="badge badge-success badge-pill"><?php echo static::e($item['finQty']); ?></span></h5></td>
+ <td><?php echo static::e($item['apdt']); ?></td>
+ <td style="text-transform:capitalize"><?php echo static::e($item['name']); ?></td>
+ </tr>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+
+ </tbody>
+ </table>
+
+ </div> <!-- end card body-->
+ </div> <!-- end card -->
+ </div><!-- end col-->
+ </div>
+ </div>
  </div>
  </div>
 

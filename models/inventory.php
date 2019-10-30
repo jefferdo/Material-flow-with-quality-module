@@ -8,14 +8,26 @@ class Roll
     private $id;
     private $date;
     private $supid;
-    private $lgth;
-    private $hgt;
-    private $wdth;
-    private $shrk;
+
+    private $sino;
+    private $batchNo;
+    private $rollNos;
+    private $fabricType;
+    private $baleNo;
     private $color;
+    private $shade;
+    private $noPcs;
+    private $width;
+    private $length;
+    private $GSM;
+    private $gw;
+    private $nw;
+
     private $aa;
     private $ua;
+
     private $stg;
+
 
     private $po;
 
@@ -41,17 +53,11 @@ class Roll
             case 'supid':
                 $this->supid = $value;
                 break;
-            case 'lgth':
-                $this->lgth = $value;
+            case 'length':
+                $this->length = $value;
                 break;
-            case 'hgt':
-                $this->hgt = $value;
-                break;
-            case 'wdth':
-                $this->wdth = $value;
-                break;
-            case 'shrk':
-                $this->shrk = $value;
+            case 'width':
+                $this->width = $value;
                 break;
             case 'color':
                 $this->color = $value;
@@ -88,17 +94,11 @@ class Roll
             case 'supid':
                 return $this->supid;
                 break;
-            case 'lgth':
-                return $this->lgth;
+            case 'length':
+                return $this->length;
                 break;
-            case 'hgt':
-                return $this->hgt;
-                break;
-            case 'wdth':
-                return $this->wdth;
-                break;
-            case 'shrk':
-                return $this->shrk;
+            case 'width':
+                return $this->width;
                 break;
             case 'color':
                 return $this->color;
@@ -146,9 +146,9 @@ class Roll
                     $this->id = $row['id'];
                     $this->date = $row['date'];
                     $this->supid = $row['supid'];
-                    $this->lgth = $row['lgth'];
+                    $this->length = $row['length'];
                     $this->hgt = $row['hgt'];
-                    $this->wdth = $row['wdth'];
+                    $this->width = $row['width'];
                     $this->shrk = $row['shrk'];
                     $this->color = $row['color'];
                     $this->aa = $row['aa'];
@@ -167,7 +167,7 @@ class Roll
     public function save()
     {
         $this->db = new Database();
-        $query = "INSERT INTO inht (id, date, supid, lgth, hgt, wdth, ab) VALUES ('" . $this->id . "', '" . $this->date . "', '" . $this->supid . "', '" . $this->lgth . "', '" . $this->hgt . "', '" . $this->wdth . "', '" . $this->user->id . "')";
+        $query = "INSERT INTO inht (id, date, supid, length, hgt, width, ab) VALUES ('" . $this->id . "', '" . $this->date . "', '" . $this->supid . "', '" . $this->length . "', '" . $this->hgt . "', '" . $this->width . "', '" . $this->user->id . "')";
         $stat = $this->db->iud($query);
         return $stat;
     }

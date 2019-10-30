@@ -23,6 +23,7 @@
                 @endif
             </div>
 
+            <div id="MR"></div>
             <!-- start page title -->
             <div class="row">
                 <div class="col-12">
@@ -56,9 +57,10 @@
                             </div> <!-- end widget-rounded-circle-->
                         </div> <!-- end col-->
                     </div>
-                    <img class="card-img-bottom" src="" alt="">
                 </div>
             </div>
+
+            <div id="MI"></div>
 
             <div class="card">
                 <div class="card-body">
@@ -66,10 +68,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-
-                                <h4 class="header-title">Number of roll: {{ $rollinfoc }}</h4>
-
-                                <table id="datatable-buttons" class="table table-striped dt-responsive nowrap">
+                                <table id="datatable-buttonsMI" class="table table-striped dt-responsive nowrap">
                                     <thead>
                                         <tr>
                                             <th>Roll No</th>
@@ -106,7 +105,94 @@
                     </div><!-- end col-->
                 </div>
             </div>
-            <img class="card-img-bottom" src="" alt="">
+
+            <div id="CT"></div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title">Cutting</h1>
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table id="datatable-buttonsCT" class="table table-striped dt-responsive nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th>Roll No</th>
+                                            <th>PO ID</th>
+                                            <th>Status</th>
+                                            <th>Added date</th>
+                                            <th>Added by</th>
+                                        </tr>
+                                    </thead>
+
+
+                                    <tbody>
+                                        @foreach ($poctin as $item)
+                                        <tr>
+                                            <td>{{ $item['id'] }}</td>
+                                            <td>{{ $item['poid'] }}</td>
+                                            <td>
+                                                @if ( $item['status'] == 1)
+                                                <span class="badge badge-success badge-pill">Approved</span>
+                                                @else
+                                                <span class="badge badge-warning badge-pill">Pending</span>
+                                                @endif
+                                            </td>
+                                            <td>{{ $item['date'] }}</td>
+                                            <td style="text-transform:capitalize">{{ $item['name'] }}</td>
+                                        </tr>
+                                        @endforeach
+
+                                    </tbody>
+                                </table>
+
+                            </div> <!-- end card body-->
+                        </div> <!-- end card -->
+                    </div><!-- end col-->
+                </div>
+            </div>
+
+            <div id="SW"></div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title">Sewing <span class="badge badge-danger badge-pill live">Live</span></h1>
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table id="datatable-buttonsSW" class="table table-striped dt-responsive nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th>Roll No</th>
+                                            <th>PO ID</th>
+                                            <th>Qty</th>
+                                            <th>Finished Qty</th>
+                                            <th>Approved date</th>
+                                            <th>Added by</th>
+                                        </tr>
+                                    </thead>
+
+
+                                    <tbody id="sewinglive">
+                                        @foreach ($poswin as $item)
+                                        <tr>
+                                            <td>{{ $item['id'] }}</td>
+                                            <td>{{ $item['poid'] }}</td>
+                                            <td>{{ $item['pqty'] }}</td>
+                                            <td><h5><span style="font-size:120%;" class="badge badge-success badge-pill live">{{ $item['finQty'] }}</span></h5></td>
+                                            <td>{{ $item['apdt'] }}</td>
+                                            <td style="text-transform:capitalize">{{ $item['name'] }}</td>
+                                        </tr>
+                                        @endforeach
+
+                                    </tbody>
+                                </table>
+
+                            </div> <!-- end card body-->
+                        </div> <!-- end card -->
+                    </div><!-- end col-->
+                </div>
+            </div>
         </div>
     </div>
 

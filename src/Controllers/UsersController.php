@@ -500,16 +500,60 @@ class UsersController
         $rollinfo = $db->select($query);
         $rollinfoc = mysqli_num_rows($rollinfo);
 
+        $poctin = [];
+        $poctinc = 0;
+
+        $query = "SELECT * from woht where lcs = 6";
+        $poctin = $db->select($query);
+        $poctinc = mysqli_num_rows($poctin);
+
+        $poswin = [];
+        $poswinc = 0;
+
+        $query = "SELECT woht.*, umf.name from woht inner join umf on woht.ab = umf.id where lcs = 9";
+        $poswin = $db->select($query);
+        $poswinc = mysqli_num_rows($poswin);
+
+
         $csrfk = Token::setcsrfk();
         $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
         echo $blade->run("Overview", array(
             "title" => $title,
             "csrfk" => $csrfk,
+
             "posatMR" => $posatMR,
             "posatMRc" => $posatMRc,
+
             "rollinfo" => $rollinfo,
-            "rollinfoc" => $rollinfoc
+            "rollinfoc" => $rollinfoc,
+
+            "poctin" => $poctin,
+            "poctinc" => $poctinc,
+
+            "poswin" => $poswin,
+            "poswinc" => $poswinc
         ));
+    }
+
+    public function getSW()
+    {
+        $db = new Database();
+        $html = "";
+        $query = "SELECT woht.*, umf.name from woht inner join umf on woht.ab = umf.id where lcs = 9";
+        if ($results = $db->select($query)) {
+            while ($item = $results->fetch_array()) {
+                $row = "<tr>" .
+                    "<td>" . $item['id'] . "</td>" .
+                    "<td>" . $item['poid'] . "</td>" .
+                    "<td>" . $item['pqty'] . "</td>" .
+                    "<td><span style='font-size:120%' class='badge badge-info badge-pill live'>" . $item['finQty'] . "</span></td>" .
+                    "<td>" . $item['apdt'] . "</td>" .
+                    "<td style='text-transform:capitalize'>" . $item['name'] . "</td>" .
+                    "</tr>";
+                $html .= $row;
+            }
+        }
+        return $html;
     }
 
     public function login(Request $request)

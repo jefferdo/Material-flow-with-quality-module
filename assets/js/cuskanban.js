@@ -123,7 +123,7 @@
                 Swal.fire({
                     title: 'Your uploaded picture',
                     text: data
-                })   
+                })
             }
             reader.readAsText(data[0]);
         }
@@ -268,6 +268,7 @@
 })(jQuery);
 
 function showRoll(id) {
+    
     Swal.fire({
         title: '<strong>Roll No:.' + id + '</strong>',
         type: 'info',
