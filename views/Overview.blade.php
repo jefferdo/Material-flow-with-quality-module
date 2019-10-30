@@ -22,8 +22,6 @@
                 </div>
                 @endif
             </div>
-
-            <div id="MR"></div>
             <!-- start page title -->
             <div class="row">
                 <div class="col-12">
@@ -33,6 +31,8 @@
                 </div>
             </div>
 
+            <div class="anchor" id="MR"></div>
+            
             <div class="card">
                 <div class="card-body">
                     <h1 class="card-title">Material Receive</h1>
@@ -60,7 +60,7 @@
                 </div>
             </div>
 
-            <div id="MI"></div>
+            <div class="anchor" id="MI"></div>
 
             <div class="card">
                 <div class="card-body">
@@ -106,7 +106,7 @@
                 </div>
             </div>
 
-            <div id="CT"></div>
+            <div class="anchor" id="CT"></div>
 
             <div class="card">
                 <div class="card-body">
@@ -130,7 +130,7 @@
                                         @foreach ($poctin as $item)
                                         <tr>
                                             <td>{{ $item['id'] }}</td>
-                                            <td>{{ $item['poid'] }}</td>                                            
+                                            <td>{{ $item['poid'] }}</td>
                                             <td>{{ $item['pqty'] }}</td>
                                             <td>{{ $item['apdt'] }}</td>
                                             <td style="text-transform:capitalize">{{ $item['name'] }}</td>
@@ -146,11 +146,12 @@
                 </div>
             </div>
 
-            <div id="SW"></div>
+            <div class="anchor" id="SW"></div>
 
             <div class="card" id="sewingcard">
                 <div class="card-body">
-                    <h1 class="card-title">Sewing <span id="LiveIcon" class="badge badge-danger badge-pill live">Live</span></h1>
+                    <h1 class="card-title">Sewing <span
+                            class="badge badge-danger badge-pill live LiveIcon">Live</span></h1>
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
@@ -173,7 +174,9 @@
                                             <td>{{ $item['id'] }}</td>
                                             <td>{{ $item['poid'] }}</td>
                                             <td>{{ $item['pqty'] }}</td>
-                                            <td><span style="font-size:120%;" class="badge badge-info badge-pill live">{{ $item['finQty'] }}</span></td>
+                                            <td><span style="font-size:120%;"
+                                                    class="badge badge-info badge-pill live">{{ $item['finQty'] }}</span>
+                                            </td>
                                             <td>{{ $item['apdt'] }}</td>
                                             <td style="text-transform:capitalize">{{ $item['name'] }}</td>
                                         </tr>

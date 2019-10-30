@@ -124,16 +124,17 @@
                             </a>
                             <ul class="nav-second-level" aria-expanded="false">
                                 <li>
-                                    <a href="#MR">Material Receive</a>
+                                    <a href="/#MR">Material Receive</a>
                                 </li>
                                 <li>
-                                    <a href="#MI">Material Inspection</a>
+                                    <a href="/#MI">Material Inspection</a>
                                 </li>
                                 <li>
-                                    <a href="#CT">Cutting</a>
+                                    <a href="/#CT">Cutting</a>
                                 </li>
                                 <li>
-                                    <a href="#SW">Sewing</a>
+                                    <a href="/#SW">Sewing <span
+                                        class="badge badge-danger badge-pill live LiveIcon">Live</span></a>
                                 </li>
                             </ul>
                         </li>

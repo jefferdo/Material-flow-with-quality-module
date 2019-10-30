@@ -60,6 +60,13 @@ body {
   background-size: cover;
 }
 
+.anchor {
+  display: block;
+  position: relative;
+  top: -200px;
+  visibility: hidden;
+}
+
 @media only screen and (max-width: 640px) {
   .raspw {
     height: 450px;
