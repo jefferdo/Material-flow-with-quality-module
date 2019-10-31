@@ -137,7 +137,7 @@
  </div>
  <!-- end col -->
 
- <?php /*  <div class="col-lg-4">
+ <div class="col-lg-4">
  <div class="card-box">
  <div class="dropdown float-right">
  <a href="#" class="dropdown-toggle arrow-none" data-toggle="dropdown" aria-expanded="false">
@@ -179,7 +179,7 @@
  </ul>
 
  </div>
- </div> */ ?>
+ </div>
  <!-- end col -->
 
  </div>

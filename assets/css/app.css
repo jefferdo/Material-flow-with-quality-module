@@ -67,6 +67,12 @@ body {
   visibility: hidden;
 }
 
+label.customInput input[type="file"] {
+  position:absolute;
+  top: -1000px;
+}
+
+
 @media only screen and (max-width: 640px) {
   .raspw {
     height: 450px;

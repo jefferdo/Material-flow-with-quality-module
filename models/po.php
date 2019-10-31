@@ -7,6 +7,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/models/log.php');
 class PO
 {
     private $id;
+    private $pono;
     private $qty;
     private $data;
     private $date;
@@ -24,6 +25,9 @@ class PO
         switch ($name) {
             case 'id':
                 return $this->id;
+                break;
+            case 'pono':
+                return $this->pono;
                 break;
             case 'qty':
                 return $this->qty;
@@ -52,6 +56,7 @@ class PO
             if ($results = $this->db->select($query)) {
                 if ($row = $results->fetch_array()) {
                     $this->id = $row['id'];
+                    $this->pono = $row['pono'];
                     $this->qty = $row['qty'];
                     $this->lcs = $row['lcs'];
                     $this->data = $row['data'];

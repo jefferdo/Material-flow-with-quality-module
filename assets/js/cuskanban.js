@@ -106,29 +106,75 @@
         $(':button').prop('disabled', false);
     });
 
-    $("#AddMatNB").on("click", async function (e) {
-        const { value: file } = await Swal.fire({
-            title: 'Select CSV File',
-            input: 'file',
-            inputAttributes: {
-                accept: '.csv',
-                'aria-label': 'Select only the formated CSV files'
-            }
-        })
+    $("#AddMatNB").on("change", function (e) {
 
-        if (file) {
-            const reader = new FileReader()
-            reader.onload = (e) => {
-                let data = e.target.files;
-                Swal.fire({
-                    title: 'Your uploaded picture',
-                    text: data
-                })
-            }
-            reader.readAsText(data[0]);
+        var ext = $("#AddMatNB").val().split(".").pop().toLowerCase();
+
+        if ($.inArray(ext, ["csv"]) == -1) {
+            Swal.fire(
+                'Import Process Canceled',
+                'Proccess canceled due to a detected file error. You may try again!',
+                'info'
+            )
+            return false;
         }
-        $(':button').prop('disabled', false);
+
+        if (e.target.files != undefined) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                csvResult = e.target.result.split(/\r|\n|\r\n/);
+                csvResult.forEach(function (element, i) {
+                    if (i !== 0) {
+                        $('.csv').append(element + "<br/>");
+                        try {
+                            let form = new FormData();
+                            form.append("poid", $("#poid").val());
+                            form.append("h", dt[0]);
+                            form.append("w", dt[1]);
+                            form.append("l", dt[2]);
+                            $.ajax({
+                                type: "post",
+                                url: "/addRoll",
+                                data: form,
+                                processData: false,
+                                contentType: false,
+                                success: function (response) {
+                                    $(':button').prop('disabled', false);
+                                    Swal.fire(
+                                        'Confirm!',
+                                        response,
+                                        'success'
+                                    ).then(() => {
+                                        location.reload();
+                                    })
+                                },
+                                error: function (request, status, error) {
+                                    $(':button').prop('disabled', false);
+                                    Swal.fire({
+                                        type: 'error',
+                                        title: 'Oops...',
+                                        html: '<pre><code> Something went wrong! ' +
+                                            request.responseText +
+                                            '</code></pre>',
+                                    })
+                                }
+                            });
+                        } catch (error) {
+                            $(':button').prop('disabled', false);
+                            Swal.fire({
+                                type: 'error',
+                                title: 'Oops...',
+                                text: 'Something went wrong! ' + error,
+                            })
+                        }
+                    }
+                });
+
+            }
+            reader.readAsText(e.target.files.item(0));
+        }
     });
+
 
 })(jQuery);
 
@@ -268,7 +314,7 @@
 })(jQuery);
 
 function showRoll(id) {
-    
+
     Swal.fire({
         title: '<strong>Roll No:.' + id + '</strong>',
         type: 'info',

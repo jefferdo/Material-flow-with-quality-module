@@ -438,8 +438,7 @@
                 "Finished Qty": "finQty"
             }
         }
-    }
-    ,
+    },
     "102": {
         "stage": "B",
         "title": "Station Overview Dashboard",

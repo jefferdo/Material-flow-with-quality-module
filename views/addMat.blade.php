@@ -62,19 +62,25 @@
                     </div> <!-- end card-box -->
                 </div><!-- end col -->
             </div>
+
             <!-- end row -->
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
+                        <div class="csv"></div>
                         <input type="hidden" name="poid" id="poid" value="{{ $id }}">
                         <button style="margin:5px;" type="button" id='AddMatN'
                             class="btn btn-sm btn-blue waves-effect waves-light float-right">
                             <i class="mdi mdi-plus-circle"></i> Add Matirials
                         </button>
-                        <button style="margin:5px;" type="button" id='AddMatNB'
-                            class="btn btn-sm btn-warning waves-effect waves-light float-right">
-                            <i class="mdi mdi-plus-circle"></i> Add Matirials Batch
-                        </button>
+
+                        <label style="margin:5px;"
+                            class="btn btn-sm btn-warning waves-effect waves-light float-right customInput">
+                            <input id='AddMatNB' type="file" accept=".csv"  required/>
+                            <i class="mdi mdi-plus-circle"></i>
+                            <span>Add Matirials Batch</span>
+                        </label>
+
 
                         <h4 style="text-transform:capitalize" class="header-title mb-4">Currently available matirial
                             Details</h4>

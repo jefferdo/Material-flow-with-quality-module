@@ -6,19 +6,20 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/models/log.php');
 class Roll
 {
     private $id;
+    private $matid;
     private $date;
     private $supid;
 
+    private $width;
+    private $length;
+    private $color;
     private $sino;
     private $batchNo;
     private $rollNos;
     private $fabricType;
     private $baleNo;
-    private $color;
     private $shade;
     private $noPcs;
-    private $width;
-    private $length;
     private $GSM;
     private $gw;
     private $nw;
@@ -43,6 +44,9 @@ class Roll
         switch ($name) {
             case 'id':
                 $this->id = $value;
+                break;
+            case 'matid':
+                $this->matid = $value;
                 break;
             case 'poid':
                 $this->po = new PO($value);
@@ -74,6 +78,36 @@ class Roll
             case 'userid':
                 $this->user = new User($value);
                 break;
+            case "sino":
+                $this->sino = $value;
+                break;
+            case "batchNo":
+                $this->batchNo = $value;
+                break;
+            case "rollNos":
+                $this->rollNos = $value;
+                break;
+            case "fabricType":
+                $this->fabricType = $value;
+                break;
+            case "baleNo":
+                $this->baleNo = $value;
+                break;
+            case "shade":
+                $this->shade = $value;
+                break;
+            case "noPcs":
+                $this->noPcs = $value;
+                break;
+            case "GSM":
+                $this->GSM = $value;
+                break;
+            case "gw":
+                $this->gw = $value;
+                break;
+            case "nw":
+                $this->nw = $value;
+                break;
             default:
                 throw new Exception("Invalid Setter: " . $name, 1);
         }
@@ -84,6 +118,9 @@ class Roll
         switch ($name) {
             case 'id':
                 return $this->id;
+                break;
+            case 'matid':
+                return $this->matid;
                 break;
             case 'po':
                 return $this->po;
@@ -111,6 +148,36 @@ class Roll
                 break;
             case 'stg':
                 return $this->stg;
+                break;
+            case "sino":
+                return $this->sino;
+                break;
+            case "batchNo":
+                return $this->batchNo;
+                break;
+            case "rollNos":
+                return $this->rollNos;
+                break;
+            case "fabricType":
+                return $this->fabricType;
+                break;
+            case "baleNo":
+                return $this->baleNo;
+                break;
+            case "shade":
+                return $this->shade;
+                break;
+            case "noPcs":
+                return $this->noPcs;
+                break;
+            case "GSM":
+                return $this->GSM;
+                break;
+            case "gw":
+                return $this->gw;
+                break;
+            case "nw":
+                return $this->nw;
                 break;
             default:
                 throw new Exception("Invalid Getter: " . $name, 1);
@@ -144,10 +211,10 @@ class Roll
             if ($results = $this->db->select($query)) {
                 if ($row = $results->fetch_array()) {
                     $this->id = $row['id'];
+                    $this->matid = $row['matid'];
                     $this->date = $row['date'];
                     $this->supid = $row['supid'];
                     $this->length = $row['length'];
-                    $this->hgt = $row['hgt'];
                     $this->width = $row['width'];
                     $this->shrk = $row['shrk'];
                     $this->color = $row['color'];
@@ -155,6 +222,16 @@ class Roll
                     $this->ua = $row['ua'];
                     $this->stg = $row['stg'];
                     $this->po = $row['poid'];
+                    $this->sino = $row['sino'];
+                    $this->batchNo = $row['batchNo'];
+                    $this->rollNos = $row['rollNos'];
+                    $this->fabricType = $row['fabricType'];
+                    $this->baleNo = $row['baleNo'];
+                    $this->shade = $row['shade'];
+                    $this->noPcs = $row['noPcs'];
+                    $this->GSM = $row['GSM'];
+                    $this->gw = $row['gw'];
+                    $this->nw = $row['nw'];
                 } else {
                     throw new Exception('Invalid Roll ID : 0x02', 0);
                 }
