@@ -53,14 +53,18 @@ class Token
 
     public static function setcsrfk()
     {
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         $_SESSION['csrfk'] = Token::getToken(100);
         return $_SESSION['csrfk'];
     }
 
     public static function chkcsrfk($key)
     {
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         if (isset($_SESSION['csrfk'])) {
             if ($_SESSION['csrfk'] == $key) {
                 unset($_SESSION["csrfk"]);
@@ -73,7 +77,8 @@ class Token
         }
     }
 
-    public static function getBarcode($code){
+    public static function getBarcode($code)
+    {
         $bar = new BarcodeGeneratorHTML();
         return $bar->getBarcode($code, $bar::TYPE_CODE_128);
     }
