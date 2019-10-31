@@ -56,7 +56,7 @@ class PO
             if ($results = $this->db->select($query)) {
                 if ($row = $results->fetch_array()) {
                     $this->id = $row['id'];
-                    //$this->pono = $row['pono'];
+                    $this->pono = $row['pono'];
                     $this->qty = $row['qty'];
                     $this->lcs = $row['lcs'];
                     $this->data = $row['data'];
