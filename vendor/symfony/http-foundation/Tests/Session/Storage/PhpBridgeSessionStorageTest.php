@@ -67,7 +67,9 @@ class PhpBridgeSessionStorageTest extends TestCase
         $this->assertNotSame(\PHP_SESSION_ACTIVE, session_status());
         $this->assertFalse($storage->isStarted());
 
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         $this->assertTrue(isset($_SESSION));
         $this->assertSame(\PHP_SESSION_ACTIVE, session_status());
         // PHP session might have started, but the storage driver has not, so false is correct here
@@ -82,7 +84,9 @@ class PhpBridgeSessionStorageTest extends TestCase
     public function testClear()
     {
         $storage = $this->getStorage();
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         $_SESSION['drak'] = 'loves symfony';
         $storage->getBag('attributes')->set('symfony', 'greatness');
         $key = $storage->getBag('attributes')->getStorageKey();

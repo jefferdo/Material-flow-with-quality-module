@@ -60,7 +60,9 @@ class User
     public function __construct($id)
     {
         $this->db = new Database();
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         if (isset($_SESSION['uid'])) {
             $this->id = $_SESSION['uid'];
         } else {
@@ -113,7 +115,9 @@ class User
         if ($this->passwd == $this->passwdT) {
             $this->lsl = date("Y-m-d H:i:s");
             $token = new Token();
+            if (!isset($_SESSION)) {
             session_start();
+        }
             $_SESSION["uid"] = $this->id;
             $this->key = $token->getToken(40);
             if ($this->save() > 0) {
@@ -130,7 +134,9 @@ class User
 
     public function session()
     {
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         /* echo $this->key . "<br/>";
         echo $_SESSION['key'];
         exit; */
@@ -150,7 +156,9 @@ class User
 
     public function logout()
     {
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         session_destroy();
     }
 }

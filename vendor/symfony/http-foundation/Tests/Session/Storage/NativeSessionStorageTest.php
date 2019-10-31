@@ -232,7 +232,9 @@ class NativeSessionStorageTest extends TestCase
         $this->assertFalse($storage->getSaveHandler()->isActive());
         $this->assertFalse($storage->isStarted());
 
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         $this->assertTrue(isset($_SESSION));
         $this->assertTrue($storage->getSaveHandler()->isActive());
 
@@ -258,7 +260,9 @@ class NativeSessionStorageTest extends TestCase
 
     public function testCanCreateNativeSessionStorageWhenSessionAlreadyStarted()
     {
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         $this->getStorage();
 
         // Assert no exception has been thrown by `getStorage()`
@@ -267,7 +271,9 @@ class NativeSessionStorageTest extends TestCase
 
     public function testSetSessionOptionsOnceSessionStartedIsIgnored()
     {
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         $this->getStorage([
             'name' => 'something-else',
         ]);
@@ -278,7 +284,9 @@ class NativeSessionStorageTest extends TestCase
 
     public function testGetBagsOnceSessionStartedIsIgnored()
     {
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         $bag = new AttributeBag();
         $bag->setName('flashes');
 
