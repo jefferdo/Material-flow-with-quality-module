@@ -98,6 +98,10 @@ $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/addRollB', ['uses' => 'UsersController@addRollB']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
     $router->post('/inMat', ['uses' => 'UsersController@inMat']);
 });
 
