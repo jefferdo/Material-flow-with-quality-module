@@ -1,5 +1,6 @@
 <?php
 error_reporting(E_ALL); ini_set('display_errors', 1);
+error_reporting(0);
 include_once($_SERVER['DOCUMENT_ROOT'] . '/services/database.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/services/token.php');
 
