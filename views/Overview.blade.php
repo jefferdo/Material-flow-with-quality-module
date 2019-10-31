@@ -117,7 +117,7 @@
                                 <table id="datatable-buttonsCT" class="table table-striped dt-responsive nowrap">
                                     <thead>
                                         <tr>
-                                            <th>Roll No</th>
+                                            <th>Workorder ID</th>
                                             <th>PO ID</th>
                                             <th>Qty</th>
                                             <th>Added date</th>
@@ -158,7 +158,7 @@
                                 <table id="datatable-buttonsSW" class="table table-striped dt-responsive nowrap">
                                     <thead>
                                         <tr>
-                                            <th>Roll No</th>
+                                            <th>Workorder ID</th>
                                             <th>PO ID</th>
                                             <th>Qty</th>
                                             <th>Finished Qty</th>
