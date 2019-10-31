@@ -36,7 +36,9 @@ class UsersController
     public function index()
     {
         $this->user = null;
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         if (isset($_SESSION['uid']) && isset($_SESSION['key'])) {
             $this->user = new User($_SESSION['uid']);
             if ($this->user->session() == 1) {
@@ -237,7 +239,9 @@ class UsersController
 
     public function sendForWo(Request $request)
     {
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         if (true) {
             $this->user = new User($_SESSION['uid']);
             if ($this->user->session() == 0) {
@@ -289,7 +293,9 @@ class UsersController
 
     public function sendForWa(Request $request)
     {
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         if (true) {
             $this->user = new User($_SESSION['uid']);
             if ($this->user->session() == 0) {
@@ -723,7 +729,9 @@ class UsersController
 
     public function qa(Request $request)
     {
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         if (Token::chkcsrfk($request->csrfk) == 1) {
             $this->user = new User($_SESSION['uid']);
             if ($this->user->session() == 0) {
@@ -769,7 +777,9 @@ class UsersController
 
     public function qa_wo(Request $request)
     {
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         if (Token::chkcsrfk($request->csrfk) == 1) {
             $this->user = new User($_SESSION['uid']);
             if ($this->user->session() == 0) {
@@ -815,7 +825,9 @@ class UsersController
 
     public function qa_items(Request $request)
     {
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         if (true) {
             $this->user = new User($_SESSION['uid']);
             if ($this->user->session() == 0) {
@@ -862,7 +874,9 @@ class UsersController
 
     public function qa_itemsF(Request $request)
     {
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         if (true) {
             $this->user = new User($_SESSION['uid']);
             if ($this->user->session() == 0) {
@@ -998,7 +1012,9 @@ class UsersController
 
     public function makeWO(Request $request)
     {
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         if (Token::chkcsrfk($request->csrfk) == 1) {
 
             $this->user = new User($_SESSION['uid']);
@@ -1045,7 +1061,9 @@ class UsersController
 
     public function readyWO(Request $request)
     {
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         if (Token::chkcsrfk($request->csrfk) == 1) {
 
             $this->user = new User($_SESSION['uid']);
@@ -1083,7 +1101,9 @@ class UsersController
 
     public function addMat(Request $request)
     {
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         $this->user = new User($_SESSION['uid']);
         if ($this->user->session() == 0) {
             $this->index();
@@ -1130,7 +1150,9 @@ class UsersController
 
     public function inMat(Request $request)
     {
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         $this->user = new User($_SESSION['uid']);
         if ($this->user->session() == 0) {
             $this->index();
@@ -1189,7 +1211,9 @@ class UsersController
 
     public function creWF(Request $request)
     {
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         $this->user = new User($_SESSION['uid']);
         if ($this->user->session() == 0) {
             $this->index();
@@ -1234,7 +1258,9 @@ class UsersController
 
     public function buildWF(Request $request)
     {
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         $this->user = new User($_SESSION['uid']);
         if ($this->user->session() == 0) {
             $this->index();

@@ -61,7 +61,9 @@ class AbstractProxyTest extends TestCase
     public function testIsActive()
     {
         $this->assertFalse($this->proxy->isActive());
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         $this->assertTrue($this->proxy->isActive());
     }
 
@@ -84,7 +86,9 @@ class AbstractProxyTest extends TestCase
     public function testNameException()
     {
         $this->expectException('LogicException');
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         $this->proxy->setName('foo');
     }
 
@@ -107,7 +111,9 @@ class AbstractProxyTest extends TestCase
     public function testIdException()
     {
         $this->expectException('LogicException');
-        session_start();
+        if (!isset($_SESSION)) {
+            session_start();
+        }
         $this->proxy->setId('foo');
     }
 }
