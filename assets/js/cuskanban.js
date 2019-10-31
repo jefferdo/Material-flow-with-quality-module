@@ -129,12 +129,29 @@
                         try {
                             let form = new FormData();
                             form.append("poid", $("#poid").val());
-                            form.append("h", dt[0]);
-                            form.append("w", dt[1]);
-                            form.append("l", dt[2]);
+                            form.append("id", element['0']);
+                            form.append("matid", element['1']);
+                            form.append("date", element['2']);
+                            form.append("supid", element['3']);
+                            form.append("color", element['4']);
+                            form.append("aa", element['5']);
+                            form.append("ua", element['6']);
+                            form.append("stg", element['7']);
+                            form.append("sino", element['8']);
+                            form.append("batchNo", element['9']);
+                            form.append("rollNos", element['10']);
+                            form.append("fabricType", element['11']);
+                            form.append("baleNo", element['12']);
+                            form.append("shade", element['13']);
+                            form.append("noPcs", element['14']);
+                            form.append("width", element['15']);
+                            form.append("length", element['16']);
+                            form.append("GSM", element['17']);
+                            form.append("gw", element['18']);
+                            form.append("nw", element['19']);
                             $.ajax({
                                 type: "post",
-                                url: "/addRoll",
+                                url: "/addRollB",
                                 data: form,
                                 processData: false,
                                 contentType: false,

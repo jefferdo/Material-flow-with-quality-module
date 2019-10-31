@@ -1180,6 +1180,13 @@ class UsersController
         return $po->addMat($request->h, $request->w, $request->l);
     }
 
+    public function addRollB(Request $request)
+    {
+        
+        $po =  new PO($request->poid);
+        return $po->addMat($request->h, $request->w, $request->l);
+    }
+
     public function creWF(Request $request)
     {
         session_start();
