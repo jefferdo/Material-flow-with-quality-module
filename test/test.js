@@ -47,21 +47,14 @@ $(document).ready(function () {
                         for (let index in data.PO) {
                             //console.log(data.PO[index]);
                             if (data.PO[index].PONO === ponoCSV) {
-
                                 //console.log("Found: " + ponoCSV);
                                 if (data.PO[index].Color.hasOwnProperty(row.color)) {
-
                                     //console.log("Color found " + row.color);
-
                                     data.PO[index].Color[colorNameCSV][sizeNameCSV] = CutQtyCSV;
-
                                 } else {
-
                                     //console.log("New color " + row.color);
-
                                     let color = JSON.parse('{"' + colorNameCSV + '": {"' + sizeNameCSV + '":"' + CutQtyCSV + '"}}');
-                                    data.PO[index].Color = color;
-
+                                    $.extend(data.PO[index].Color,color)
                                 }
                             }
                             else {
