@@ -129,8 +129,6 @@ class UsersController
         $po = new PO(null);
         $results = $po->getlcs($prev['stage'] - 1);
         while ($row = $results->fetch_array()) {
-            $log = new alog($row['id'], null);
-            $row["date"] = $log->getdate($prev['stage'] - 1);
             $row['style'] = (json_decode($row['data'])->Style);
             $row['product'] = (json_decode($row['data'])->Product);
             $row['cus'] = (json_decode($row['data'])->Customer);

@@ -121,7 +121,7 @@ class PO
     public function getlcs($lcs)
     {
         $this->db = new Database();
-        $query = "SELECT poht.id, poht.qty, poht.lcs, podt.td as data from poht inner join podt on poht.id = podt.poid where lcs ='" . $lcs . "'";
+        $query = "SELECT poht.id, poht.qty, poht.date, poht.lcs, podt.td as data from poht inner join podt on poht.id = podt.poid where lcs ='" . $lcs . "'";
         return $this->db->select($query);
     }
 
@@ -212,6 +212,7 @@ class PO
             if ($this->db->iud($query)) {
                 $query = "INSERT INTO podt(poid,td) VALUES('" . $this->id . "','" . $this->data . "')";
                 if ($this->db->iud($query) == 1) {
+
                     return 1;
                 } else {
                     throw new Exception("Somthing went Wrong: 0x02 : " . $query, 1);
