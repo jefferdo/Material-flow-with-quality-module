@@ -63,7 +63,7 @@ class User
         if (!isset($_SESSION)) {
             session_start();
         }
-        if (isset($_SESSION['uid'])) {
+        if (isset($_SESSION['uid']) && $id == null) {
             $this->id = $_SESSION['uid'];
         } else {
             $this->id = $id;
@@ -116,8 +116,8 @@ class User
             $this->lsl = date("Y-m-d H:i:s");
             $token = new Token();
             if (!isset($_SESSION)) {
-            session_start();
-        }
+                session_start();
+            }
             $_SESSION["uid"] = $this->id;
             $this->key = $token->getToken(40);
             if ($this->save() > 0) {

@@ -126,12 +126,17 @@ $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/addNewPO', ['uses' => 'UsersController@addNewPO']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
     $router->get('/getSW', ['uses' => 'UsersController@getSW']);
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
     $router->get('/getBarcode/{key}', ['uses' => 'UsersController@getBarcode']);
 });
+
 // catch-all route
 $router->any('{any}', function () {
     $blade = new BladeOne($views, $cache, BladeOne::MODE_AUTO);

@@ -75,6 +75,15 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
+                        <input type="hidden" name="poid" id="poid" value="{{ $id }}">
+                        <label style="margin:5px;"
+                            class="btn btn-sm btn-warning waves-effect waves-light float-right customInput">
+                            <input id='AddPONB' type="file" accept=".csv" required />
+                            <i class="mdi mdi-plus-circle"></i>
+                            <span>Add Purchase Orders Batch</span>
+                        </label>
+
+
                         <h4 class="header-title mb-4">Purchase Orders</h4>
 
                         <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100"
