@@ -189,7 +189,7 @@ class Roll
         $this->db = new Database();
         if ($id == "new") {
             $prefix = date("Yz");
-            $query = "Select id from inht  where id LIKE 'R" . $prefix . "%' ORDER BY id desc LIMIT 1";
+            $query = "SELECT id from inht  where id LIKE 'R" . $prefix . "%' ORDER BY id desc LIMIT 1";
             if ($results = $this->db->select($query)) {
                 if ($row = $results->fetch_array()) {
                     $this->id = "R" . $prefix . str_pad(substr($row['id'], -3) + 1, 3, "0", STR_PAD_LEFT);

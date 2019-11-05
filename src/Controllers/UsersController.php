@@ -129,8 +129,6 @@ class UsersController
         $po = new PO(null);
         $results = $po->getlcs($prev['stage'] - 1);
         while ($row = $results->fetch_array()) {
-            $log = new alog($row['id'], null);
-            $row["date"] = $log->getdate($prev['stage'] - 1);
             $row['style'] = (json_decode($row['data'])->Style);
             $row['product'] = (json_decode($row['data'])->Product);
             $row['cus'] = (json_decode($row['data'])->Customer);
@@ -705,6 +703,16 @@ class UsersController
     }
 
 
+    public function addNewPO(Request $request)
+    {
+        $po = new PO("new");
+        $po->pono = $request->po['PONO'];
+        $po->data = json_encode($request->po);
+        $po->qty = $request->po['Qty'];
+        return $po->addAsNew();
+    }
+
+
     public function preview()
     {
         /* $roll = new Roll('new');
@@ -1204,7 +1212,7 @@ class UsersController
 
     public function addRollB(Request $request)
     {
-        
+
         $po =  new PO($request->poid);
         return $po->addMat($request->h, $request->w, $request->l);
     }
