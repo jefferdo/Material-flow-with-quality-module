@@ -174,12 +174,9 @@ class PO
         return $stat;
     }
 
-    public function addMat($h, $w, $l)
+    public function addMat($roll)
     {
         $roll = new Roll("new");
-        $roll->hgt = $h;
-        $roll->wdth = $w;
-        $roll->lgth = $l;
         if ($roll->save() == 1) {
             if ($roll->assignPO($this->id) == 1)
                 return 1;
@@ -212,7 +209,6 @@ class PO
             if ($this->db->iud($query)) {
                 $query = "INSERT INTO podt(poid,td) VALUES('" . $this->id . "','" . $this->data . "')";
                 if ($this->db->iud($query) == 1) {
-
                     return 1;
                 } else {
                     throw new Exception("Somthing went Wrong: 0x02 : " . $query, 1);

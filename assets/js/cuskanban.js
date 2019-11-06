@@ -38,74 +38,6 @@
 
 (function ($) {
 
-    $("#AddMatN").on("click", function (e) {
-        Swal.mixin({
-            input: 'text',
-            confirmButtonText: 'Next &rarr;',
-            showCancelButton: true,
-            progressSteps: ['1', '2', '3', '4']
-        }).queue([
-            'Enter Height (m)',
-            'Enter Width (m)',
-            'Enter Length (m)',
-            'Enter Area (square m)'
-        ]).then((result) => {
-            if (result.value) {
-                $(':button').prop('disabled', true);
-                let dt = result.value;
-                if (dt != null) {
-                    try {
-                        dt.forEach(element => {
-                            if (!$.isNumeric(element)) {
-                                throw new Error("Invalid Value: " + element)
-                            }
-                        });
-                        let form = new FormData();
-                        form.append("poid", $("#poid").val());
-                        form.append("h", dt[0]);
-                        form.append("w", dt[1]);
-                        form.append("l", dt[2]);
-                        $.ajax({
-                            type: "post",
-                            url: "/addRoll",
-                            data: form,
-                            processData: false,
-                            contentType: false,
-                            success: function (response) {
-                                $(':button').prop('disabled', false);
-                                Swal.fire(
-                                    'Confirm!',
-                                    response,
-                                    'success'
-                                ).then(() => {
-                                    location.reload();
-                                })
-                            },
-                            error: function (request, status, error) {
-                                $(':button').prop('disabled', false);
-                                Swal.fire({
-                                    type: 'error',
-                                    title: 'Oops...',
-                                    html: '<pre><code> Something went wrong! ' +
-                                        request.responseText +
-                                        '</code></pre>',
-                                })
-                            }
-                        });
-                    } catch (error) {
-                        $(':button').prop('disabled', false);
-                        Swal.fire({
-                            type: 'error',
-                            title: 'Oops...',
-                            text: 'Something went wrong! ' + error,
-                        })
-                    }
-                }
-            }
-        });
-        $(':button').prop('disabled', false);
-    });
-
     function hasMatch(JSON, key, value) {
         var hasMatch = false;
         for (var index = 0; index < JSON.length; ++index) {
@@ -163,12 +95,57 @@
         if (e.target.files != undefined) {
             var reader = new FileReader();
             reader.onload = function (e) {
-                csvResult = e.target.result.split(/\r|\n|\r\n/);
-                csvResult.forEach(function (element, i) {
-                    if (i !== 0) {
-                        $('.csv').append(element + "<br/>");
+                csvResult = $.csv.toObjects(e.target.result);
+                Swal.fire({
+                    title: csvResult.length + ' Rolls detected, Ready to finish adding?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, add as New Purchase Orders!'
+                }).then((result) => {
+                    if (result.value) {
+                        $('#preloader').delay(350).fadeIn('slow');
+                        $('#status').fadeIn();
+                        csvResult.forEach(function (row, i) {
+                            $.ajax({
+                                type: "post",
+                                url: "/addNewPO",
+                                data: { "roll": row },
+                                success: function (response) {
+                                    console.log("Success! " + response);
+                                    if ((po.length - 1) == index) {
+                                        console.log("Resolving!");
+                                        dfrd1.resolve();
+                                        $('#status').fadeOut();
+                                        $('#preloader').delay(350).fadeOut('slow');
+                                    }
+                                    count++;
+                                },
+                                error: function (error) {
+                                    console.error(error);
+                                }
+                            });
+
+                            console.log(row);
+                            if ((csvResult.length - 1) == i) {
+                                console.log("Resolving!");
+                                $('#status').fadeOut();
+                                $('#preloader').delay(350).fadeOut('slow');
+                            }
+                        });
+                        Swal.fire(
+                            'Added Successfully!',
+                            'This page will be refreshed.',
+                            'success'
+                        ).then(() => {
+                            window.location.reload();
+                        })
+                    } else {
+                        window.location.reload();
                     }
-                });
+                })
 
             }
             reader.readAsText(e.target.files.item(0));

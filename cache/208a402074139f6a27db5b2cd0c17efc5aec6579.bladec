@@ -106,7 +106,7 @@
 
  <tr>
  <td><b><?php echo static::e($item['id']); ?></b></td>
- <td><b><?php echo static::e($item['pono']); ?></b></td>
+ <td class="text text-danger"><b><?php echo static::e($item['pono']); ?></b></td>
  <td>
  <?php echo static::e($item['cus']); ?>
 
@@ -123,7 +123,7 @@
  </td>
 
  <td>
- <?php echo static::e($item['date']); ?>
+ <?php echo static::e(date("F jS, Y", strtotime($item['date']))); ?>
 
  </td>
 

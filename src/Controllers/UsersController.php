@@ -132,8 +132,6 @@ class UsersController
             $row['style'] = (json_decode($row['data'])->Style);
             $row['product'] = (json_decode($row['data'])->Product);
             $row['cus'] = (json_decode($row['data'])->Customer);
-            $row['cus'] = (json_decode($row['data'])->Customer);
-            $row['cdt'] = (json_decode($row['data'])->initDate);
             $row['matdt'] = (json_decode($row['data'])->matDate);
             array_push($poset, $row);
         }
@@ -1206,13 +1204,6 @@ class UsersController
 
     public function addRoll(Request $request)
     {
-        $po =  new PO($request->poid);
-        return $po->addMat($request->h, $request->w, $request->l);
-    }
-
-    public function addRollB(Request $request)
-    {
-
         $po =  new PO($request->poid);
         return $po->addMat($request->h, $request->w, $request->l);
     }
