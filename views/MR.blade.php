@@ -95,7 +95,6 @@
                                     <th>Customer</th>
                                     <th>Style</th>
                                     <th>Quantity</th>
-                                    <th>Product</th>
                                     <th>Created Date</th>
                                     <th class="hidden-sm">Action</th>
                                 </tr>
@@ -117,11 +116,6 @@
 
                                     <td>
                                         {{ $item['qty'] }}
-                                    </td>
-
-                                    <td>
-                                        <span
-                                            class="badge bg-soft-secondary text-secondary">{{ $item['product'] }}</span>
                                     </td>
 
                                     <td>

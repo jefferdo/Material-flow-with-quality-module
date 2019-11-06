@@ -85,7 +85,7 @@ class PO
             $query = "SELECT id from poht  where id LIKE 'PO" . $prefix . "%' ORDER BY id desc LIMIT 1";
             if ($results = $this->db->select($query)) {
                 if ($row = $results->fetch_array()) {
-                    $this->id = "PO" . $prefix . str_pad(substr($row['id'], -4) + 1, 3, "0", STR_PAD_LEFT);
+                    $this->id = "PO" . $prefix . str_pad(substr($row['id'], -4) + 1, 4, "0", STR_PAD_LEFT);
                     $this->user = new User(null);
                 } else {
                     $this->id = "PO" . $prefix . "0001";
