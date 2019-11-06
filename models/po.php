@@ -121,7 +121,7 @@ class PO
     public function getlcs($lcs)
     {
         $this->db = new Database();
-        $query = "SELECT poht.id, poht.qty, poht.date, poht.lcs, podt.td as data from poht inner join podt on poht.id = podt.poid where lcs ='" . $lcs . "'";
+        $query = "SELECT poht.id, poht.pono, poht.qty, poht.date, poht.lcs, podt.td as data from poht inner join podt on poht.id = podt.poid where lcs ='" . $lcs . "'";
         return $this->db->select($query);
     }
 
