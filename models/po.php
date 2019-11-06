@@ -85,7 +85,7 @@ class PO
             $query = "SELECT id from poht  where id LIKE 'PO" . $prefix . "%' ORDER BY id desc LIMIT 1";
             if ($results = $this->db->select($query)) {
                 if ($row = $results->fetch_array()) {
-                    $this->id = "PO" . $prefix . str_pad(substr($row['id'], -4) + 1, 3, "0", STR_PAD_LEFT);
+                    $this->id = "PO" . $prefix . str_pad(substr($row['id'], -4) + 1, 4, "0", STR_PAD_LEFT);
                     $this->user = new User(null);
                 } else {
                     $this->id = "PO" . $prefix . "0001";
@@ -121,7 +121,7 @@ class PO
     public function getlcs($lcs)
     {
         $this->db = new Database();
-        $query = "SELECT poht.id, poht.qty, poht.date, poht.lcs, podt.td as data from poht inner join podt on poht.id = podt.poid where lcs ='" . $lcs . "'";
+        $query = "SELECT poht.id, poht.pono, poht.qty, poht.date, poht.lcs, podt.td as data from poht inner join podt on poht.id = podt.poid where lcs ='" . $lcs . "'";
         return $this->db->select($query);
     }
 

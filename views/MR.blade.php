@@ -91,13 +91,11 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>Purchase Order No.</th>
                                     <th>Customer</th>
                                     <th>Style</th>
                                     <th>Quantity</th>
-                                    <th>Product</th>
-                                    <th>Status</th>
                                     <th>Created Date</th>
-                                    <th>Due Date</th>
                                     <th class="hidden-sm">Action</th>
                                 </tr>
                             </thead>
@@ -107,6 +105,7 @@
 
                                 <tr>
                                     <td><b>{{ $item['id'] }}</b></td>
+                                    <td><b>{{ $item['pono'] }}</b></td>
                                     <td>
                                         {{ $item['cus'] }}
                                     </td>
@@ -120,20 +119,7 @@
                                     </td>
 
                                     <td>
-                                        <span
-                                            class="badge bg-soft-secondary text-secondary">{{ $item['product'] }}</span>
-                                    </td>
-
-                                    <td>
-                                        <span class="badge badge-success">Waiting for Matirials</span>
-                                    </td>
-
-                                    <td>
                                         {{ $item['date'] }}
-                                    </td>
-
-                                    <td>
-                                        {{ $item['matdt'] }}
                                     </td>
 
                                     <td>
