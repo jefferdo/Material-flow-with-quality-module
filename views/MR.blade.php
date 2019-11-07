@@ -105,7 +105,7 @@
 
                                 <tr>
                                     <td><b>{{ $item['id'] }}</b></td>
-                                    <td><b>{{ $item['pono'] }}</b></td>
+                                    <td class="text text-danger"><b>{{ $item['pono'] }}</b></td>
                                     <td>
                                         {{ $item['cus'] }}
                                     </td>
@@ -119,7 +119,7 @@
                                     </td>
 
                                     <td>
-                                        {{ $item['date'] }}
+                                        {{ date("F jS, Y", strtotime($item['date'])) }}
                                     </td>
 
                                     <td>
