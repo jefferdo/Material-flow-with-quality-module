@@ -57,6 +57,7 @@
         $('#status').fadeIn();
         for (let index in po) {
             var dfrd1 = $.Deferred();
+            console.log(po[index]);
             $.ajax({
                 type: "post",
                 url: "/addNewPO",
