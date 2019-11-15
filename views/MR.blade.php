@@ -91,9 +91,9 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>Style</th>
                                     <th>Purchase Order No.</th>
                                     <th>Customer</th>
-                                    <th>Style</th>
                                     <th>Quantity</th>
                                     <th>Created Date</th>
                                     <th class="hidden-sm">Action</th>
@@ -105,13 +105,14 @@
 
                                 <tr>
                                     <td><b>{{ $item['id'] }}</b></td>
-                                    <td class="text text-danger"><b>{{ $item['pono'] }}</b></td>
-                                    <td>
-                                        {{ $item['cus'] }}
-                                    </td>
 
                                     <td>
                                         {{ $item['style'] }}
+                                    </td>
+
+                                    <td class="text text-danger"><b>{{ $item['pono'] }}</b></td>
+                                    <td>
+                                        {{ $item['cus'] }}
                                     </td>
 
                                     <td>

@@ -92,9 +92,9 @@
  <thead>
  <tr>
  <th>ID</th>
+ <th>Style</th>
  <th>Purchase Order No.</th>
  <th>Customer</th>
- <th>Style</th>
  <th>Quantity</th>
  <th>Created Date</th>
  <th class="hidden-sm">Action</th>
@@ -106,14 +106,15 @@
 
  <tr>
  <td><b><?php echo static::e($item['id']); ?></b></td>
- <td class="text text-danger"><b><?php echo static::e($item['pono']); ?></b></td>
- <td>
- <?php echo static::e($item['cus']); ?>
-
- </td>
 
  <td>
  <?php echo static::e($item['style']); ?>
+
+ </td>
+
+ <td class="text text-danger"><b><?php echo static::e($item['pono']); ?></b></td>
+ <td>
+ <?php echo static::e($item['cus']); ?>
 
  </td>
 
