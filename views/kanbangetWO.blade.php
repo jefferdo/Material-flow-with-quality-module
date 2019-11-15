@@ -43,6 +43,10 @@
                                         <td><span>{{ $cus }}</span> </td>
                                     </tr>
                                     <tr class="text">
+                                        <td style="width: 35%;">Style</td>
+                                        <td><span>{{ $style }}</span> </td>
+                                    </tr>
+                                    <tr class="text">
                                         <td style="width: 35%;">Initiated Date</td>
                                         <td><span>{{ $initdt }}</span> </td>
                                     </tr>
