@@ -58,7 +58,8 @@
             "accept": "qaA",
             "reject": "qaR",
             "next": "searchpo"
-        }
+        },
+        "activation": false
     },
     "4": {
         "stage": 4,

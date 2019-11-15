@@ -160,7 +160,6 @@
         password = null;
     }
 
-
     $(uid).numKey({
         limit: 12,
         disorder: true
@@ -170,7 +169,6 @@
         limit: 12,
         disorder: true
     });
-
 
 })(jQuery);
 

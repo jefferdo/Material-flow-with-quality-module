@@ -69,10 +69,6 @@
  <div class="card-box">
  <div class="csv"></div>
  <input type="hidden" name="poid" id="poid" value="<?php echo static::e($id); ?>">
- <button style="margin:5px;" type="button" id='AddMatN'
- class="btn btn-sm btn-blue waves-effect waves-light float-right">
- <i class="mdi mdi-plus-circle"></i> Add Matirials
- </button>
 
  <label style="margin:5px;"
  class="btn btn-sm btn-warning waves-effect waves-light float-right customInput">

@@ -38,73 +38,46 @@
 
 (function ($) {
 
-    $("#AddMatN").on("click", function (e) {
-        Swal.mixin({
-            input: 'text',
-            confirmButtonText: 'Next &rarr;',
-            showCancelButton: true,
-            progressSteps: ['1', '2', '3', '4']
-        }).queue([
-            'Enter Height (m)',
-            'Enter Width (m)',
-            'Enter Length (m)',
-            'Enter Area (square m)'
-        ]).then((result) => {
-            if (result.value) {
-                $(':button').prop('disabled', true);
-                let dt = result.value;
-                if (dt != null) {
-                    try {
-                        dt.forEach(element => {
-                            if (!$.isNumeric(element)) {
-                                throw new Error("Invalid Value: " + element)
-                            }
-                        });
-                        let form = new FormData();
-                        form.append("poid", $("#poid").val());
-                        form.append("h", dt[0]);
-                        form.append("w", dt[1]);
-                        form.append("l", dt[2]);
-                        $.ajax({
-                            type: "post",
-                            url: "/addRoll",
-                            data: form,
-                            processData: false,
-                            contentType: false,
-                            success: function (response) {
-                                $(':button').prop('disabled', false);
-                                Swal.fire(
-                                    'Confirm!',
-                                    response,
-                                    'success'
-                                ).then(() => {
-                                    location.reload();
-                                })
-                            },
-                            error: function (request, status, error) {
-                                $(':button').prop('disabled', false);
-                                Swal.fire({
-                                    type: 'error',
-                                    title: 'Oops...',
-                                    html: '<pre><code> Something went wrong! ' +
-                                        request.responseText +
-                                        '</code></pre>',
-                                })
-                            }
-                        });
-                    } catch (error) {
-                        $(':button').prop('disabled', false);
-                        Swal.fire({
-                            type: 'error',
-                            title: 'Oops...',
-                            text: 'Something went wrong! ' + error,
-                        })
-                    }
-                }
+    function hasMatch(JSON, key, value) {
+        var hasMatch = false;
+        for (var index = 0; index < JSON.length; ++index) {
+
+            var line = JSON[index];
+
+            if (line[key] == value) {
+                hasMatch = true;
+                break;
             }
-        });
-        $(':button').prop('disabled', false);
-    });
+        }
+        return hasMatch;
+    }
+
+    function addNewPO(po, count) {
+        $('#preloader').delay(350).fadeIn('slow');
+        $('#status').fadeIn();
+        for (let index in po) {
+            var dfrd1 = $.Deferred();
+            $.ajax({
+                type: "post",
+                url: "/addNewPO",
+                data: { "po": po[index] },
+                success: function (response) {
+                    console.log("Success! " + response);
+                    if ((po.length - 1) == index) {
+                        console.log("Resolving!");
+                        dfrd1.resolve();
+                        $('#status').fadeOut();
+                        $('#preloader').delay(350).fadeOut('slow');
+                    }
+                    count++;
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+        return dfrd1.promise();
+    }
 
     $("#AddMatNB").on("change", function (e) {
 
@@ -122,76 +95,175 @@
         if (e.target.files != undefined) {
             var reader = new FileReader();
             reader.onload = function (e) {
-                csvResult = e.target.result.split(/\r|\n|\r\n/);
-                csvResult.forEach(function (element, i) {
-                    if (i !== 0) {
-                        $('.csv').append(element + "<br/>");
-                        try {
-                            let form = new FormData();
-                            form.append("poid", $("#poid").val());
-                            form.append("id", element['0']);
-                            form.append("matid", element['1']);
-                            form.append("date", element['2']);
-                            form.append("supid", element['3']);
-                            form.append("color", element['4']);
-                            form.append("aa", element['5']);
-                            form.append("ua", element['6']);
-                            form.append("stg", element['7']);
-                            form.append("sino", element['8']);
-                            form.append("batchNo", element['9']);
-                            form.append("rollNos", element['10']);
-                            form.append("fabricType", element['11']);
-                            form.append("baleNo", element['12']);
-                            form.append("shade", element['13']);
-                            form.append("noPcs", element['14']);
-                            form.append("width", element['15']);
-                            form.append("length", element['16']);
-                            form.append("GSM", element['17']);
-                            form.append("gw", element['18']);
-                            form.append("nw", element['19']);
+                csvResult = $.csv.toObjects(e.target.result);
+                Swal.fire({
+                    title: csvResult.length + ' Rolls detected, Ready to finish adding?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, add as New Purchase Orders!'
+                }).then((result) => {
+                    if (result.value) {
+                        $('#preloader').delay(350).fadeIn('slow');
+                        $('#status').fadeIn();
+                        csvResult.forEach(function (row, i) {
                             $.ajax({
                                 type: "post",
-                                url: "/addRollB",
-                                data: form,
-                                processData: false,
-                                contentType: false,
+                                url: "/addNewPO",
+                                data: { "roll": row },
                                 success: function (response) {
-                                    $(':button').prop('disabled', false);
-                                    Swal.fire(
-                                        'Confirm!',
-                                        response,
-                                        'success'
-                                    ).then(() => {
-                                        location.reload();
-                                    })
+                                    console.log("Success! " + response);
+                                    if ((po.length - 1) == index) {
+                                        console.log("Resolving!");
+                                        dfrd1.resolve();
+                                        $('#status').fadeOut();
+                                        $('#preloader').delay(350).fadeOut('slow');
+                                    }
+                                    count++;
                                 },
-                                error: function (request, status, error) {
-                                    $(':button').prop('disabled', false);
-                                    Swal.fire({
-                                        type: 'error',
-                                        title: 'Oops...',
-                                        html: '<pre><code> Something went wrong! ' +
-                                            request.responseText +
-                                            '</code></pre>',
-                                    })
+                                error: function (error) {
+                                    console.error(error);
                                 }
                             });
-                        } catch (error) {
-                            $(':button').prop('disabled', false);
-                            Swal.fire({
-                                type: 'error',
-                                title: 'Oops...',
-                                text: 'Something went wrong! ' + error,
-                            })
-                        }
+
+                            console.log(row);
+                            if ((csvResult.length - 1) == i) {
+                                console.log("Resolving!");
+                                $('#status').fadeOut();
+                                $('#preloader').delay(350).fadeOut('slow');
+                            }
+                        });
+                        Swal.fire(
+                            'Added Successfully!',
+                            'This page will be refreshed.',
+                            'success'
+                        ).then(() => {
+                            window.location.reload();
+                        })
+                    } else {
+                        window.location.reload();
                     }
-                });
+                })
 
             }
             reader.readAsText(e.target.files.item(0));
         }
     });
 
+    $("#AddPONB").on("change", function (e) {
+
+        var data = {
+            "PO": [
+            ]
+        };
+
+        var ext = $("#AddPONB").val().split(".").pop().toLowerCase();
+
+        if ($.inArray(ext, ["csv"]) == -1) {
+            Swal.fire(
+                'Import Process Canceled',
+                'Proccess canceled due to a detected file error. You may try again!',
+                'info'
+            )
+            return false;
+        }
+
+        if (e.target.files != undefined) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                csvResult = $.csv.toObjects(e.target.result);
+                csvResult.forEach(function (row, i) {
+
+                    var ponoCSV = row.CustomerPONumber;
+
+                    var colorNameCSV = row.color;
+                    var sizeNameCSV = row.size;
+                    var CutQtyCSV = Math.round(row.CutQty).toString();
+                    var Qty = parseInt(row.Qty);
+
+                    if (data.PO.length != 0) {
+                        for (let index in data.PO) {
+                            //console.log(data.PO[index]);
+                            if (data.PO[index].PONO === ponoCSV) {
+                                //console.log("Found: " + ponoCSV);
+                                if (data.PO[index].Color.hasOwnProperty(row.color)) {
+                                    //console.log("Color found " + row.color);
+                                    data.PO[index].Color[colorNameCSV][sizeNameCSV] = CutQtyCSV;
+                                    data.PO[index].Qty = parseInt(data.PO[index].Qty) + Qty;
+                                } else {
+                                    //console.log("New color " + row.color);
+                                    let color = JSON.parse('{"' + colorNameCSV + '": {"' + sizeNameCSV + '":"' + CutQtyCSV + '"}}');
+                                    $.extend(data.PO[index].Color, color)
+                                    data.PO[index].Qty = parseInt(data.PO[index].Qty) + Qty;
+                                }
+                            }
+                            else {
+                                if (!hasMatch(data.PO, "PONO", ponoCSV)) {
+                                    //console.log("New PO: " + row.CustomerPONumber);
+                                    let ponew2 =
+                                    {
+                                        "PONO": row.CustomerPONumber,
+                                        "Customer": row.customer,
+                                        "Style": row.StyleNumber,
+                                        "Qty": row.Qty,
+                                        "Product": row.product,
+                                        "Color": {}
+                                    };
+                                    let color = JSON.parse('{"' + colorNameCSV + '": {"' + sizeNameCSV + '":"' + CutQtyCSV + '"}}');
+                                    ponew2.Color = color;
+                                    data['PO'].push(ponew2);
+                                }
+
+                            }
+                        }
+                    } else {
+                        //console.log("New PO: " + row.CustomerPONumber);
+                        let ponew1 =
+                        {
+                            "PONO": row.CustomerPONumber,
+                            "Customer": row.customer,
+                            "Style": row.StyleNumber,
+                            "Qty": row.Qty,
+                            "Product": row.product,
+                            "Color": {}
+                        };
+                        let color = JSON.parse('{"' + colorNameCSV + '": {"' + sizeNameCSV + '":"' + CutQtyCSV + '"}}');
+                        ponew1.Color = color;
+                        data['PO'].push(ponew1);
+                    }
+                });
+
+                var count = data.PO.length;
+
+                Swal.fire({
+                    title: count + ' Purchase Orders detected, Ready to finish adding?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, add as New Purchase Orders!'
+                }).then((result) => {
+                    if (result.value) {
+                        addNewPO(data.PO, 0).done(function () {
+                            Swal.fire(
+                                'Added Successfully!',
+                                'This page will be refreshed.',
+                                'success'
+                            ).then(() => {
+                                window.location.reload();
+                            })
+                        });
+                    } else {
+                        window.location.reload();
+                    }
+                })
+            }
+            reader.readAsText(e.target.files.item(0));
+        }
+    });
 
 })(jQuery);
 

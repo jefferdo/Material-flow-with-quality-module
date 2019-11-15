@@ -75,6 +75,15 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
+                        <input type="hidden" name="poid" id="poid" value="{{ $id }}">
+                        <label style="margin:5px;"
+                            class="btn btn-sm btn-warning waves-effect waves-light float-right customInput">
+                            <input id='AddPONB' type="file" accept=".csv" required />
+                            <i class="mdi mdi-plus-circle"></i>
+                            <span>Add Purchase Orders Batch</span>
+                        </label>
+
+
                         <h4 class="header-title mb-4">Purchase Orders</h4>
 
                         <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100"
@@ -82,13 +91,11 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Customer</th>
                                     <th>Style</th>
+                                    <th>Purchase Order No.</th>
+                                    <th>Customer</th>
                                     <th>Quantity</th>
-                                    <th>Product</th>
-                                    <th>Status</th>
                                     <th>Created Date</th>
-                                    <th>Due Date</th>
                                     <th class="hidden-sm">Action</th>
                                 </tr>
                             </thead>
@@ -98,12 +105,14 @@
 
                                 <tr>
                                     <td><b>{{ $item['id'] }}</b></td>
-                                    <td>
-                                        {{ $item['cus'] }}
-                                    </td>
 
                                     <td>
                                         {{ $item['style'] }}
+                                    </td>
+
+                                    <td class="text text-danger"><b>{{ $item['pono'] }}</b></td>
+                                    <td>
+                                        {{ $item['cus'] }}
                                     </td>
 
                                     <td>
@@ -111,20 +120,7 @@
                                     </td>
 
                                     <td>
-                                        <span
-                                            class="badge bg-soft-secondary text-secondary">{{ $item['product'] }}</span>
-                                    </td>
-
-                                    <td>
-                                        <span class="badge badge-success">Waiting for Matirials</span>
-                                    </td>
-
-                                    <td>
-                                        {{ $item['date'] }}
-                                    </td>
-
-                                    <td>
-                                        {{ $item['matdt'] }}
+                                        {{ date("F jS, Y", strtotime($item['date'])) }}
                                     </td>
 
                                     <td>

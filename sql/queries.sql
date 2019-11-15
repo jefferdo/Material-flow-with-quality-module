@@ -7,3 +7,6 @@ INSERT INTO umf (id, prilev, passwd, name, lsl, bc, hkey) VALUES ('001', '0', '1
 SELECT * FROM mFlow.umf;
 select id, qty, td as data from poht inner join podt on poht.id = podt.poid;
 SELECT * FROM umf where id = '001';
+SELECT * from woht where lcs = 9;
+SELECT woht.*, umf.name from woht inner join umf on woht.ab = umf.id where lcs = 9;
+SELECT id from poht ORDER BY id desc LIMIT 1;
