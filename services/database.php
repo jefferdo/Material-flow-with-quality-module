@@ -2,7 +2,6 @@
 error_reporting(0);
 class Database
 {
-
     private $servername = "192.168.4.221";
     private $database = "mFlow";
     private $username = "admin";
