@@ -70,6 +70,9 @@ class PO
             case 'user':
                 return $this->user;
                 break;
+            case 'priLev':
+                return $this->user->getPriv();
+                break;
             default:
                 throw new Exception("Invalid getter: " . $name, 1);
         }

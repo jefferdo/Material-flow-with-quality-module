@@ -57,6 +57,7 @@
         $('#status').fadeIn();
         for (let index in po) {
             var dfrd1 = $.Deferred();
+            //console.log(po[index]);
             $.ajax({
                 type: "post",
                 url: "/addNewPO",
@@ -177,7 +178,6 @@
                 csvResult.forEach(function (row, i) {
 
                     var ponoCSV = row.CustomerPONumber;
-
                     var colorNameCSV = row.color;
                     var sizeNameCSV = row.size;
                     var CutQtyCSV = Math.round(row.CutQty).toString();

@@ -76,6 +76,10 @@ class WO
                 $cus = json_decode($this->po->data)->Customer;
                 return $cus;
                 break;
+            case 'style':
+                $cus = json_decode($this->po->data)->Style;
+                return $cus;
+                break;
             case 'finQty':
                 return $this->finQty;
                 break;
@@ -228,35 +232,35 @@ class WO
     public function getpap($lcs)
     {
         $this->db = new Database();
-        $query = "SELECT *  from woht where lcs ='" . $lcs . "' AND initdt = apdt";
+        $query = "SELECT woht.*, podt.td as data from woht inner join podt on woht.poid = podt.poid where lcs ='" . $lcs . "' AND initdt = apdt";
         return $this->db->select($query);
     }
 
     public function getaped($lcs)
     {
         $this->db = new Database();
-        $query = "SELECT *  from woht where lcs ='" . ($lcs + 1) . "' AND initdt < apdt";
+        $query = "SELECT woht.*, podt.td as data from woht inner join podt on woht.poid = podt.poid where lcs ='" . ($lcs + 1) . "' AND initdt < apdt";
         return $this->db->select($query);
     }
 
     public function getcomed($lcs)
     {
         $this->db = new Database();
-        $query = "SELECT *  from woht where lcs > '" . $lcs . "' AND initdt < apdt";
+        $query = "SELECT woht.*, podt.td as data from woht inner join podt on woht.poid = podt.poid where lcs > '" . $lcs . "' AND initdt < apdt";
         return $this->db->select($query);
     }
 
     public function getSupPen()
     {
         $this->db = new Database();
-        $query = "SELECT *  from woht where lcs = '8' AND initdt < apdt";
+        $query = "SELECT woht.*, podt.td as data from woht inner join podt on woht.poid = podt.poid where lcs = '8' AND initdt < apdt";
         return $this->db->select($query);
     }
 
     public function getSupInp()
     {
         $this->db = new Database();
-        $query = "SELECT *  from woht where lcs = '9' AND initdt < apdt";
+        $query = "SELECT woht.*, podt.td as data from woht inner join podt on woht.poid = podt.poid where lcs = '9' AND initdt < apdt";
         return $this->db->select($query);
     }
 
@@ -270,14 +274,14 @@ class WO
     public function getSupLoc()
     {
         $this->db = new Database();
-        $query = "SELECT *  from woht where lcs = '7' AND id NOT IN (SELECT woid from wodt)";
+        $query = "SELECT woht.*, podt.td as data from woht inner join podt on woht.poid = podt.poid where lcs = '7' AND id NOT IN (SELECT woid from wodt)";
         return $this->db->select($query);
     }
 
     public function getSupIn()
     {
         $this->db = new Database();
-        $query = "SELECT *  from woht where lcs = '8' AND initdt < apdt";
+        $query = "SELECT woht.*, podt.td as data from woht inner join podt on woht.poid = podt.poid where lcs = '8' AND initdt < apdt";
         return $this->db->select($query);
     }
 
@@ -290,14 +294,14 @@ class WO
     public function getFSM()
     {
         $this->db = new Database();
-        $query = "SELECT *  from woht where lcs = '12' AND initdt < apdt";
+        $query = "SELECT woht.*, podt.td as data from woht inner join podt on woht.poid = podt.poid where lcs = '12' AND initdt < apdt";
         return $this->db->select($query);
     }
 
     public function getFIN()
     {
         $this->db = new Database();
-        $query = "SELECT *  from woht where lcs = '13' AND initdt < apdt";
+        $query = "SELECT woht.*, podt.td as data from woht inner join podt on woht.poid = podt.poid where lcs = '13' AND initdt < apdt";
         return $this->db->select($query);
     }
 

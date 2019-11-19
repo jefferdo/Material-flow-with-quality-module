@@ -670,6 +670,7 @@ class UsersController
         $results = $wo->getpap($prev['stage'] - 1);
         while ($row = $results->fetch_array()) {
             $row["date"] = $row['initdt'];
+            $row['style'] = (json_decode($row['data'])->Style);
             array_push($wosetp, $row);
         }
 
@@ -677,6 +678,7 @@ class UsersController
         $results = $wo->getaped($prev['stage'] - 1);
         while ($row = $results->fetch_array()) {
             $row["date"] = $row['apdt'];
+            $row['style'] = (json_decode($row['data'])->Style);
             array_push($woset, $row);
         }
 
@@ -684,6 +686,7 @@ class UsersController
         $results = $wo->getcomed($prev['stage']);
         while ($row = $results->fetch_array()) {
             $row["date"] = $row['apdt'];
+            $row['style'] = (json_decode($row['data'])->Style);
             array_push($wosetc, $row);
         }
 
@@ -999,6 +1002,7 @@ class UsersController
         $color = $wo->color;
         $qty = $wo->pqty;
         $cus = $wo->cus;
+        $style = $wo->style;
         $initdt = $wo->initdt;
         $csrfk = Token::setcsrfk();
         $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
@@ -1009,6 +1013,7 @@ class UsersController
             "color" => $color,
             "qty" => $qty,
             "cus" => $cus,
+            "style" => $style,
             "initdt" => $initdt,
             "action" => "readyWO",
             "method" => "post",
