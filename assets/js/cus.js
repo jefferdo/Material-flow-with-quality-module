@@ -151,14 +151,14 @@
 
     var uid, password;
 
-    if ($(window).width() <= 640) {
+    /* if ($(window).width() <= 640) {
         uid = "#uid";
         password = "#password";
         console.log("Keyboard ready");
     } else {
         uid = null;
         password = null;
-    }
+    } */
 
     $(uid).numKey({
         limit: 12,
