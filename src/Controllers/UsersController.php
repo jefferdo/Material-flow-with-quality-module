@@ -8,6 +8,7 @@ foreach (glob("models/*.php") as $filename) {
 
 include_once $_SERVER['DOCUMENT_ROOT'] . "/services/token.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . "/services/database.php";
+include_once $_SERVER['DOCUMENT_ROOT'] . "/services/fpdf.php";
 require $_SERVER['DOCUMENT_ROOT'] . "/vendor/autoload.php";
 include_once($_SERVER['DOCUMENT_ROOT'] . '/models/log.php');
 
@@ -76,6 +77,9 @@ class UsersController
                         break;
                     case "102":
                         $this->showOverview($this->user->getPriv());
+                        break;
+                    case "103":
+                        $this->showGate($this->user->getPriv());
                         break;
                     case "11":
                         $this->showWashing($this->user->getPriv());
@@ -200,6 +204,52 @@ class UsersController
         $csrfk = Token::setcsrfk();
         $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
         echo $blade->run("kanbanCutOut", array(
+            "title" => $title,
+            "lable" => $lable,
+            "action" => $action,
+            "method" => "post",
+            "error" => $this->error,
+            "csrfk" => $csrfk,
+            "WO" => $woset,
+        ));
+    }
+
+    public function showGate($prev)
+    {
+        $title = $prev['title'];
+        $lable = $prev["S1"]['lable'];
+        $action = "/" . $prev["S1"]['next'];
+        $woset = [];
+        $wo = new WO(null);
+        $results = $wo->getlcs($prev['stage'] - 1);
+        $woset = $results;
+
+        $csrfk = Token::setcsrfk();
+        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+        echo $blade->run("GateHome", array(
+            "title" => $title,
+            "lable" => $lable,
+            "action" => $action,
+            "method" => "post",
+            "error" => $this->error,
+            "csrfk" => $csrfk,
+            "WO" => $woset,
+        ));
+    }
+
+    public function NewGP()
+    {
+        $title = $prev['title'];
+        $lable = $prev["S1"]['lable'];
+        $action = "/" . $prev["S1"]['next'];
+        $woset = [];
+        $wo = new WO(null);
+        $results = $wo->getlcs($prev['stage'] - 1);
+        $woset = $results;
+
+        $csrfk = Token::setcsrfk();
+        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+        echo $blade->run("CreateGateHome", array(
             "title" => $title,
             "lable" => $lable,
             "action" => $action,
@@ -636,6 +686,7 @@ class UsersController
         $results = $wo->getpap($prev['stage']);
         while ($row = $results->fetch_array()) {
             $row["date"] = $row['initdt'];
+            $row['style'] = (json_decode($row['data'])->Style);
             array_push($wosetp, $row);
         }
 
@@ -643,6 +694,7 @@ class UsersController
         $results = $wo->getaped($prev['stage']);
         while ($row = $results->fetch_array()) {
             $row["date"] = $row['apdt'];
+            $row['style'] = (json_decode($row['data'])->Style);
             array_push($woset, $row);
         }
 
@@ -1042,7 +1094,6 @@ class UsersController
                         $wo->color = $request->colorf;
                         $wo->pqty = $request->rqty;
                         $wo->lcs = $this->user->priLev;
-
                         if ($wo->save() > 0) {
                             $this->error = "Success";
                             header("Location: http://" . $_SERVER['HTTP_HOST']);
@@ -1053,19 +1104,19 @@ class UsersController
                             die();
                         }
                     } catch (Exception $e) {
-                        $this->error = $e->getMessage();
-                        header("Location: http://" . $_SERVER['HTTP_HOST']);
+                        $this->error = "Somthing Went Wrong: " . $e->getMessage();
+                        header("Location: http://" . $_SERVER['HTTP_HOST'] . "/?error=" . $this->error);
                         die();
                     }
                 } else {
                     $this->error = "Invalid Request";
-                    header("Location: http://" . $_SERVER['HTTP_HOST']);
+                    header("Location: http://" . $_SERVER['HTTP_HOST'] . "/?error=" . $this->error);
                     die();
                 }
             }
         } else {
             $this->error = "Request Timeout";
-            header("Location: http://" . $_SERVER['HTTP_HOST']);
+            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/?error=" . $this->error);
             die();
         }
     }

@@ -142,18 +142,19 @@ class WO
     {
         $this->db = new Database();
         if ($id == "new") {
-            $query = "SELECT id from woht ORDER BY id desc LIMIT 1";
+            $prefix = date("Yz");
+            $this->initdt = date("Y-m-d H:i:s");
+            $this->apdt = $this->initdt;
+            $query = "SELECT id from woht where id LIKE 'WO" . $prefix . "%' ORDER BY id desc LIMIT 1";
             if ($results = $this->db->select($query)) {
                 if ($row = $results->fetch_array()) {
-                    $this->id = date("YW") . substr($row['id'], -4) + 1;
-                    $this->initdt = date("Y-m-d H:i:s");
-                    $this->apdt = $this->initdt;
+                    $this->id = "WO" . $prefix . str_pad(substr($row['id'], -4) + 1, 4, "0", STR_PAD_LEFT);
                 } else {
-                    $this->id = date("YW") . "0001";
-                    $this->id = new User(null);
+                    $this->id = "WO" . $prefix . "0001";
+                    $this->user = new User(null);
                 }
             } else {
-                $this->id = date("YW") . "0001";
+                $this->id = "WO" . $prefix . "0001";
             }
         } else if ($id == null) {
             $this->id = null;
@@ -191,13 +192,15 @@ class WO
 
     public function save()
     {
+        $stat = 0;
         $this->db = new Database();
         $query = "INSERT INTO woht (id, initdt, apdt, poid, size, color, lcs, prt, emb, wsh, sub, area, pqty, aqty, ab) VALUES ('" . $this->id . "', '" . $this->initdt . "', '" . $this->apdt . "', '" . $this->po->id . "', '" . $this->size . "', '" . $this->color . "', '" . $this->lcs . "', '" . $this->prt . "', '" . $this->emb . "', '" . $this->wsh . "', '" . $this->sub . "', '" . $this->pqty . "', '" . $this->pqty . "', '" . $this->pqty . "', '" . $this->userid . "') ON DUPLICATE KEY UPDATE initdt = '" . $this->initdt . "', apdt = '" . $this->apdt . "', poid = '" . $this->po->id . "', size = '" . $this->size . "', color = '" . $this->color . "', lcs = '" . $this->lcs . "', prt = '" . $this->prt . "', emb = '" . $this->emb . "', wsh = '" . $this->wsh . "', sub = '" . $this->sub . "', area = '" . $this->pqty . "', pqty = '" . $this->pqty . "', aqty = '" . $this->pqty . "'";
         $stat = $this->db->iud($query);
-        if ($stat == 0)
+        if ($stat == 0) {
             throw new Exception('Invalid Request at WO', 0);
-        else
+        } else {
             return $stat;
+        }
     }
 
     public function getPO($poid)

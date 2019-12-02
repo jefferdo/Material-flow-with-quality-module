@@ -53,6 +53,27 @@ class GatePass
             case 'id':
                 return $this->id;
                 break;
+            case 'date':
+                return $this->date;
+                break;
+            case 'status':
+                return $this->status;
+                break;
+            case 'units':
+                return $this->units;
+                break;
+            case 'name':
+                return $this->name;
+                break;
+            case 'destination':
+                return $this->destination;
+                break;
+            case 'user':
+                return $this->user;
+                break;
+            case 'apd':
+                return $this->apd;
+                break;
             default:
                 throw new Exception("Invalid getter: " . $name, 1);
         }
@@ -69,14 +90,14 @@ class GatePass
             if ($results = $this->db->select($query)) {
                 if ($row = $results->fetch_array()) {
                     $this->id = "GP" . $prefix . str_pad(substr($row['id'], -4) + 1, 4, "0", STR_PAD_LEFT);
-                    $this->user = new User(null);
+                    $this->user = null;
                 } else {
                     $this->id = "GP" . $prefix . "0001";
-                    $this->user = new User(null);
+                    $this->user = null;
                 }
             } else {
                 $this->id = "GP" . $prefix . "0001";
-                $this->user = new User(null);
+                $this->user = null;
             }
             $this->date = date("Y-m-d H:i:s");
         } else {
@@ -111,4 +132,62 @@ class GatePass
 
 
 class GPUnit
-{ }
+{
+    private $gpid;
+    private $unitid;
+    private $qty = 1;
+
+    public function __set($name, $value)
+    {
+        switch ($name) {
+            case 'gpid':
+                $this->gpid = $value;
+                break;
+            case 'unitid':
+                $this->unitid = $value;
+                break;
+            case 'qty':
+                $this->qty = $value;
+                break;
+            default:
+                throw new Exception("Invalid setter: " . $name, 1);
+        }
+    }
+
+    public function __get($name)
+    {
+        switch ($name) {
+            case 'gpid':
+                return $this->gpid;
+                break;
+            case 'unitid':
+                return $this->unitid;
+                break;
+            case 'qty':
+                return $this->qty;
+                break;
+            default:
+                throw new Exception("Invalid getter: " . $name, 1);
+        }
+    }
+
+    public function __construct($gpid)
+    {
+        $this->db = new Database();
+        if ($id == null) {
+            $this->gpid = "";
+        } else {
+            $this->gpid = $gpid;
+            $query = "SELECT * from gpht where gpid ='" . $this->gpid . "'";
+            if ($results = $this->db->select($query)) {
+                if ($row = $results->fetch_array()) {
+                    $this->gpid = $row['gpid'];
+                    $this->unitid = $row['unitid'];
+                    $this->qty = $row['qty'];
+                } else {
+                    throw new Exception('Invalid GP ID', 0);
+                }
+            }
+        }
+    }
+}

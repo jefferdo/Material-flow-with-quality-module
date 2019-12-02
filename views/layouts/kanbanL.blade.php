@@ -186,11 +186,9 @@
     <script src="/assets/js/app.min.js"></script>
 
 
-    <script src="/assets/js/cuskanban.js"></script>
+    <script  type="text/javascript" src="/assets/js/cuskanban.js"></script>
 
     <script src="/assets/js/form-pickers.init.js"></script>
-
-
 </body>
 
 </html>
