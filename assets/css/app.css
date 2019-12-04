@@ -67,6 +67,18 @@ body {
   visibility: hidden;
 }
 
+.table td.text {
+  max-width: 177px;
+}
+
+.table td.text address {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  max-width: 100%;
+}
+
 .loadingtext {
   top: 0;
   left: 50%;

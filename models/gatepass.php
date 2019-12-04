@@ -15,6 +15,8 @@ class GatePass
 
     private $apd;
 
+    private $db;
+
     public function __set($name, $value)
     {
         switch ($name) {
@@ -90,14 +92,14 @@ class GatePass
             if ($results = $this->db->select($query)) {
                 if ($row = $results->fetch_array()) {
                     $this->id = "GP" . $prefix . str_pad(substr($row['id'], -4) + 1, 4, "0", STR_PAD_LEFT);
-                    $this->user = null;
+                    $this->user = new User(null);
                 } else {
                     $this->id = "GP" . $prefix . "0001";
-                    $this->user = null;
+                    $this->user = new User(null);
                 }
             } else {
                 $this->id = "GP" . $prefix . "0001";
-                $this->user = null;
+                $this->user = new User(null);
             }
             $this->date = date("Y-m-d H:i:s");
         } else {
@@ -108,7 +110,7 @@ class GatePass
                     $this->id = $row['id'];
                     $this->date = $row['date'];
                     $this->status = $row['status'];
-                    $this->user = $row['ab'];
+                    $this->user = new User($row['ab']);
                     $this->apd = $row['apd'];
                     $this->name = $row['name'];
                     $this->destination = $row['destination'];
@@ -121,15 +123,51 @@ class GatePass
 
     public function getUnits()
     {
+        $this->db = new Database();
         $query = "SELECT * from gpdt where gpid ='" . $this->id . "'";
-        if ($results = $this->db->select($query)) {
-            while ($row = $results->fetch_array()) { }
+        return $this->db->select($query);
+    }
+
+    public function getGPs()
+    {
+        $this->db = new Database();
+        $query = "SELECT gpht.* , umf.name as uname from gpht inner join umf on gpht.ab = umf.id";
+        return $this->db->select($query);
+    }
+
+    public function addNew()
+    {
+        $query = "INSERT INTO gpht (id, date, ab, status) values('" . $this->id . "', '" . $this->date . "', '" . $this->user->id . "', '" . $this->status . "')";
+        $this->db = new Database();
+        if ($this->db->iud($query) == 1) {
+            return 1;
         } else {
-            throw new Exception('Invalid GP ID', 0);
+            return $query;
+        }
+    }
+
+    public function update()
+    {
+        $query = "UPDATE gpht set status = '" . $this->status . "', destination = '" . $this->destination . "', name = '" . $this->name . "' where id = '" . $this->id . "'";
+        $this->db = new Database();
+        if ($this->db->iud($query) == 1) {
+            return 1;
+        } else {
+            return $query;
+        }
+    }
+
+    public function delete()
+    {
+        $query = "DELETE FROM gpht WHERE gpht.id = '" . $this->id . "'";
+        $this->db = new Database();
+        if ($this->db->iud($query) == 1) {
+            return 1;
+        } else {
+            return $query;
         }
     }
 }
-
 
 class GPUnit
 {
@@ -190,4 +228,7 @@ class GPUnit
             }
         }
     }
+
+    public function addnew()
+    { }
 }

@@ -134,7 +134,15 @@ $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
-    $router->get('/NewGP', ['uses' => 'UsersController@NewGP']);
+    $router->post('/NewGP', ['uses' => 'UsersController@NewGP']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/DelGP', ['uses' => 'UsersController@DelGP']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->get('/editGP/{key}', ['uses' => 'UsersController@editGP']);
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {

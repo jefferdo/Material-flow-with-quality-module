@@ -17,6 +17,7 @@ use Database;
 use Illuminate\Http\Request;
 use eftec\bladeone\BladeOne;
 use Exception;
+use GatePass;
 use PO;
 use Roll;
 use Token;
@@ -221,6 +222,7 @@ class UsersController
         $action = "/" . $prev["S1"]['next'];
         $woset = [];
         $wo = new WO(null);
+        $gp = new GatePass(null);
         $results = $wo->getlcs($prev['stage'] - 1);
         $woset = $results;
 
@@ -234,30 +236,69 @@ class UsersController
             "error" => $this->error,
             "csrfk" => $csrfk,
             "WO" => $woset,
+            "GP" => $gp->getGPs()
         ));
     }
 
-    public function NewGP()
+    public function NewGP(Request $request)
     {
-        $title = $prev['title'];
-        $lable = $prev["S1"]['lable'];
-        $action = "/" . $prev["S1"]['next'];
-        $woset = [];
-        $wo = new WO(null);
-        $results = $wo->getlcs($prev['stage'] - 1);
-        $woset = $results;
+        if (Token::chkcsrfk($request->csrfk) == 1) {
+            $title = "Create New Gate Pass";
+            $gp = new GatePass('new');
+            $stat = $gp->addNew();
+            if ($stat == 1) {
+                $csrfk = Token::setcsrfk();
+                $wo = new WO(null);
+                $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+                echo $blade->run("CreateGateHome", array(
+                    "title" => $title,
+                    "csrfk" => $csrfk,
+                    "id" => $gp->id,
+                    "date" => $gp->date,
+                    "ab" => $gp->user->name,
+                    "wo" => $wo->getSupOutside()
+                ));
+            } else {
+                $this->error = "Something went wrong [Error : 0x0010]. Try Again: " . $stat;
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/?error=" . $this->error);
+                die();
+            }
+        } else {
+            $this->error = "Invalid Request [Error : 0x0009]. Try Again";
+            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/?error=" . $this->error);
+            die();
+        }
+    }
 
+    public function editGP($key)
+    {
+        $gp = new GatePass(base64_decode($key));
         $csrfk = Token::setcsrfk();
+        $wo = new WO(null);
         $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
         echo $blade->run("CreateGateHome", array(
             "title" => $title,
-            "lable" => $lable,
-            "action" => $action,
-            "method" => "post",
-            "error" => $this->error,
             "csrfk" => $csrfk,
-            "WO" => $woset,
+            "id" => $gp->id,
+            "date" => $gp->date,
+            "ab" => $gp->user->name,
+            "wo" => $wo->getSupOutside()
         ));
+    }
+
+    public function DelGP(Request $request)
+    {
+        if (Token::chkcsrfk($request->csrfk) == 1) {
+            $gp = new GatePass($request->id);
+            $stat = $gp->delete();
+            if ($stat == 1) {
+                return 1;
+            } else {
+                throw new Exception('Something Went Wrong', 2);
+            }
+        } else {
+            throw new Exception('Something Went Wrong', 3);
+        }
     }
 
     public function showWashing($prev)

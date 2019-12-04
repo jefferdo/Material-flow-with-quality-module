@@ -1,9 +1,9 @@
-(function($) {
-  $("#colorselect").on("change", function() {
+(function ($) {
+  $("#colorselect").on("change", function () {
     let color = JSON.parse(this.value);
     let html = "";
     let oqty = 0;
-    $.each(color, function(indexInArray, valueOfElement) {
+    $.each(color, function (indexInArray, valueOfElement) {
       html +=
         "<option value=" + valueOfElement + ">" + indexInArray + "</option>";
       oqty += parseInt(valueOfElement);
@@ -14,7 +14,7 @@
     $("#oqtyf").val(oqty);
     $("#colorf").val($("#colorselect>option:selected").text());
   });
-  $("#size").on("change", function() {
+  $("#size").on("change", function () {
     let value = this.value;
     $("#qtyv").html(value);
     $("#iqtyf").val(value);
@@ -22,7 +22,7 @@
     $("#qtyr").show();
     $("#formsubmit").show();
   });
-  $("#rqty").on("input", function(e) {
+  $("#rqty").on("input", function (e) {
     let errorhtml =
       '<div class="pt-1"> <div class="alert alert-danger alert-dismissible bg-danger text-white border-0 fade show" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> Possible value exceeded </div></div>';
     let rqty = parseInt(this.value);
@@ -33,6 +33,57 @@
     } else {
       $("#errorbox").html("");
     }
+  });
+})(jQuery);
+
+(function ($) {
+  $("#cancelGP").click(function (e) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        let form = new FormData();
+        form.append("csrfk", $("#csrfk").val());
+        form.append("id", $("#gpid").val());
+        $.ajax({
+          type: "post",
+          url: "/DelGP",
+          data: form,
+          processData: false,
+          contentType: false,
+          success: function (response) {
+            if (response == 1) {
+              Swal.fire(
+                'Deleted!',
+                'Your file has been deleted. ',
+                'success'
+              ).then(() => {
+                window.location.replace("/");
+              });
+            } else {
+              Swal.fire(
+                'Error!',
+                'Something Went Wrong. 0x01',
+                'error'
+              )
+            }
+          },
+          error: function () {
+            Swal.fire(
+              'Error!',
+              'Something Went Wrong. 0x02',
+              'error'
+            )
+          }
+        });
+      }
+    })
   });
 })(jQuery);
 
@@ -53,7 +104,15 @@ function searchcard(card) {
   }
 }
 
-(function($) {
+function addtoGP(gpid) {
+  alert("Adding " + gpid);
+}
+
+function removefromGP(gpid) {
+  alert("Removing " + gpid);
+}
+
+(function ($) {
   function hasMatch(JSON, key, value) {
     var hasMatch = false;
     for (var index = 0; index < JSON.length; ++index) {
@@ -79,7 +138,7 @@ function searchcard(card) {
         type: "post",
         url: "/addNewPO",
         data: { po: po[index] },
-        success: function(response) {
+        success: function (response) {
           console.log("Success! " + response);
           if (po.length - 1 == index) {
             console.log("Resolving!");
@@ -91,7 +150,7 @@ function searchcard(card) {
           }
           count++;
         },
-        error: function(error) {
+        error: function (error) {
           console.error(error);
         }
       });
@@ -99,7 +158,7 @@ function searchcard(card) {
     return dfrd1.promise();
   }
 
-  $("#AddMatNB").on("change", function(e) {
+  $("#AddMatNB").on("change", function (e) {
     var ext = $("#AddMatNB")
       .val()
       .split(".")
@@ -117,7 +176,7 @@ function searchcard(card) {
 
     if (e.target.files != undefined) {
       var reader = new FileReader();
-      reader.onload = function(e) {
+      reader.onload = function (e) {
         csvResult = $.csv.toObjects(e.target.result);
         Swal.fire({
           title: csvResult.length + " Rolls detected, Ready to finish adding?",
@@ -133,12 +192,12 @@ function searchcard(card) {
               .delay(350)
               .fadeIn("slow");
             $("#status").fadeIn();
-            csvResult.forEach(function(row, i) {
+            csvResult.forEach(function (row, i) {
               $.ajax({
                 type: "post",
                 url: "/addNewPO",
                 data: { roll: row },
-                success: function(response) {
+                success: function (response) {
                   console.log("Success! " + response);
                   if (po.length - 1 == index) {
                     console.log("Resolving!");
@@ -150,7 +209,7 @@ function searchcard(card) {
                   }
                   count++;
                 },
-                error: function(error) {
+                error: function (error) {
                   console.error(error);
                 }
               });
@@ -180,7 +239,7 @@ function searchcard(card) {
     }
   });
 
-  $("#AddPONB").on("change", function(e) {
+  $("#AddPONB").on("change", function (e) {
     var data = {
       PO: []
     };
@@ -202,9 +261,9 @@ function searchcard(card) {
 
     if (e.target.files != undefined) {
       var reader = new FileReader();
-      reader.onload = function(e) {
+      reader.onload = function (e) {
         csvResult = $.csv.toObjects(e.target.result);
-        csvResult.forEach(function(row, i) {
+        csvResult.forEach(function (row, i) {
           var ponoCSV = row.CustomerPONumber;
           var colorNameCSV = row.color;
           var sizeNameCSV = row.size;
@@ -224,12 +283,12 @@ function searchcard(card) {
                   //console.log("New color " + row.color);
                   let color = JSON.parse(
                     '{"' +
-                      colorNameCSV +
-                      '": {"' +
-                      sizeNameCSV +
-                      '":"' +
-                      CutQtyCSV +
-                      '"}}'
+                    colorNameCSV +
+                    '": {"' +
+                    sizeNameCSV +
+                    '":"' +
+                    CutQtyCSV +
+                    '"}}'
                   );
                   $.extend(data.PO[index].Color, color);
                   data.PO[index].Qty = parseInt(data.PO[index].Qty) + Qty;
@@ -247,12 +306,12 @@ function searchcard(card) {
                   };
                   let color = JSON.parse(
                     '{"' +
-                      colorNameCSV +
-                      '": {"' +
-                      sizeNameCSV +
-                      '":"' +
-                      CutQtyCSV +
-                      '"}}'
+                    colorNameCSV +
+                    '": {"' +
+                    sizeNameCSV +
+                    '":"' +
+                    CutQtyCSV +
+                    '"}}'
                   );
                   ponew2.Color = color;
                   data["PO"].push(ponew2);
@@ -271,12 +330,12 @@ function searchcard(card) {
             };
             let color = JSON.parse(
               '{"' +
-                colorNameCSV +
-                '": {"' +
-                sizeNameCSV +
-                '":"' +
-                CutQtyCSV +
-                '"}}'
+              colorNameCSV +
+              '": {"' +
+              sizeNameCSV +
+              '":"' +
+              CutQtyCSV +
+              '"}}'
             );
             ponew1.Color = color;
             data["PO"].push(ponew1);
@@ -295,7 +354,7 @@ function searchcard(card) {
           confirmButtonText: "Yes, add as New Purchase Orders!"
         }).then(result => {
           if (result.value) {
-            addNewPO(data.PO, 0).done(function() {
+            addNewPO(data.PO, 0).done(function () {
               Swal.fire(
                 "Added Successfully!",
                 "This page will be refreshed.",
@@ -314,8 +373,8 @@ function searchcard(card) {
   });
 })(jQuery);
 
-(function($) {
-  $("#addWF").on("click", function(e) {
+(function ($) {
+  $("#addWF").on("click", function (e) {
     Swal.mixin({
       input: "text",
       confirmButtonText: "Next &rarr;",
@@ -342,7 +401,7 @@ function searchcard(card) {
                 data: form,
                 processData: false,
                 contentType: false,
-                success: function(response) {
+                success: function (response) {
                   $(":button").prop("disabled", false);
                   Swal.fire({
                     type: "success",
@@ -362,7 +421,7 @@ function searchcard(card) {
                     //location.reload();
                   });
                 },
-                error: function(request, status, error) {
+                error: function (request, status, error) {
                   $(":button").prop("disabled", false);
                   Swal.fire({
                     type: "error",
@@ -389,8 +448,8 @@ function searchcard(card) {
   });
 })(jQuery);
 
-(function($) {
-  $("#addRollWF").on("click", function(e) {
+(function ($) {
+  $("#addRollWF").on("click", function (e) {
     addRollWF("Scan Ready");
   });
 
@@ -418,11 +477,11 @@ function searchcard(card) {
                 data: form,
                 processData: false,
                 contentType: false,
-                success: function(response) {
+                success: function (response) {
                   $(":button").prop("disabled", false);
                   addRollWF(response);
                 },
-                error: function(request, status, error) {
+                error: function (request, status, error) {
                   $(":button").prop("disabled", false);
                   Swal.fire({
                     type: "error",
