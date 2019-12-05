@@ -63,156 +63,179 @@
                                         <input type="text" class="form-control text-capitalize" value="{{ $ab }}"
                                             disabled>
                                     </div>
-                                </div> <!-- end col -->
-                            </div>
-                            <!-- end row-->
-                            <div class="row">
-                                <div class="col-lg-9">
-                                    <h4 class="text text-right">Finish the Gate pass</h4>
-                                </div> <!-- end col -->
-                                <div class="col-lg-3">
                                     <div class="form-group mb-3">
-                                        <button id="confirmGP"
-                                            class="btn btn-primary waves-effect waves-light">Confirm</button>
-                                        <button type="button" id="cancelGP"
-                                            class="btn btn-warning waves-effect waves-light">Delete</button>
-                                        <button type="button" class="btn btn-blue waves-effect waves-light">Export Print
-                                            Copy</button>
-                                    </div>
-                                </div> <!-- end col -->
+                                        <h4>Status</h4>
+                                        <div class="col-sm-6">
+                                            <div class="radio radio-info mb-2">
+                                                <input type="radio" name="status" id="radio8" value="0" @if ($status==0) checked @endif>
+                                                <label for="radio8">
+                                                    <span class="badge badge-info" style="font-size:150%">New</span>
+                                                </label>
+                                            </div>
+                                            <div class="radio radio-success mb-2">
+                                                <input type="radio" name="status" id="radio4" value="1" @if ($status==1) checked @endif>
+                                                <label for="radio4">
+                                                    <span class="badge badge-success" style="font-size:150%">Open</span>
+                                                </label>
+                                            </div>
+                                            <div class="radio mb-2">
+                                                <input type="radio" name="status" id="radio1" value="2" @if ($status==2) checked @endif>
+                                                <label for="radio1">
+                                                    <span class="badge badge-secondary"
+                                                        style="font-size:150%">Closed</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div><!-- end col -->
+                                </div> <!-- end row-->
                             </div>
-                        </div> <!-- end card-body -->
-                    </div> <!-- end card -->
-                </div><!-- end col -->
-            </div>
+                        </div> <!-- end col -->
+                    </div>
+                    <!-- end row-->
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <h4 class="text text-right">Finish the Gate pass</h4>
+                        </div> <!-- end col -->
+                        <div class="col-lg-3">
+                            <div class="form-group mb-3">
+                                <button id="confirmGP" class="btn btn-primary waves-effect waves-light">Confirm</button>
+                                <button type="button" id="cancelGP"
+                                    class="btn btn-warning waves-effect waves-light">Delete</button>
+                                <a href="/printPDF/{{ base64_encode($id) }}" target="_blank" type="button"
+                                    class="btn btn-blue waves-effect waves-light">Export Print
+                                    Copy</a>
+                            </div>
+                        </div> <!-- end col -->
+                    </div>
+                </div> <!-- end card-body -->
+            </div> <!-- end card -->
+        </div><!-- end col -->
+    </div>
 
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="header-title">Added Workorders</h4>
-                            <p class="text-muted font-13 mb-4">
-                            </p>
-                            <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100"
-                                id="tickets-table2">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>PO ID</th>
-                                        <th>Quantity</th>
-                                        <th>Created Date</th>
-                                        <th class="hidden-sm">Action</th>
-                                    </tr>
-                                </thead>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">Added Workorders</h4>
+                    <p class="text-muted font-13 mb-4">
+                    </p>
+                    <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100" id="tickets-table2">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>PO ID</th>
+                                <th>Quantity</th>
+                                <th>Created Date</th>
+                                <th class="hidden-sm">Action</th>
+                            </tr>
+                        </thead>
 
-                                <tbody id="ADWtable" style="text-transform:capitalize">
-                                    @foreach ($AW as $item)
-                                    <tr id="RW_{{ $item['id'] }}">
-                                        <td><b>{{ $item['id'] }}</b></td>
-                                        <td>
-                                            {{ $item['poid'] }}
-                                        </td>
+                        <tbody id="ADWtable" style="text-transform:capitalize">
+                            @foreach ($AW as $item)
+                            <tr id="RW_{{ $item['id'] }}">
+                                <td><b>{{ $item['id'] }}</b></td>
+                                <td>
+                                    {{ $item['poid'] }}
+                                </td>
 
-                                        <td>
-                                            {{ $item['finQty'] }}
-                                        </td>
+                                <td>
+                                    {{ $item['pqty'] }}
+                                </td>
 
-                                        <td>
-                                            {{ $item['initdt'] }}
-                                        </td>
+                                <td>
+                                    {{ $item['initdt'] }}
+                                </td>
 
-                                        <td>
-                                            <div class="btn-group dropdown">
-                                                <a href="javascript: void(0);"
-                                                    class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm"
-                                                    data-toggle="dropdown" aria-expanded="false"><i
-                                                        class="mdi mdi-dots-horizontal"></i></a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <button class="dropdown-item"
-                                                        onclick="removefromGP('{{ $item['id'] }}')"><i
-                                                            class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Remove</button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div> <!-- end card body-->
-                    </div> <!-- end card -->
-                </div><!-- end col-->
-            </div>
+                                <td>
+                                    <div class="btn-group dropdown">
+                                        <a href="javascript: void(0);"
+                                            class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm"
+                                            data-toggle="dropdown" aria-expanded="false"><i
+                                                class="mdi mdi-dots-horizontal"></i></a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <button class="dropdown-item" onclick="removefromGP('{{ $item['id'] }}')"><i
+                                                    class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Remove</button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div> <!-- end card body-->
+            </div> <!-- end card -->
+        </div><!-- end col-->
+    </div>
 
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="header-title">Available Workorders</h4>
-                            <p class="text-muted font-13 mb-4">
-                            </p>
-                            <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100"
-                                id="tickets-table">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>PO ID</th>
-                                        <th>Quantity</th>
-                                        <th>Created Date</th>
-                                        <th class="hidden-sm">Action</th>
-                                    </tr>
-                                </thead>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">Available Workorders</h4>
+                    <p class="text-muted font-13 mb-4">
+                    </p>
+                    <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100" id="tickets-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>PO ID</th>
+                                <th>Quantity</th>
+                                <th>Created Date</th>
+                                <th class="hidden-sm">Action</th>
+                            </tr>
+                        </thead>
 
-                                <tbody id="AWtable" style="text-transform:capitalize">
-                                    @foreach ($wo as $item)
-                                    <tr id="RW_{{ $item['id'] }}">
-                                        <td><b>{{ $item['id'] }}</b></td>
-                                        <td>
-                                            {{ $item['poid'] }}
-                                        </td>
+                        <tbody id="AWtable" style="text-transform:capitalize">
+                            @foreach ($wo as $item)
+                            <tr id="RW_{{ $item['id'] }}">
+                                <td><b>{{ $item['id'] }}</b></td>
+                                <td>
+                                    {{ $item['poid'] }}
+                                </td>
 
-                                        <td>
-                                            {{ $item['finQty'] }}
-                                        </td>
+                                <td>
+                                    {{ $item['pqty'] }}
+                                </td>
 
-                                        <td>
-                                            {{ $item['initdt'] }}
-                                        </td>
+                                <td>
+                                    {{ $item['initdt'] }}
+                                </td>
 
-                                        <td>
-                                            <div class="btn-group dropdown">
-                                                <a href="javascript: void(0);"
-                                                    class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm"
-                                                    data-toggle="dropdown" aria-expanded="false"><i
-                                                        class="mdi mdi-dots-horizontal"></i></a>
-                                                <div class="dropdown-menu dropdown-menu-right">
-                                                    <button id="RW_{{ $item['id'] }}btn" class="dropdown-item"
-                                                        onclick="addtoGP('{{ $item['id'] }}')"><i
-                                                            class="mdi mdi-plus-circle-outline mr-2 text-muted font-18 vertical-middle"></i>Add</button>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div> <!-- end card body-->
-                    </div> <!-- end card -->
-                </div><!-- end col-->
-            </div>
+                                <td>
+                                    <div class="btn-group dropdown">
+                                        <a href="javascript: void(0);"
+                                            class="table-action-btn dropdown-toggle arrow-none btn btn-light btn-sm"
+                                            data-toggle="dropdown" aria-expanded="false"><i
+                                                class="mdi mdi-dots-horizontal"></i></a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <button id="RW_{{ $item['id'] }}btn" class="dropdown-item"
+                                                onclick="addtoGP('{{ $item['id'] }}')"><i
+                                                    class="mdi mdi-plus-circle-outline mr-2 text-muted font-18 vertical-middle"></i>Add</button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div> <!-- end card body-->
+            </div> <!-- end card -->
+        </div><!-- end col-->
+    </div>
 
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
 
-                            <!-- end row-->
-                        </div> <!-- end card-body -->
-                    </div> <!-- end card -->
-                </div><!-- end col -->
-            </div>
-            <!-- end row -->
-        </div> <!-- container -->
-    </div> <!-- content -->
+                    <!-- end row-->
+                </div> <!-- end card-body -->
+            </div> <!-- end card -->
+        </div><!-- end col -->
+    </div>
+    <!-- end row -->
+</div> <!-- container -->
+</div> <!-- content -->
 </div>
 
 @endsection

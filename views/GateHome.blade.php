@@ -82,8 +82,6 @@
                                                 <div class="dropdown-menu dropdown-menu-right">
                                                     <a class="dropdown-item" href="/editGP/{{ base64_encode($item['id']) }}"><i
                                                             class="mdi mdi-star mr-2 font-18 text-muted vertical-middle"></i>View and Edit</a>
-                                                    <a class="dropdown-item" href="#"><i
-                                                            class="mdi mdi-check-all mr-2 text-muted font-18 vertical-middle"></i>Close</a>
                                                 </div>
                                             </div>
                                         </td>

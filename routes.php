@@ -154,11 +154,19 @@ $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/updateGPStatus', ['uses' => 'UsersController@updateGPStatus']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
     $router->post('/secure', ['uses' => 'UsersController@secure']);
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
     $router->get('/editGP/{key}', ['uses' => 'UsersController@editGP']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->get('/printPDF/{key}', ['uses' => 'UsersController@printPDF']);
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {

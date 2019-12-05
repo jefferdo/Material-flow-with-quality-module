@@ -8,7 +8,6 @@ foreach (glob("models/*.php") as $filename) {
 
 include_once $_SERVER['DOCUMENT_ROOT'] . "/services/token.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . "/services/database.php";
-include_once $_SERVER['DOCUMENT_ROOT'] . "/services/fpdf.php";
 require $_SERVER['DOCUMENT_ROOT'] . "/vendor/autoload.php";
 include_once($_SERVER['DOCUMENT_ROOT'] . '/models/log.php');
 
@@ -261,6 +260,12 @@ class UsersController
         }
     }
 
+    public function printPDF($key)
+    {
+        $gp = new GatePass(base64_decode($key));
+        $gp->getPDF();
+    }
+
     public function editGP($key)
     {
         $gp = new GatePass(base64_decode($key));
@@ -275,6 +280,7 @@ class UsersController
             "ab" => $gp->user->name,
             "rname" => $gp->name,
             "destination" => $gp->destination,
+            "status" => $gp->status,
             "wo" => $gp->getSupOutside(),
             "AW" => $gp->getUnits()
         ));
@@ -330,6 +336,21 @@ class UsersController
                 $gp = new GatePass($request->gpid);
                 $gp->name = $request->rname;
                 $gp->destination = $request->destination;
+                return $gp->update();
+            } catch (Exception $th) {
+                throw new Exception('Something Went Wrong: ' . $th, 3);
+            }
+        } else {
+            throw new Exception('Something Went Wrong', 3);
+        }
+    }
+
+    public function updateGPStatus(Request $request)
+    {
+        if (Token::chkcsrfk($request->csrfk) == 1) {
+            try {
+                $gp = new GatePass($request->gpid);
+                $gp->status = $request->status;
                 return $gp->update();
             } catch (Exception $th) {
                 throw new Exception('Something Went Wrong: ' . $th, 3);

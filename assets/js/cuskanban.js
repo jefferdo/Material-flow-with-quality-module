@@ -101,6 +101,7 @@
       }
     })
   });
+
 })(jQuery);
 
 function searchcard(card) {
@@ -231,6 +232,38 @@ function hidePreload() {
         }
       });
     }
+  });
+
+  $('input[type=radio][name=status]').change(function () {
+    let gpid = $("#gpid").val();
+    let form = new FormData();
+    form.append("csrfk", $("#csrfk").val());
+    form.append("gpid", gpid);
+    form.append("status", $(this).val());
+    $.ajax({
+      type: "post",
+      url: "/updateGPStatus",
+      data: form,
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        console.log(response);
+      }, error: function () {
+        showPreload();
+        window.location.reload();
+      },
+      complete: function () {
+        $.ajax({
+          type: "post",
+          url: "/secure",
+          success: function (response) {
+            if (response.length == 100) {
+              $("#csrfk").val(response)
+            }
+          }
+        });
+      }
+    });
   });
 })(jQuery);
 

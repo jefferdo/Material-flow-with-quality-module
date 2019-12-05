@@ -2,6 +2,7 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/services/database.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/services/token.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/models/log.php');
+include_once $_SERVER['DOCUMENT_ROOT'] . "/services/fpdf/fpdf.php";
 
 class GatePass
 {
@@ -153,7 +154,6 @@ class GatePass
         }
     }
 
-
     public function update()
     {
         $query = "UPDATE gpht set status = '" . $this->status . "', destination = '" . $this->destination . "', name = '" . $this->name . "' where id = '" . $this->id . "'";
@@ -191,6 +191,16 @@ class GatePass
     {
         $unit = new GPUnit($this->id, $unitid);
         return $unit->delete();
+    }
+
+    public function getPDF()
+    {
+        $pdf = new GatePassPDF($this);
+        $pdf->AliasNbPages();
+        $pdf->AddPage('P', 'A4', 0);
+        $pdf->headerTable();
+        $pdf->viewDetail();
+        $pdf->Output('i', "GatePass_" . $this->id . ".pdf");
     }
 }
 
@@ -277,5 +287,112 @@ class GPUnit
         } else {
             throw new Exception('GPID is empty', 0);
         }
+    }
+}
+
+class GatePassPDF extends FPDF
+{
+    private $gp;
+    protected $page_w;
+    protected $page_h;
+
+    public function __construct($gp)
+    {
+        parent::__construct();
+        if ($gp != null) {
+            $this->gp = $gp;
+            $this->SetTopMargin(30);
+        }
+        $this->SetTitle("GatePass_" . $this->gp->id);
+    }
+
+    public function header()
+    {
+        $this->page_w = $this->GetPageWidth() - 20;
+        $this->page_h = $this->GetPageHeight();
+
+        $this->image('nblogo.jpg', 10, 10);
+
+        $this->SetFont('Arial', 'BU', 12);
+        $this->Cell($this->page_w / 6 * 4, 5, "Advice Of Dispatch", 0, 0, "L");
+
+        $this->SetFont('Arial', 'B', 12);
+        $this->Cell($this->page_w / 6 * 2, 5, "GP No: " . $this->gp->id, 0, 0, "R");
+        $this->Ln(10);
+
+        $this->SetFont('Arial', 'B', 20);
+        $this->Cell(0, 6, "NOBLESWARE (PVT) LTD", 0, 0, "C");
+        $this->Ln();
+
+        $this->SetFont('Arial', '', 13);
+        $this->Cell(0, 6, "POKUNUWITA - HORANA", 0, 0, "C");
+        $this->Ln();
+
+        $this->SetFont('Arial', '', 12);
+        $this->Cell(0, 6, "TELL: 034-22632396 / 034-5706706  FAX: 034-2262384", 0, 0, "C");
+        $this->Ln();
+
+        $this->SetFont('Arial', 'I', 8);
+        $this->Cell(0, 6, "[System Generated :" . date("Y-m-d H:i:s") . "]", 0, 0, "R");
+        $this->Ln();
+        $this->SetFont('Arial', 'B', 12);
+        $this->Cell(0, 6, "Date: " . $this->gp->date, 0, 0, "L");
+        $this->Ln(10);
+
+        $this->SetFont('Arial', 'B', 14);
+        $this->Cell(0, 10, "  M/s", 1, 1, "L");
+        $this->SetFont('Arial', '', 12);
+        $this->MultiCell(0, 10, "  Receiver's Name: " . $this->gp->name . "\n" . "  Address: " . $this->gp->destination,  "LRTB", "L", false);
+    }
+
+    public function headerTable()
+    {
+        $this->SetFont('Arial', 'B', 12);
+        $this->Cell($this->page_w / 6 * 3, 10, "Description", 1, 0, "C");
+        $this->Cell($this->page_w / 6 * 2, 10, "Code", 1, 0, "C");
+        $this->Cell($this->page_w / 6 * 1, 10, "Qty", 1, 0, "C");
+        $this->Ln();
+    }
+
+    public function viewDetail()
+    {
+        $this->SetFont('Arial', '', 10);
+        $units = $this->gp->getUnits();
+        while ($row = $units->fetch_array()) {
+            $this->Cell($this->page_w / 6 * 3, 10, $row['size'] . " | " . $row['color'], 1, 0, "C");
+            $this->Cell($this->page_w / 6 * 2, 10, $row['id'], 1, 0, "C");
+            $this->Cell($this->page_w / 6 * 1, 10, $row['pqty'], 1, 0, "C");
+            $this->Ln();
+        }
+
+        $this->Ln(20);
+    }
+
+    public function footer()
+    {
+        $this->SetFont('Arial', '', 11);
+        $this->SetY(-60);
+        $this->Cell($this->page_w / 4 * 1, 20, "", "RTL", 0, "C");
+        $this->Cell($this->page_w / 4 * 1, 20, "", "T", 0, "C");
+        $this->Cell($this->page_w / 4 * 1, 20, "", "T", 0, "C");
+        $this->Cell($this->page_w / 4 * 1, 20, "", "TR", 0, "C");
+        $this->Ln();
+        $this->Cell($this->page_w / 4 * 1, 5, "Genarated D/T", "RL", 0, "C");
+        $this->Cell($this->page_w / 4 * 1, 5, "..................................", "", 0, "C");
+        $this->Cell($this->page_w / 4 * 1, 5, "..................................", "", 0, "C");
+        $this->Cell($this->page_w / 4 * 1, 5, "..................................", "R", 0, "C");
+        $this->Ln();
+        $this->Cell($this->page_w / 4 * 1, 10, date("Y-m-d H:i:s"), "RBL", 0, "C");
+        $this->Cell($this->page_w / 4 * 1, 10, "Passed By", "B", 0, "C");
+        $this->Cell($this->page_w / 4 * 1, 10, "Director /Manager", "B", 0, "C");
+        $this->Cell($this->page_w / 4 * 1, 10, "Receiver's Signature", "BR", 0, "C");
+        $this->Ln();
+        $this->page_h = $this->GetPageHeight();
+        $this->image('logo-dark-flow.png', 10, $this->page_h - 20, 20);
+        $this->SetY(-20);
+        $this->Cell(0, 10, "Page " . $this->PageNo() . '/{nb}', "", 0, "C");
+        $this->SetFont('Arial', '', 8);
+        $this->SetY(-15);
+        $this->Cell(0, 10, date('Y') . " © mFLow powered by LASL", 0, "C");
     }
 }
