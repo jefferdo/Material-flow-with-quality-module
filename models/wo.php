@@ -76,6 +76,10 @@ class WO
                 $cus = json_decode($this->po->data)->Customer;
                 return $cus;
                 break;
+            case 'style':
+                $cus = json_decode($this->po->data)->Style;
+                return $cus;
+                break;
             case 'finQty':
                 return $this->finQty;
                 break;
@@ -138,18 +142,19 @@ class WO
     {
         $this->db = new Database();
         if ($id == "new") {
-            $query = "SELECT id from woht ORDER BY id desc LIMIT 1";
+            $prefix = date("Yz");
+            $this->initdt = date("Y-m-d H:i:s");
+            $this->apdt = $this->initdt;
+            $query = "SELECT id from woht where id LIKE 'WO" . $prefix . "%' ORDER BY id desc LIMIT 1";
             if ($results = $this->db->select($query)) {
                 if ($row = $results->fetch_array()) {
-                    $this->id = date("YW") . substr($row['id'], -4) + 1;
-                    $this->initdt = date("Y-m-d H:i:s");
-                    $this->apdt = $this->initdt;
+                    $this->id = "WO" . $prefix . str_pad(substr($row['id'], -4) + 1, 4, "0", STR_PAD_LEFT);
                 } else {
-                    $this->id = date("YW") . "0001";
-                    $this->id = new User(null);
+                    $this->id = "WO" . $prefix . "0001";
+                    $this->user = new User(null);
                 }
             } else {
-                $this->id = date("YW") . "0001";
+                $this->id = "WO" . $prefix . "0001";
             }
         } else if ($id == null) {
             $this->id = null;
@@ -187,13 +192,15 @@ class WO
 
     public function save()
     {
+        $stat = 0;
         $this->db = new Database();
         $query = "INSERT INTO woht (id, initdt, apdt, poid, size, color, lcs, prt, emb, wsh, sub, area, pqty, aqty, ab) VALUES ('" . $this->id . "', '" . $this->initdt . "', '" . $this->apdt . "', '" . $this->po->id . "', '" . $this->size . "', '" . $this->color . "', '" . $this->lcs . "', '" . $this->prt . "', '" . $this->emb . "', '" . $this->wsh . "', '" . $this->sub . "', '" . $this->pqty . "', '" . $this->pqty . "', '" . $this->pqty . "', '" . $this->userid . "') ON DUPLICATE KEY UPDATE initdt = '" . $this->initdt . "', apdt = '" . $this->apdt . "', poid = '" . $this->po->id . "', size = '" . $this->size . "', color = '" . $this->color . "', lcs = '" . $this->lcs . "', prt = '" . $this->prt . "', emb = '" . $this->emb . "', wsh = '" . $this->wsh . "', sub = '" . $this->sub . "', area = '" . $this->pqty . "', pqty = '" . $this->pqty . "', aqty = '" . $this->pqty . "'";
         $stat = $this->db->iud($query);
-        if ($stat == 0)
+        if ($stat == 0) {
             throw new Exception('Invalid Request at WO', 0);
-        else
+        } else {
             return $stat;
+        }
     }
 
     public function getPO($poid)
@@ -228,35 +235,35 @@ class WO
     public function getpap($lcs)
     {
         $this->db = new Database();
-        $query = "SELECT *  from woht where lcs ='" . $lcs . "' AND initdt = apdt";
+        $query = "SELECT woht.*, podt.td as data from woht inner join podt on woht.poid = podt.poid where lcs ='" . $lcs . "' AND initdt = apdt";
         return $this->db->select($query);
     }
 
     public function getaped($lcs)
     {
         $this->db = new Database();
-        $query = "SELECT *  from woht where lcs ='" . ($lcs + 1) . "' AND initdt < apdt";
+        $query = "SELECT woht.*, podt.td as data from woht inner join podt on woht.poid = podt.poid where lcs ='" . ($lcs + 1) . "' AND initdt < apdt";
         return $this->db->select($query);
     }
 
     public function getcomed($lcs)
     {
         $this->db = new Database();
-        $query = "SELECT *  from woht where lcs > '" . $lcs . "' AND initdt < apdt";
+        $query = "SELECT woht.*, podt.td as data from woht inner join podt on woht.poid = podt.poid where lcs > '" . $lcs . "' AND initdt < apdt";
         return $this->db->select($query);
     }
 
     public function getSupPen()
     {
         $this->db = new Database();
-        $query = "SELECT *  from woht where lcs = '8' AND initdt < apdt";
+        $query = "SELECT woht.*, podt.td as data from woht inner join podt on woht.poid = podt.poid where lcs = '8' AND initdt < apdt";
         return $this->db->select($query);
     }
 
     public function getSupInp()
     {
         $this->db = new Database();
-        $query = "SELECT *  from woht where lcs = '9' AND initdt < apdt";
+        $query = "SELECT woht.*, podt.td as data from woht inner join podt on woht.poid = podt.poid where lcs = '9' AND initdt < apdt";
         return $this->db->select($query);
     }
 
@@ -266,18 +273,19 @@ class WO
         $query = "SELECT woht.*, wodt.adate as adate, wodt.type from woht inner join wodt on woht.id = wodt.woid where woht.lcs = '7'";
         return $this->db->select($query);
     }
+    
 
     public function getSupLoc()
     {
         $this->db = new Database();
-        $query = "SELECT *  from woht where lcs = '7' AND id NOT IN (SELECT woid from wodt)";
+        $query = "SELECT woht.*, podt.td as data from woht inner join podt on woht.poid = podt.poid where lcs = '7' AND id NOT IN (SELECT woid from wodt)";
         return $this->db->select($query);
     }
 
     public function getSupIn()
     {
         $this->db = new Database();
-        $query = "SELECT *  from woht where lcs = '8' AND initdt < apdt";
+        $query = "SELECT woht.*, podt.td as data from woht inner join podt on woht.poid = podt.poid where lcs = '8' AND initdt < apdt";
         return $this->db->select($query);
     }
 
@@ -290,14 +298,14 @@ class WO
     public function getFSM()
     {
         $this->db = new Database();
-        $query = "SELECT *  from woht where lcs = '12' AND initdt < apdt";
+        $query = "SELECT woht.*, podt.td as data from woht inner join podt on woht.poid = podt.poid where lcs = '12' AND initdt < apdt";
         return $this->db->select($query);
     }
 
     public function getFIN()
     {
         $this->db = new Database();
-        $query = "SELECT *  from woht where lcs = '13' AND initdt < apdt";
+        $query = "SELECT woht.*, podt.td as data from woht inner join podt on woht.poid = podt.poid where lcs = '13' AND initdt < apdt";
         return $this->db->select($query);
     }
 

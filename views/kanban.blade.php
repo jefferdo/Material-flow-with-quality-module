@@ -51,10 +51,15 @@
                         <p class="sub-header">
                             {{ $body['B1']['subtitle'] }}
                         </p>
+                        <div class="pb-1">
+                            <input class="form-control" type="text" id="myInputC1" onkeyup="searchcard('C1');"
+                                placeholder="Search.." title="Type in a name">
+                        </div>
 
-                        <ul class="sortable-list taskList list-unstyled" id="upcoming">
+                        <ul class="sortable-list taskList list-unstyled" id="C1">
                             @foreach ($B1 as $item)
                             <li id="{{ $item['id'] }}">
+                                <a href="#" hidden>{{ $item['id'] }} | {{ $item['style'] }}</a>
                                 <h3 class="mt-0">{{ array_keys($body["B1"]["C1"]["info"])[0] }}: {{$item['id'] }}</h3>
                                 @foreach ($body["B1"]["C1"]["info"] as $key => $itemx)
                                 @if (!strpos($key,"time") and !strpos($key,"ID"))
@@ -109,12 +114,16 @@
                         <p class="sub-header">
                             {{ $body['B2']['subtitle'] }}
                         </p>
-
-                        <ul class="sortable-list taskList list-unstyled" id="upcoming">
+                        <div class="pb-1">
+                            <input class="form-control" type="text" id="myInputC2" onkeyup="searchcard('C2');"
+                                placeholder="Search.." title="Type in a name">
+                        </div>
+                        <ul class="sortable-list taskList list-unstyled" id="C2">
                             @foreach ($B2 as $item)
-
                             <li id="{{ $item['id'] }}">
+                                <a href="#" hidden>{{ $item['id'] }} | {{ $item['style'] }}</a>
                                 <h3 class="mt-0">WO No.: {{ $item['id'] }}</h3>
+                                <h4 class="mt-0">Style No.: {{ $item['style'] }}</h4>
                                 <h4 class="mt-0">Qty.: {{ $item['pqty'] }}</h4>
                                 <div class="clearfix"></div>
                                 <div class="row">
@@ -125,7 +134,6 @@
                                     </div>
                                 </div>
                             </li>
-
                             @endforeach
                         </ul>
 
@@ -153,12 +161,18 @@
                         <p class="sub-header">
                             {{ $body['B3']['subtitle'] }}
                         </p>
+                        <div class="pb-1">
+                            <input class="form-control" type="text" id="myInputC3" onkeyup="searchcard('C3');"
+                                placeholder="Search.." title="Type in a name">
+                        </div>
 
-                        <ul class="sortable-list taskList list-unstyled" id="upcoming">
+                        <ul class="sortable-list taskList list-unstyled" id="C3">
                             @foreach ($B3 as $item)
 
                             <li id="{{ $item['id'] }}">
+                                <a href="#" hidden>{{ $item['id'] }} | {{ $item['style'] }}</a>
                                 <h3 class="mt-0">WO No.: {{ $item['id'] }}</h3>
+                                <h4 class="mt-0">Style No.: {{ $item['style'] }}</h4>
                                 <h4 class="mt-0">Qty.: {{ $item['pqty'] }}</h4>
                                 <div class="clearfix"></div>
                                 <div class="row">

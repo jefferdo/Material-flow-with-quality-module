@@ -134,6 +134,42 @@ $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/NewGP', ['uses' => 'UsersController@NewGP']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/DelGP', ['uses' => 'UsersController@DelGP']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/addGPUnits', ['uses' => 'UsersController@addGPUnits']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/delGPUnits', ['uses' => 'UsersController@delGPUnits']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/updateGPRND', ['uses' => 'UsersController@updateGPRND']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/updateGPStatus', ['uses' => 'UsersController@updateGPStatus']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/secure', ['uses' => 'UsersController@secure']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->get('/editGP/{key}', ['uses' => 'UsersController@editGP']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->get('/printPDF/{key}', ['uses' => 'UsersController@printPDF']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
     $router->get('/getBarcode/{key}', ['uses' => 'UsersController@getBarcode']);
 });
 

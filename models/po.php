@@ -70,6 +70,9 @@ class PO
             case 'user':
                 return $this->user;
                 break;
+            case 'priLev':
+                return $this->user->getPriv();
+                break;
             default:
                 throw new Exception("Invalid getter: " . $name, 1);
         }
@@ -82,7 +85,7 @@ class PO
             $this->id = "";
         } else if ($id == "new") {
             $prefix = date("Yz");
-            $query = "SELECT id from poht  where id LIKE 'PO" . $prefix . "%' ORDER BY id desc LIMIT 1";
+            $query = "SELECT id from poht where id LIKE 'PO" . $prefix . "%' ORDER BY id desc LIMIT 1";
             if ($results = $this->db->select($query)) {
                 if ($row = $results->fetch_array()) {
                     $this->id = "PO" . $prefix . str_pad(substr($row['id'], -4) + 1, 4, "0", STR_PAD_LEFT);

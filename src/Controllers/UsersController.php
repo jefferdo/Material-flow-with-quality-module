@@ -16,6 +16,7 @@ use Database;
 use Illuminate\Http\Request;
 use eftec\bladeone\BladeOne;
 use Exception;
+use GatePass;
 use PO;
 use Roll;
 use Token;
@@ -76,6 +77,9 @@ class UsersController
                         break;
                     case "102":
                         $this->showOverview($this->user->getPriv());
+                        break;
+                    case "103":
+                        $this->showGate($this->user->getPriv());
                         break;
                     case "11":
                         $this->showWashing($this->user->getPriv());
@@ -208,6 +212,157 @@ class UsersController
             "csrfk" => $csrfk,
             "WO" => $woset,
         ));
+    }
+
+    public function showGate($prev)
+    {
+        $title = $prev['title'];
+        $lable = $prev["S1"]['lable'];
+        $action = "/" . $prev["S1"]['next'];
+        $woset = [];
+        $wo = new WO(null);
+        $gp = new GatePass(null);
+        $results = $wo->getlcs($prev['stage'] - 1);
+        $woset = $results;
+
+        $csrfk = Token::setcsrfk();
+        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+        echo $blade->run("GateHome", array(
+            "title" => $title,
+            "lable" => $lable,
+            "action" => $action,
+            "method" => "post",
+            "error" => $this->error,
+            "csrfk" => $csrfk,
+            "WO" => $woset,
+            "GP" => $gp->getGPs()
+        ));
+    }
+
+    public function NewGP(Request $request)
+    {
+        if (Token::chkcsrfk($request->csrfk) == 1) {
+            $title = "Create New Gate Pass";
+            $gp = new GatePass('new');
+            $stat = $gp->addNew();
+            if ($stat == 1) {
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/editGP/" . base64_encode($gp->id));
+                die();
+            } else {
+                $this->error = "Something went wrong [Error : 0x0010]. Try Again: " . $stat;
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/?error=" . $this->error);
+                die();
+            }
+        } else {
+            $this->error = "Invalid Request [Error : 0x0009]. Try Again";
+            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/?error=" . $this->error);
+            die();
+        }
+    }
+
+    public function printPDF($key)
+    {
+        $gp = new GatePass(base64_decode($key));
+        $gp->getPDF();
+    }
+
+    public function editGP($key)
+    {
+        $gp = new GatePass(base64_decode($key));
+        $csrfk = Token::setcsrfk();
+        $wo = new WO(null);
+        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+        echo $blade->run("CreateGateHome", array(
+            "title" => $title,
+            "csrfk" => $csrfk,
+            "id" => $gp->id,
+            "date" => $gp->date,
+            "ab" => $gp->user->name,
+            "rname" => $gp->name,
+            "destination" => $gp->destination,
+            "status" => $gp->status,
+            "wo" => $gp->getSupOutside(),
+            "AW" => $gp->getUnits()
+        ));
+    }
+
+    public function DelGP(Request $request)
+    {
+        if (Token::chkcsrfk($request->csrfk) == 1) {
+            $gp = new GatePass($request->id);
+            $stat = $gp->delete();
+            if ($stat == 1) {
+                return 1;
+            } else {
+                throw new Exception('Something Went Wrong', 2);
+            }
+        } else {
+            throw new Exception('Something Went Wrong', 3);
+        }
+    }
+
+    public function addGPUnits(Request $request)
+    {
+        if (Token::chkcsrfk($request->csrfk) == 1) {
+            try {
+                $gp = new GatePass($request->gpid);
+                return $gp->addUnit($request->unitid);
+            } catch (Exception $th) {
+                throw new Exception('Something Went Wrong: ' . $th, 3);
+            }
+        } else {
+            throw new Exception('Something Went Wrong', 3);
+        }
+    }
+
+    public function delGPUnits(Request $request)
+    {
+        if (Token::chkcsrfk($request->csrfk) == 1) {
+            try {
+                $gp = new GatePass($request->gpid);
+                return $gp->delUnit($request->unitid);
+            } catch (Exception $th) {
+                throw new Exception('Something Went Wrong: ' . $th, 3);
+            }
+        } else {
+            throw new Exception('Something Went Wrong', 3);
+        }
+    }
+
+    public function updateGPRND(Request $request)
+    {
+        if (Token::chkcsrfk($request->csrfk) == 1) {
+            try {
+                $gp = new GatePass($request->gpid);
+                $gp->name = $request->rname;
+                $gp->destination = $request->destination;
+                return $gp->update();
+            } catch (Exception $th) {
+                throw new Exception('Something Went Wrong: ' . $th, 3);
+            }
+        } else {
+            throw new Exception('Something Went Wrong', 3);
+        }
+    }
+
+    public function updateGPStatus(Request $request)
+    {
+        if (Token::chkcsrfk($request->csrfk) == 1) {
+            try {
+                $gp = new GatePass($request->gpid);
+                $gp->status = $request->status;
+                return $gp->update();
+            } catch (Exception $th) {
+                throw new Exception('Something Went Wrong: ' . $th, 3);
+            }
+        } else {
+            throw new Exception('Something Went Wrong', 3);
+        }
+    }
+
+    public function secure()
+    {
+        return Token::setcsrfk();
     }
 
     public function showWashing($prev)
@@ -636,6 +791,7 @@ class UsersController
         $results = $wo->getpap($prev['stage']);
         while ($row = $results->fetch_array()) {
             $row["date"] = $row['initdt'];
+            $row['style'] = (json_decode($row['data'])->Style);
             array_push($wosetp, $row);
         }
 
@@ -643,6 +799,7 @@ class UsersController
         $results = $wo->getaped($prev['stage']);
         while ($row = $results->fetch_array()) {
             $row["date"] = $row['apdt'];
+            $row['style'] = (json_decode($row['data'])->Style);
             array_push($woset, $row);
         }
 
@@ -670,6 +827,7 @@ class UsersController
         $results = $wo->getpap($prev['stage'] - 1);
         while ($row = $results->fetch_array()) {
             $row["date"] = $row['initdt'];
+            $row['style'] = (json_decode($row['data'])->Style);
             array_push($wosetp, $row);
         }
 
@@ -677,6 +835,7 @@ class UsersController
         $results = $wo->getaped($prev['stage'] - 1);
         while ($row = $results->fetch_array()) {
             $row["date"] = $row['apdt'];
+            $row['style'] = (json_decode($row['data'])->Style);
             array_push($woset, $row);
         }
 
@@ -684,6 +843,7 @@ class UsersController
         $results = $wo->getcomed($prev['stage']);
         while ($row = $results->fetch_array()) {
             $row["date"] = $row['apdt'];
+            $row['style'] = (json_decode($row['data'])->Style);
             array_push($wosetc, $row);
         }
 
@@ -999,6 +1159,7 @@ class UsersController
         $color = $wo->color;
         $qty = $wo->pqty;
         $cus = $wo->cus;
+        $style = $wo->style;
         $initdt = $wo->initdt;
         $csrfk = Token::setcsrfk();
         $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
@@ -1009,6 +1170,7 @@ class UsersController
             "color" => $color,
             "qty" => $qty,
             "cus" => $cus,
+            "style" => $style,
             "initdt" => $initdt,
             "action" => "readyWO",
             "method" => "post",
@@ -1037,7 +1199,6 @@ class UsersController
                         $wo->color = $request->colorf;
                         $wo->pqty = $request->rqty;
                         $wo->lcs = $this->user->priLev;
-
                         if ($wo->save() > 0) {
                             $this->error = "Success";
                             header("Location: http://" . $_SERVER['HTTP_HOST']);
@@ -1048,19 +1209,19 @@ class UsersController
                             die();
                         }
                     } catch (Exception $e) {
-                        $this->error = $e->getMessage();
-                        header("Location: http://" . $_SERVER['HTTP_HOST']);
+                        $this->error = "Somthing Went Wrong: " . $e->getMessage();
+                        header("Location: http://" . $_SERVER['HTTP_HOST'] . "/?error=" . $this->error);
                         die();
                     }
                 } else {
                     $this->error = "Invalid Request";
-                    header("Location: http://" . $_SERVER['HTTP_HOST']);
+                    header("Location: http://" . $_SERVER['HTTP_HOST'] . "/?error=" . $this->error);
                     die();
                 }
             }
         } else {
             $this->error = "Request Timeout";
-            header("Location: http://" . $_SERVER['HTTP_HOST']);
+            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/?error=" . $this->error);
             die();
         }
     }

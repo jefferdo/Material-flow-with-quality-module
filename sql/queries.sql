@@ -10,3 +10,6 @@ SELECT * FROM umf where id = '001';
 SELECT * from woht where lcs = 9;
 SELECT woht.*, umf.name from woht inner join umf on woht.ab = umf.id where lcs = 9;
 SELECT id from poht ORDER BY id desc LIMIT 1;
+INSERT INTO inht (id, supid, lgth, hgt, wdth, shrk, color, aa, ua, stg, ab) VALUES ('R2019420001', '000', '55', '55', '55', '', '', '', '', '', '');
+Select inht.*, indt.*, umf.name as user from inht inner join indt on inht.id = indt.roid inner join umf on inht.ab = umf.id where indt.poid = 'YRE7S19308001112';
+Select id from inht  where id LIKE 'R%' ORDER BY id desc LIMIT 1;
