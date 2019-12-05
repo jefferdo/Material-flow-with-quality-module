@@ -23,7 +23,9 @@
         ".vscode": true,
         "**/compiles": true,
         "compiles": true,
-        "**/cache": true
+        "**/cache": true,
+        "**/.gitignore": true,
+        ".gitignore": true
     },
     "explorerExclude.backup": null,
     "cSpell.words": [
