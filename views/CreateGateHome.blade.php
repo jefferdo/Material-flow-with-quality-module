@@ -44,11 +44,13 @@
                                 <div class="col-lg-6">
                                     <div class="form-group mb-3">
                                         <label for="name">Name of receiver (Optional)</label>
-                                        <input type="text" id="name" name="name" class="form-control">
+                                        <input type="text" id="rname" name="name" class="form-control"
+                                            value="{{ $rname }}">
                                     </div>
                                     <div class="form-group mb-3">
                                         <label for="destination">Destination location (Optional)</label>
-                                        <textarea id="destination" name="destination" class="form-control"></textarea>
+                                        <textarea id="destination" name="destination"
+                                            class="form-control">{{ $destination }}</textarea>
                                     </div>
                                 </div> <!-- end col -->
                                 <div class="col-lg-6">
@@ -70,12 +72,12 @@
                                 </div> <!-- end col -->
                                 <div class="col-lg-3">
                                     <div class="form-group mb-3">
-                                        <button type="submit"
+                                        <button id="confirmGP"
                                             class="btn btn-primary waves-effect waves-light">Confirm</button>
                                         <button type="button" id="cancelGP"
                                             class="btn btn-warning waves-effect waves-light">Delete</button>
-                                        <button type="button"
-                                            class="btn btn-blue waves-effect waves-light">Export Print Copy</button>
+                                        <button type="button" class="btn btn-blue waves-effect waves-light">Export Print
+                                            Copy</button>
                                     </div>
                                 </div> <!-- end col -->
                             </div>
@@ -103,9 +105,9 @@
                                     </tr>
                                 </thead>
 
-                                <tbody id="ADWtable">
-                                    @foreach ($wo as $item)
-                                    <tr style="text-transform:capitalize" id="RW_ADW{{ $item['id'] }}">
+                                <tbody id="ADWtable" style="text-transform:capitalize">
+                                    @foreach ($AW as $item)
+                                    <tr id="RW_{{ $item['id'] }}">
                                         <td><b>{{ $item['id'] }}</b></td>
                                         <td>
                                             {{ $item['poid'] }}
@@ -126,7 +128,8 @@
                                                     data-toggle="dropdown" aria-expanded="false"><i
                                                         class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <button class="dropdown-item" onclick="removefromGP('{{ $id }}')"><i
+                                                    <button class="dropdown-item"
+                                                        onclick="removefromGP('{{ $item['id'] }}')"><i
                                                             class="mdi mdi-delete mr-2 text-muted font-18 vertical-middle"></i>Remove</button>
                                                 </div>
                                             </div>
@@ -159,9 +162,9 @@
                                     </tr>
                                 </thead>
 
-                                <tbody id="AWtable">
+                                <tbody id="AWtable" style="text-transform:capitalize">
                                     @foreach ($wo as $item)
-                                    <tr style="text-transform:capitalize" id="RW_AW{{ $item['id'] }}">
+                                    <tr id="RW_{{ $item['id'] }}">
                                         <td><b>{{ $item['id'] }}</b></td>
                                         <td>
                                             {{ $item['poid'] }}
@@ -182,7 +185,8 @@
                                                     data-toggle="dropdown" aria-expanded="false"><i
                                                         class="mdi mdi-dots-horizontal"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-right">
-                                                    <button class="dropdown-item" onclick="addtoGP('{{ $id }}')"><i
+                                                    <button id="RW_{{ $item['id'] }}btn" class="dropdown-item"
+                                                        onclick="addtoGP('{{ $item['id'] }}')"><i
                                                             class="mdi mdi-plus-circle-outline mr-2 text-muted font-18 vertical-middle"></i>Add</button>
                                                 </div>
                                             </div>

@@ -247,17 +247,8 @@ class UsersController
             $gp = new GatePass('new');
             $stat = $gp->addNew();
             if ($stat == 1) {
-                $csrfk = Token::setcsrfk();
-                $wo = new WO(null);
-                $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
-                echo $blade->run("CreateGateHome", array(
-                    "title" => $title,
-                    "csrfk" => $csrfk,
-                    "id" => $gp->id,
-                    "date" => $gp->date,
-                    "ab" => $gp->user->name,
-                    "wo" => $wo->getSupOutside()
-                ));
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/editGP/" . base64_encode($gp->id));
+                die();
             } else {
                 $this->error = "Something went wrong [Error : 0x0010]. Try Again: " . $stat;
                 header("Location: http://" . $_SERVER['HTTP_HOST'] . "/?error=" . $this->error);
@@ -282,7 +273,10 @@ class UsersController
             "id" => $gp->id,
             "date" => $gp->date,
             "ab" => $gp->user->name,
-            "wo" => $wo->getSupOutside()
+            "rname" => $gp->name,
+            "destination" => $gp->destination,
+            "wo" => $gp->getSupOutside(),
+            "AW" => $gp->getUnits()
         ));
     }
 
@@ -299,6 +293,55 @@ class UsersController
         } else {
             throw new Exception('Something Went Wrong', 3);
         }
+    }
+
+    public function addGPUnits(Request $request)
+    {
+        if (Token::chkcsrfk($request->csrfk) == 1) {
+            try {
+                $gp = new GatePass($request->gpid);
+                return $gp->addUnit($request->unitid);
+            } catch (Exception $th) {
+                throw new Exception('Something Went Wrong: ' . $th, 3);
+            }
+        } else {
+            throw new Exception('Something Went Wrong', 3);
+        }
+    }
+
+    public function delGPUnits(Request $request)
+    {
+        if (Token::chkcsrfk($request->csrfk) == 1) {
+            try {
+                $gp = new GatePass($request->gpid);
+                return $gp->delUnit($request->unitid);
+            } catch (Exception $th) {
+                throw new Exception('Something Went Wrong: ' . $th, 3);
+            }
+        } else {
+            throw new Exception('Something Went Wrong', 3);
+        }
+    }
+
+    public function updateGPRND(Request $request)
+    {
+        if (Token::chkcsrfk($request->csrfk) == 1) {
+            try {
+                $gp = new GatePass($request->gpid);
+                $gp->name = $request->rname;
+                $gp->destination = $request->destination;
+                return $gp->update();
+            } catch (Exception $th) {
+                throw new Exception('Something Went Wrong: ' . $th, 3);
+            }
+        } else {
+            throw new Exception('Something Went Wrong', 3);
+        }
+    }
+
+    public function secure()
+    {
+        return Token::setcsrfk();
     }
 
     public function showWashing($prev)

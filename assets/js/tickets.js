@@ -22,5 +22,4 @@ $(document).ready(function() {
             $(".dataTables_paginate > .pagination").addClass("pagination-rounded")
         }
     })
-
 });

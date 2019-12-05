@@ -124,7 +124,7 @@ class GatePass
     public function getUnits()
     {
         $this->db = new Database();
-        $query = "SELECT * from gpdt where gpid ='" . $this->id . "'";
+        $query = "SELECT woht.* from gpdt inner join woht on gpdt.unitid = woht.id where gpid ='" . $this->id . "'";
         return $this->db->select($query);
     }
 
@@ -132,6 +132,13 @@ class GatePass
     {
         $this->db = new Database();
         $query = "SELECT gpht.* , umf.name as uname from gpht inner join umf on gpht.ab = umf.id";
+        return $this->db->select($query);
+    }
+
+    public function getSupOutside()
+    {
+        $this->db = new Database();
+        $query = "SELECT woht.* from woht left join gpdt on woht.id = gpdt.unitid where lcs = '7' AND gpdt.unitid is null";
         return $this->db->select($query);
     }
 
@@ -145,6 +152,7 @@ class GatePass
             return $query;
         }
     }
+
 
     public function update()
     {
@@ -162,10 +170,27 @@ class GatePass
         $query = "DELETE FROM gpht WHERE gpht.id = '" . $this->id . "'";
         $this->db = new Database();
         if ($this->db->iud($query) == 1) {
-            return 1;
+            if ($this->db->iud($query) == 1) {
+                $query = "DELETE FROM gpdt WHERE gpdt.gpid = '" . $this->id . "'";
+                return 1;
+            } else {
+                return $query;
+            }
         } else {
             return $query;
         }
+    }
+
+    public function addUnit($unitid)
+    {
+        $unit = new GPUnit($this->id, $unitid);
+        return $unit->addNew();
+    }
+
+    public function delUnit($unitid)
+    {
+        $unit = new GPUnit($this->id, $unitid);
+        return $unit->delete();
     }
 }
 
@@ -174,6 +199,8 @@ class GPUnit
     private $gpid;
     private $unitid;
     private $qty = 1;
+
+    private $db;
 
     public function __set($name, $value)
     {
@@ -209,26 +236,46 @@ class GPUnit
         }
     }
 
-    public function __construct($gpid)
+    public function __construct($gpid, $unitid)
     {
         $this->db = new Database();
-        if ($id == null) {
-            $this->gpid = "";
-        } else {
+        $query = "SELECT * from gpht where id ='" . $gpid . "'";
+        if (0 < mysqli_num_rows($this->db->select($query))) {
             $this->gpid = $gpid;
-            $query = "SELECT * from gpht where gpid ='" . $this->gpid . "'";
-            if ($results = $this->db->select($query)) {
-                if ($row = $results->fetch_array()) {
-                    $this->gpid = $row['gpid'];
-                    $this->unitid = $row['unitid'];
-                    $this->qty = $row['qty'];
-                } else {
-                    throw new Exception('Invalid GP ID', 0);
-                }
-            }
+            $this->unitid = $unitid;
+        } else {
+            $this->gpid = null;
+            throw new Exception('Invalid GP ID', 0);
         }
     }
 
     public function addnew()
-    { }
+    {
+        if ($this->gpid != null) {
+            $query = "INSERT INTO gpdt (gpid, unitid, qty) values('" . $this->gpid . "', '" . $this->unitid . "', '" . $this->qty . "')";
+            $this->db = new Database();
+            if ($this->db->iud($query) == 1) {
+                return 1;
+            } else {
+                return $query;
+            }
+        } else {
+            throw new Exception('GPID is empty', 0);
+        }
+    }
+
+    public function delete()
+    {
+        if ($this->gpid != null) {
+            $query = "DELETE FROM gpdt WHERE gpid = '" . $this->gpid . "' AND unitid = '" . $this->unitid . "'";
+            $this->db = new Database();
+            if ($this->db->iud($query) == 1) {
+                return 1;
+            } else {
+                return $query;
+            }
+        } else {
+            throw new Exception('GPID is empty', 0);
+        }
+    }
 }

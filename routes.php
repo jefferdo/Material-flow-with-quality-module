@@ -142,6 +142,22 @@ $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/addGPUnits', ['uses' => 'UsersController@addGPUnits']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/delGPUnits', ['uses' => 'UsersController@delGPUnits']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/updateGPRND', ['uses' => 'UsersController@updateGPRND']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/secure', ['uses' => 'UsersController@secure']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
     $router->get('/editGP/{key}', ['uses' => 'UsersController@editGP']);
 });
 

@@ -273,6 +273,7 @@ class WO
         $query = "SELECT woht.*, wodt.adate as adate, wodt.type from woht inner join wodt on woht.id = wodt.woid where woht.lcs = '7'";
         return $this->db->select($query);
     }
+    
 
     public function getSupLoc()
     {

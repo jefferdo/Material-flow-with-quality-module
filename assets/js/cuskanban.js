@@ -85,6 +85,22 @@
       }
     })
   });
+
+  $("#confirmGP").click(function (e) {
+    Swal.fire({
+      title: 'Finished?',
+      text: "We will redirect you to you home page!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Redirect!'
+    }).then((result) => {
+      if (result.value) {
+        window.location.replace("/");
+      }
+    })
+  });
 })(jQuery);
 
 function searchcard(card) {
@@ -104,13 +120,119 @@ function searchcard(card) {
   }
 }
 
-function addtoGP(gpid) {
-  alert("Adding " + gpid);
+function addtoGP(unitid) {
+  showPreload();
+  let gpid = $("#gpid").val();
+  let form = new FormData();
+  form.append("csrfk", $("#csrfk").val());
+  form.append("gpid", gpid);
+  form.append("unitid", unitid);
+  $.ajax({
+    type: "post",
+    url: "/addGPUnits",
+    data: form,
+    processData: false,
+    contentType: false,
+    success: function (response) {
+      if (response == 1) {
+        window.location.reload();
+      }
+    },
+    error: function (data) {
+      hidePreload();
+      Swal.fire(
+        'Error!',
+        'Something Went Wrong. 0x04: ' + data,
+        'error'
+      )
+    }
+  });
 }
 
-function removefromGP(gpid) {
-  alert("Removing " + gpid);
+
+
+function removefromGP(unitid) {
+  showPreload();
+  let gpid = $("#gpid").val();
+  let form = new FormData();
+  form.append("csrfk", $("#csrfk").val());
+  form.append("gpid", gpid);
+  form.append("unitid", unitid);
+  $.ajax({
+    type: "post",
+    url: "/delGPUnits",
+    data: form,
+    processData: false,
+    contentType: false,
+    success: function (response) {
+      if (response == 1) {
+        window.location.reload();
+      }
+    },
+    error: function (data) {
+      hidePreload();
+      Swal.fire(
+        'Error!',
+        'Something Went Wrong. 0x04: ' + data,
+        'error'
+      )
+    }
+  });
 }
+
+function showPreload() {
+  $("#preloader")
+    .delay(350)
+    .fadeIn("slow");
+  $("#status").fadeIn();
+}
+
+function hidePreload() {
+  $("#status").fadeOut();
+  $("#preloader")
+    .delay(350)
+    .fadeOut("slow");
+}
+
+(function ($) {
+  $("#rname, #destination").on("change", function () {
+    if ($(this).val().length > 0) {
+      let rname = $("#rname").val();
+      let destination = $("#destination").val();
+      let gpid = $("#gpid").val();
+      let form = new FormData();
+      form.append("csrfk", $("#csrfk").val());
+      form.append("gpid", gpid);
+      form.append("rname", rname);
+      form.append("destination", destination);
+      $.ajax({
+        type: "post",
+        url: "/updateGPRND",
+        data: form,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+          console.log(response);
+        },
+        error: function () {
+          showPreload();
+          window.location.reload();
+        },
+        complete: function () {
+          $.ajax({
+            type: "post",
+            url: "/secure",
+            success: function (response) {
+              if (response.length == 100) {
+                $("#csrfk").val(response)
+              }
+            }
+          });
+        }
+      });
+    }
+  });
+})(jQuery);
 
 (function ($) {
   function hasMatch(JSON, key, value) {
