@@ -2,7 +2,7 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/services/database.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/services/token.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/models/log.php');
-include_once $_SERVER['DOCUMENT_ROOT'] . "/services/fpdf/fpdf.php";
+include_once($_SERVER['DOCUMENT_ROOT'] . "/services/fpdf/fpdf.php");
 
 class GatePass
 {
@@ -390,9 +390,9 @@ class GatePassPDF extends FPDF
         $this->page_h = $this->GetPageHeight();
         $this->image('logo-dark-flow.png', 10, $this->page_h - 20, 20);
         $this->SetY(-20);
-        $this->Cell(0, 10, "Page " . $this->PageNo() . '/{nb}', "", 0, "C");
+        $this->Cell(0, 10, "Page " . $this->PageNo() . '/{nb}', "", 0, "R");
         $this->SetFont('Arial', '', 8);
         $this->SetY(-15);
-        $this->Cell(0, 10, date('Y') . " © mFLow powered by LASL", 0, "C");
+        $this->Cell(0, 10, date('Y') . iconv('utf-8', 'cp1252', " © mFLow powered by LASL"), 0, 0, "L");
     }
 }

@@ -115,7 +115,7 @@
                         <li>
                             <a href="/">
                                 <i class="fe-pocket"></i>
-                                <span> Kanban System</span>
+                                <span> Home</span>
                             </a>
                         </li>
 
