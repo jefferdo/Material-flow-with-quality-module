@@ -5,7 +5,7 @@
     },
     "1": {
         "stage": 1,
-        "nStage": 2,
+        "nStage": 4,
         "title": "Order Scheduling",
         "S1": {
             "title": "Search PO",
