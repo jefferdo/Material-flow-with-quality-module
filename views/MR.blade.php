@@ -34,25 +34,7 @@
             <!-- end page title -->
 
             <div class="row">
-                <div class="col-md-12 col-xl-6">
-                    <div class="widget-rounded-circle card-box">
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="avatar-lg rounded-circle bg-primary">
-                                    <i class="fe-tag font-22 avatar-title text-white"></i>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="text-right">
-                                    <h1 class="text-dark mt-1"><span data-plugin="counterup">{{ $nor }}</span></h1>
-                                    <h2 class="text-muted mb-1 text-truncate">Total number of Rolls</h2>
-                                </div>
-                            </div>
-                        </div> <!-- end row-->
-                    </div> <!-- end widget-rounded-circle-->
-                </div> <!-- end col-->
-
-                <div class="col-md-12 col-xl-6">
+                <div class="col-md-12 col-xl-12">
                     <div class="widget-rounded-circle card-box">
                         <div class="row">
                             <div class="col-6">

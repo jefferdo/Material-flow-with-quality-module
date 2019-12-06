@@ -6,7 +6,7 @@
     "1": {
         "stage": 1,
         "nStage": 2,
-        "title": "Material Receive",
+        "title": "Order Scheduling",
         "S1": {
             "title": "Search PO",
             "lable": "Scan PO barcode",

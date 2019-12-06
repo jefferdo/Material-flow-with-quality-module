@@ -342,7 +342,7 @@ class GatePassPDF extends FPDF
         $this->SetFont('Arial', 'B', 14);
         $this->Cell(0, 10, "  M/s", 1, 1, "L");
         $this->SetFont('Arial', '', 12);
-        $this->MultiCell(0, 10, "  Receiver's Name: " . $this->gp->name . "\n" . "  Address: " . $this->gp->destination,  "LRTB", "L", false);
+        $this->MultiCell(0, 7, "  Receiver's Name: " . $this->gp->name . "\n" . "  Receiver's Address: " . $this->gp->destination,  "LRTB", "L", false);
     }
 
     public function headerTable()

@@ -34,6 +34,17 @@ class UsersController
     private $error;
     private $user;
 
+
+    public function __construct()
+    {
+/*         $this->user = null;
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+        $this->user = new User($_SESSION['uid']);
+        $this->user->session(); */
+    }
+
     public function index()
     {
         $this->user = null;
@@ -728,12 +739,12 @@ class UsersController
                     die();
                 }
             } else {
-                $this->error = "Something went wrong, try again";
+                $this->error = "Something went wrong, try again 0x002";
                 header("Location: http://" . $_SERVER['HTTP_HOST'] . "/?error=" . $this->error);
                 die();
             }
         } catch (Exception $th) {
-            $this->error = "Something went wrong, try again";
+            $this->error = "Something went wrong, try again 0x001";
             header("Location: http://" . $_SERVER['HTTP_HOST'] . "/?error=" . $this->error);
             die();
         }
