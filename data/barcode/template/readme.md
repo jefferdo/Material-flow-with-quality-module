@@ -1,0 +1,1 @@
+this folder dedicated for barcode template storage
