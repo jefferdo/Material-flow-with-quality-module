@@ -89,7 +89,7 @@
   $("#confirmGP").click(function (e) {
     Swal.fire({
       title: 'Finished?',
-      text: "We will redirect you to you home page!",
+      text: "We will redirect you to your home page!",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

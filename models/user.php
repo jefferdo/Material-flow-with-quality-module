@@ -137,10 +137,12 @@ class User
         if (!isset($_SESSION)) {
             session_start();
         }
-        /* echo $this->key . "<br/>";
+
+/*         echo $this->key . "<br/>";
         echo $_SESSION['key'];
-        exit; */
-        $stat = 0;
+        exit;
+        $stat = 0; */
+
         try {
             if ($this->key != $_SESSION['key']) {
                 $this->logout();

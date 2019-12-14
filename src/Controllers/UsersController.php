@@ -34,6 +34,16 @@ class UsersController
     private $error;
     private $user;
 
+
+    public function __construct()
+    {
+        /*         $this->user = null;
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+        $this->user = new User($_SESSION['uid']);
+        $this->user->session(); */ }
+
     public function index()
     {
         $this->user = null;
@@ -268,22 +278,37 @@ class UsersController
 
     public function editGP($key)
     {
-        $gp = new GatePass(base64_decode($key));
-        $csrfk = Token::setcsrfk();
-        $wo = new WO(null);
-        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
-        echo $blade->run("CreateGateHome", array(
-            "title" => $title,
-            "csrfk" => $csrfk,
-            "id" => $gp->id,
-            "date" => $gp->date,
-            "ab" => $gp->user->name,
-            "rname" => $gp->name,
-            "destination" => $gp->destination,
-            "status" => $gp->status,
-            "wo" => $gp->getSupOutside(),
-            "AW" => $gp->getUnits()
-        ));
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+        if (isset($_SESSION['uid']) && isset($_SESSION['key'])) {
+            $this->user = new User(null);
+            if ($this->user->session() == 1) {
+                $gp = new GatePass(base64_decode($key));
+                $csrfk = Token::setcsrfk();
+                $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+                echo $blade->run("CreateGateHome", array(
+                    "title" => $title,
+                    "csrfk" => $csrfk,
+                    "id" => $gp->id,
+                    "date" => $gp->date,
+                    "ab" => $gp->user->name,
+                    "rname" => $gp->name,
+                    "destination" => $gp->destination,
+                    "status" => $gp->status,
+                    "wo" => $gp->getSupOutside(),
+                    "AW" => $gp->getUnits()
+                ));
+            } else {
+                $this->error = "Invalid Request [Error : 0x0010]. Try Again";
+                header("Location: http://" . $_SERVER['HTTP_HOST'] . "/?error=" . $this->error);
+                die();
+            }
+        } else {
+            $this->error = "Invalid Request [Error : 0x0011]. Try Again";
+            header("Location: http://" . $_SERVER['HTTP_HOST'] . "/?error=" . $this->error);
+            die();
+        }
     }
 
     public function DelGP(Request $request)
@@ -728,12 +753,12 @@ class UsersController
                     die();
                 }
             } else {
-                $this->error = "Something went wrong, try again";
+                $this->error = "Something went wrong, try again 0x002";
                 header("Location: http://" . $_SERVER['HTTP_HOST'] . "/?error=" . $this->error);
                 die();
             }
         } catch (Exception $th) {
-            $this->error = "Something went wrong, try again";
+            $this->error = "Something went wrong, try again 0x001";
             header("Location: http://" . $_SERVER['HTTP_HOST'] . "/?error=" . $this->error);
             die();
         }
