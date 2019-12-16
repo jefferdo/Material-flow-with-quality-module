@@ -270,6 +270,16 @@ class UsersController
         }
     }
 
+    public function printwo(Request $request)
+    {
+        try {
+            $wo = new WO(null);
+            return $wo->printlable($request->wono);
+        } catch (Exception $th) {
+            return "error " . $request->wono . " " . $th;
+        }
+    }
+
     public function printPDF($key)
     {
         $gp = new GatePass(base64_decode($key));
