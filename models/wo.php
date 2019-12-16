@@ -275,14 +275,14 @@ class WO
     public function getpap($lcs)
     {
         $this->db = new Database();
-        $query = "SELECT woht.*, podt.td as data from woht inner join podt on woht.poid = podt.poid where lcs ='" . $lcs . "' AND initdt = apdt";
+        $query = "SELECT woht.*, podt.td as data from woht inner join podt on woht.poid = podt.poid where lcs ='" . ($lcs - 2) . "' AND initdt = apdt";
         return $this->db->select($query);
     }
 
     public function getaped($lcs)
     {
         $this->db = new Database();
-        $query = "SELECT woht.*, podt.td as data from woht inner join podt on woht.poid = podt.poid where lcs ='" . ($lcs + 1) . "' AND initdt < apdt";
+        $query = "SELECT woht.*, podt.td as data from woht inner join podt on woht.poid = podt.poid where lcs ='" . ($lcs) . "' AND initdt < apdt";
         return $this->db->select($query);
     }
 

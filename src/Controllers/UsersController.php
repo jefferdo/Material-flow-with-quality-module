@@ -823,7 +823,7 @@ class UsersController
         }
 
         $wo = new WO(null);
-        $results = $wo->getpap($prev['stage']);
+        $results = $wo->getpap($prev['stage'] - 1);
         while ($row = $results->fetch_array()) {
             $row["date"] = $row['initdt'];
             $row['style'] = (json_decode($row['data'])->Style);
@@ -859,7 +859,7 @@ class UsersController
         $wosetc = [];
 
         $wo = new WO(null);
-        $results = $wo->getpap($prev['stage'] - 1);
+        $results = $wo->getpap($prev['stage']);
         while ($row = $results->fetch_array()) {
             $row["date"] = $row['initdt'];
             $row['style'] = (json_decode($row['data'])->Style);
@@ -1233,7 +1233,7 @@ class UsersController
                         $wo->size = $request->sizef;
                         $wo->color = $request->colorf;
                         $wo->pqty = $request->rqty;
-                        $wo->lcs = $this->user->priLev;
+                        $wo->lcs = $this->user->priLev - 1;
                         if ($wo->save() > 0) {
                             $this->error = "Success";
                             header("Location: http://" . $_SERVER['HTTP_HOST']);
