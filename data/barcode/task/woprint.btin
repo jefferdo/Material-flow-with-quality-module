@@ -1,0 +1,59 @@
+﻿<IntegrationFile Version="5" ID="0ee5e3b4-1fcd-4e4e-9398-6aaa9460c518">
+  <ActionGroup Name="IntegrationFileActionGroup" ID="94dfdd4b-8bf2-40fa-a94f-1f738d6685e4" RunMethod="Sequential" MessagingEnabled="false">
+    <Actions>
+      <WebRequestIntegration Name="printwo" ID="7124e93e-774f-427a-9498-2d03caf555c8" IgnoreErrors="true" Port="8088" ResponseFormat="Json">
+        <ActionGroup ID="12ec2195-8c99-428a-921d-bad2600e68bb" RunMethod="Sequential" MessagingEnabled="false">
+          <Actions>
+            <PrintAction Name="Print Document" ID="1ba29a7a-4fef-451a-9bac-f9f568a589fb" IgnoreErrors="false" Document="D:\Users\jeewa\Documents\GitHub\Material-flow-with-quality-module\data\barcode\template\wocode.btw" Printer="Send To OneNote 2016" CopiesPerSerialNumber="1" UseDatabase="false" NamedDataSourcePrefix="BTDS_">
+              <NamedDataSources>
+                <Field Name="style">%style%</Field>
+                <Field Name="mainBar">%wono%</Field>
+                <Field Name="qty">%qty%</Field>
+              </NamedDataSources>
+            </PrintAction>
+          </Actions>
+        </ActionGroup>
+        <ContentData ContentDataType="JsonVariables" />
+        <ResponseHeaders />
+        <ResponseData>
+          <Value>%__internal_ActionSummaryVariable_{271E0413-7AD2-4B56-BB47-701D8702C5E8}__%</Value>
+        </ResponseData>
+      </WebRequestIntegration>
+    </Actions>
+  </ActionGroup>
+  <Metadata>
+    <Properties>
+      <Properties Name="MostRecentlyUsedVariables" Type="System.String">
+        <Value>Response;EventData</Value>
+      </Properties>
+      <Properties Name="SelectedDeploymentConfiguration" Type="System.String">
+        <Value>Custom</Value>
+      </Properties>
+      <Properties Name="SelectedIntegration" Type="System.Int32">
+        <Value>0</Value>
+      </Properties>
+      <Properties Name="SelectedOptionsPage" Type="System.String">
+        <Value>1;0</Value>
+      </Properties>
+    </Properties>
+  </Metadata>
+  <SourcePath>D:\Users\jeewa\Documents\GitHub\Material-flow-with-quality-module\data\barcode\task\woprint.btin</SourcePath>
+  <IsPrinting>false</IsPrinting>
+  <IsPrintPreview>false</IsPrintPreview>
+  <DeploymentConfigurations>
+    <DeploymentConfiguration CancelIfIntegrationFileExistsOnTargetServer="false">
+      <Name>Test</Name>
+      <TargetServers>
+        <TargetServer Name="This Computer" Description="" IsServerGroup="false" />
+      </TargetServers>
+      <DeploymentSchedule Method="Immediately" />
+    </DeploymentConfiguration>
+    <DeploymentConfiguration CancelIfIntegrationFileExistsOnTargetServer="false">
+      <Name>Production</Name>
+      <TargetServers>
+        <TargetServer Name="This Computer" Description="" IsServerGroup="false" />
+      </TargetServers>
+      <DeploymentSchedule Method="OnSpecifiedDate" />
+    </DeploymentConfiguration>
+  </DeploymentConfigurations>
+</IntegrationFile>

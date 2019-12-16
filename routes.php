@@ -162,6 +162,10 @@ $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->post('/printwo', ['uses' => 'UsersController@printwo']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
     $router->get('/editGP/{key}', ['uses' => 'UsersController@editGP']);
 });
 

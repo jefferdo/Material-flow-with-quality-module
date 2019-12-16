@@ -190,6 +190,46 @@ class WO
         }
     }
 
+    public function printlable($wono)
+    {
+        $curl = curl_init();
+        $this->db = new Database();
+        $query = "SELECT woht.*, podt.td as data from woht inner join podt on woht.poid = podt.poid where woht.id = '" . $wono . "'";
+        if ($results = $this->db->select($query)) {
+            if ($row = $results->fetch_array()) {
+                curl_setopt_array($curl, array(
+                    CURLOPT_PORT => "8088",
+                    CURLOPT_URL => "http://127.0.0.1:8088/Integration/printwo/Execute",
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => "",
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 30,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => "GET",
+                    CURLOPT_POSTFIELDS => "{\n\t\"style\": \"" . (json_decode($row['data'])->Style) . "\",\n\t\"wono\": \"" . $row['id'] . "\",\n\t\"qty\": \"" . $row['pqty'] . "\"\n}",
+                    CURLOPT_HTTPHEADER => array(
+                        "content-type: application/json"
+                    ),
+                ));
+
+                $response = curl_exec($curl);
+                $err = curl_error($curl);
+
+                curl_close($curl);
+
+                if ($err) {
+                    echo "cURL Error #:" . $err;
+                } else {
+                    echo $response;
+                }
+            } else {
+                echo "Not Found 0x01: " . $query;
+            }
+        } else {
+            echo "Not Found 0x02: " . $query;
+        }
+    }
+
     public function save()
     {
         $stat = 0;
@@ -273,7 +313,7 @@ class WO
         $query = "SELECT woht.*, wodt.adate as adate, wodt.type from woht inner join wodt on woht.id = wodt.woid where woht.lcs = '7'";
         return $this->db->select($query);
     }
-    
+
 
     public function getSupLoc()
     {

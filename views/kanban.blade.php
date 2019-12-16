@@ -74,6 +74,13 @@
                                             <b>{{ end(array_keys($body["B1"]["C1"]["info"])) }}:</b>
                                             {{ $item['date'] }}</p>
                                     </div>
+                                    <div class="col-auto">
+                                        <div class="text-right">
+                                            <button type="button" onclick="printwo('{{ $item['id'] }}')"
+                                                class="btn btn-success btn-block mt-3 waves-effect waves-light">
+                                                <i class="mdi mdi-printer"></i> Print</button>
+                                        </div>
+                                    </div>
                                     <form action="/{{ $body['B1']['C1']['target'] }}" method="post">
                                         <input type="hidden" name='csrfk' value="{{ $csrfk }}">
                                         <input type="hidden" name="id" name="id" value="{{ $item['id'] }}">
@@ -133,6 +140,13 @@
                                             {{ $item['date'] }}</p>
                                     </div>
                                 </div>
+                                <div class="col-auto">
+                                    <div class="text-right">
+                                        <button type="button" onclick="printwo('{{ $item['id'] }}')"
+                                            class="btn btn-success btn-block mt-3 waves-effect waves-light">
+                                            <i class="mdi mdi-printer"></i> Print</button>
+                                    </div>
+                                </div>
                             </li>
                             @endforeach
                         </ul>
@@ -180,6 +194,13 @@
                                         <p class="font-13 mt-2 mb-0"><i class="mdi mdi-calendar"></i>
                                             <b>{{ array_keys($body["B3"]["C1"]["info"])[2] }}:</b>
                                             {{ $item['date'] }}</p>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="text-right">
+                                        <button type="button" onclick="printwo('{{ $item['id'] }}')"
+                                            class="btn btn-success btn-block mt-3 waves-effect waves-light">
+                                            <i class="mdi mdi-printer"></i> Print</button>
                                     </div>
                                 </div>
                             </li>

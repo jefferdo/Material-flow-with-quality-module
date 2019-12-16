@@ -150,7 +150,35 @@ function addtoGP(unitid) {
   });
 }
 
+function printwo(no) {
+  let form = new FormData();
+  form.append("wono", no);
+  $.ajax({
+    type: "post",
+    url: "/printwo",
+    data: form,
+    processData: false,
+    contentType: false,
+    success: function (response) {
+      console.log(response);
+      Swal.fire(
+        'Done!',
+        'Print job queued',
+        'success'
+      )
 
+    },
+    error: function (data) {
+      console.error(data);
+      Swal.fire(
+        'Error!',
+        'Something Went Wrong. 0x04: ' + data,
+        'error'
+      )
+    }
+  });
+
+}
 
 function removefromGP(unitid) {
   showPreload();
