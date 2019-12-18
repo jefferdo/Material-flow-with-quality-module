@@ -36,6 +36,9 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
+                                <a href="/showGate" type="submit" class="btn btn-sm btn-blue waves-effect waves-light float-right">
+                                    <i class="mdi mdi-plus-circle"></i> Add Gatepass
+                                </a href="/">
                             <h4 class="header-title">Basic Information for Gate Pass</h4>
                             <p class="sub-header">
                             </p>
@@ -67,19 +70,22 @@
                                         <h4>Status</h4>
                                         <div class="col-sm-6">
                                             <div class="radio radio-info mb-2">
-                                                <input type="radio" name="status" id="radio8" value="0" @if ($status==0) checked @endif>
+                                                <input type="radio" name="status" id="radio8" value="0" @if ($status==0)
+                                                    checked @endif>
                                                 <label for="radio8">
                                                     <span class="badge badge-info" style="font-size:150%">New</span>
                                                 </label>
                                             </div>
                                             <div class="radio radio-success mb-2">
-                                                <input type="radio" name="status" id="radio4" value="1" @if ($status==1) checked @endif>
+                                                <input type="radio" name="status" id="radio4" value="1" @if ($status==1)
+                                                    checked @endif>
                                                 <label for="radio4">
                                                     <span class="badge badge-success" style="font-size:150%">Open</span>
                                                 </label>
                                             </div>
                                             <div class="radio mb-2">
-                                                <input type="radio" name="status" id="radio1" value="2" @if ($status==2) checked @endif>
+                                                <input type="radio" name="status" id="radio1" value="2" @if ($status==2)
+                                                    checked @endif>
                                                 <label for="radio1">
                                                     <span class="badge badge-secondary"
                                                         style="font-size:150%">Closed</span>

@@ -42,7 +42,8 @@ class UsersController
             session_start();
         }
         $this->user = new User($_SESSION['uid']);
-        $this->user->session(); */ }
+        $this->user->session(); */
+    }
 
     public function index()
     {
@@ -240,6 +241,29 @@ class UsersController
         echo $blade->run("GateHome", array(
             "title" => $title,
             "lable" => $lable,
+            "action" => $action,
+            "method" => "post",
+            "error" => $this->error,
+            "csrfk" => $csrfk,
+            "WO" => $woset,
+            "GP" => $gp->getGPs()
+        ));
+    }
+
+    public function showGateAny($prev)
+    {
+        $title = "Gate Management";
+        $action = "/";
+        $woset = [];
+        $wo = new WO(null);
+        $gp = new GatePass(null);
+        $results = $wo->getlcs("D");
+        $woset = $results;
+
+        $csrfk = Token::setcsrfk();
+        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+        echo $blade->run("GateHome", array(
+            "title" => $title,
             "action" => $action,
             "method" => "post",
             "error" => $this->error,

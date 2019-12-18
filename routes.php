@@ -170,6 +170,10 @@ $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
+    $router->get('/showGate', ['uses' => 'UsersController@showGate']);
+});
+
+$router->group(['namespace' => 'App\Controllers'], function (Router $router) {
     $router->get('/printPDF/{key}', ['uses' => 'UsersController@printPDF']);
 });
 

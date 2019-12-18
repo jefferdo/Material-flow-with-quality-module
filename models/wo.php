@@ -179,7 +179,7 @@ class WO
                     $this->finQty = $row['finQty'];
                     $this->fg = $row['fg'];
                     if ($this->user->priLev != $this->lcs + 1 and $this->lcs > 3) {
-                        throw new Exception('Not allowed to proccess [LCS: ' . $this->lcs . " priLev:" . $this->user->priLev . "]", 0);
+                        throw new Exception('Not allowed to process [LCS: ' . $this->lcs . " priLev:" . $this->user->priLev . "]", 0);
                     }
                 } else {
                     throw new Exception('Invalid WO ID : 0x02', 0);
