@@ -848,7 +848,7 @@ class UsersController
         }
 
         $wo = new WO(null);
-        $results = $wo->getpap($prev['stage'] - 1);
+        $results = $wo->getpap($prev['stage'] + 1);
         while ($row = $results->fetch_array()) {
             $row["date"] = $row['initdt'];
             $row['style'] = (json_decode($row['data'])->Style);
