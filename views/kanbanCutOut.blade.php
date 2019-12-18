@@ -38,6 +38,10 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card-box">
+                        <a href="/showGate" type="submit"
+                            class="btn btn-sm btn-blue waves-effect waves-light float-right">
+                            <i class="mdi mdi-plus-circle"></i> Add Gatepass
+                        </a href="/">
                         <h4 class="header-title mb-4">Work Orders to be Approved</h4>
 
                         <table class="table table-hover m-0 table-centered dt-responsive nowrap w-100"
