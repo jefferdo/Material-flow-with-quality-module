@@ -249,6 +249,31 @@ class UsersController
         ));
     }
 
+    public function showGateAny($prev)
+    {
+        $title = $prev['title'];
+        $lable = $prev["S1"]['lable'];
+        $action = "/" . $prev["S1"]['next'];
+        $woset = [];
+        $wo = new WO(null);
+        $gp = new GatePass(null);
+        $results = $wo->getlcs($prev['stage'] - 1);
+        $woset = $results;
+
+        $csrfk = Token::setcsrfk();
+        $blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+        echo $blade->run("GateHome", array(
+            "title" => $title,
+            "lable" => $lable,
+            "action" => $action,
+            "method" => "post",
+            "error" => $this->error,
+            "csrfk" => $csrfk,
+            "WO" => $woset,
+            "GP" => $gp->getGPs()
+        ));
+    }
+
     public function NewGP(Request $request)
     {
         if (Token::chkcsrfk($request->csrfk) == 1) {
