@@ -36,9 +36,6 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                                <a href="/showGate" type="submit" class="btn btn-sm btn-blue waves-effect waves-light float-right">
-                                    <i class="mdi mdi-plus-circle"></i> Add Gatepass
-                                </a href="/">
                             <h4 class="header-title">Basic Information for Gate Pass</h4>
                             <p class="sub-header">
                             </p>
