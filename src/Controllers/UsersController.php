@@ -250,7 +250,7 @@ class UsersController
         ));
     }
 
-    public function showGateAny($prev)
+    public function showGateAny()
     {
         $title = "Gate Management";
         $action = "/";

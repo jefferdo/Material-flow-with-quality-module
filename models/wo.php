@@ -206,7 +206,7 @@ class WO
                     CURLOPT_TIMEOUT => 30,
                     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                     CURLOPT_CUSTOMREQUEST => "GET",
-                    CURLOPT_POSTFIELDS => "{\n\t\"style\": \"" . (json_decode($row['data'])->Style) . "\",\n\t\"wono\": \"" . $row['id'] . "\",\n\t\"qty\": \"" . $row['pqty'] . "\"\n}",
+                    CURLOPT_POSTFIELDS => "{\n\t\"style\": \"" . (json_decode($row['data'])->Style) . "\",\n\t\"wono\": \"" . $row['id'] . "\",\n\t\"qty\": \"" . $row['pqty'] . "\"\n,\n\t\"cus\":\"" . $row['data']->Customer . "\"\n}",
                     CURLOPT_HTTPHEADER => array(
                         "content-type: application/json"
                     ),
