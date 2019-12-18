@@ -170,7 +170,7 @@ $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
-    $router->get('/showGate', ['uses' => 'UsersController@showGate']);
+    $router->get('/showGate', ['uses' => 'UsersController@showGateAny']);
 });
 
 $router->group(['namespace' => 'App\Controllers'], function (Router $router) {
