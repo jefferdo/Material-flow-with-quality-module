@@ -199,7 +199,7 @@ class WO
             if ($row = $results->fetch_array()) {
                 curl_setopt_array($curl, array(
                     CURLOPT_PORT => "8088",
-                    CURLOPT_URL => "http://127.0.0.1:8088/Integration/printwo/Execute",
+                    CURLOPT_URL => "http://192.168.4.222:8088/Integration/printwo/Execute",
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_ENCODING => "",
                     CURLOPT_MAXREDIRS => 10,
