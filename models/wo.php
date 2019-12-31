@@ -199,13 +199,13 @@ class WO
             if ($row = $results->fetch_array()) {
                 curl_setopt_array($curl, array(
                     CURLOPT_PORT => "8088",
-                    CURLOPT_URL => "http://127.0.0.1:8088/Integration/printwo/Execute",
+                    CURLOPT_URL => "http://192.168.4.222:8088/Integration/printwo/Execute",
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_ENCODING => "",
                     CURLOPT_MAXREDIRS => 10,
                     CURLOPT_TIMEOUT => 30,
                     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => "GET",
+                    CURLOPT_CUSTOMREQUEST => "POST",
                     CURLOPT_POSTFIELDS => "{\n\t\"style\": \"" . (json_decode($row['data'])->Style) . "\",\n\t\"wono\": \"" . $row['id'] . "\",\n\t\"qty\": \"" . $row['pqty'] . "\"\n,\n\t\"cus\":\"" . $row['data']->Customer . "\"\n}",
                     CURLOPT_HTTPHEADER => array(
                         "content-type: application/json"
