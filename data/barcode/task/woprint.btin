@@ -4,7 +4,7 @@
       <WebRequestIntegration Name="printwo" ID="7124e93e-774f-427a-9498-2d03caf555c8" IgnoreErrors="true" Port="8088" ResponseFormat="Json">
         <ActionGroup ID="12ec2195-8c99-428a-921d-bad2600e68bb" RunMethod="Sequential" MessagingEnabled="false">
           <Actions>
-            <PrintAction Name="Print Document" ID="1ba29a7a-4fef-451a-9bac-f9f568a589fb" IgnoreErrors="false" Document="D:\Users\jeewa\Documents\GitHub\Material flow with quality module\data\barcode\template\wocode.btw" Printer="ZDesigner GT800 (EPL)" CopiesPerSerialNumber="1" UseDatabase="false" NamedDataSourcePrefix="BTDS_">
+            <PrintAction Name="Print Document" ID="1ba29a7a-4fef-451a-9bac-f9f568a589fb" IgnoreErrors="false" Document="E:\mFLow\Material-flow-with-quality-module\data\barcode\template\wocode.btw" Printer="\\192.168.4.57\ZDesigner GT800 (EPL)" CopiesPerSerialNumber="1" UseDatabase="false" NamedDataSourcePrefix="BTDS_">
               <NamedDataSources>
                 <Field Name="style">%style%</Field>
                 <Field Name="mainBar">%wono%</Field>
@@ -34,11 +34,11 @@
         <Value>0</Value>
       </Properties>
       <Properties Name="SelectedOptionsPage" Type="System.String">
-        <Value>0;-1</Value>
+        <Value>1;0</Value>
       </Properties>
     </Properties>
   </Metadata>
-  <SourcePath>D:\Users\jeewa\Documents\GitHub\Material flow with quality module\data\barcode\task\woprint.btin</SourcePath>
+  <SourcePath>E:\mFLow\Material-flow-with-quality-module\data\barcode\task\woprint.btin</SourcePath>
   <IsPrinting>false</IsPrinting>
   <IsPrintPreview>false</IsPrintPreview>
   <DeploymentConfigurations>
