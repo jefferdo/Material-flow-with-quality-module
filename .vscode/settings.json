@@ -1,5 +1,33 @@
 {
     "files.exclude": {
+        "**/.git": false,
+        "**/.svn": false,
+        "**/.hg": false,
+        "**/CVS": false,
+        "**/.DS_Store": false,
+        "**/composer.lock": false,
+        "*.lock": false,
+        "composer.lock": false,
+        "**/*.lock": false,
+        "**/composer.phar": false,
+        "*.phar": false,
+        "composer.phar": false,
+        "**/*.phar": false,
+        "**/composer.json": false,
+        "*.json": false,
+        "composer.json": false,
+        "**/*.json": false,
+        "**/.gitattributes": false,
+        ".gitattributes": false,
+        "**/.vscode": false,
+        ".vscode": false,
+        "**/compiles": false,
+        "compiles": false,
+        "**/cache": false,
+        "**/.gitignore": false,
+        ".gitignore": false
+    },
+    "explorerExclude.backup": {
         "**/.git": true,
         "**/.svn": true,
         "**/.hg": true,
@@ -27,7 +55,6 @@
         "**/.gitignore": true,
         ".gitignore": true
     },
-    "explorerExclude.backup": null,
     "cSpell.words": [
         "kanban",
         "proccesed"
